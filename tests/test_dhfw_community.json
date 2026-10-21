@@ -1,0 +1,109 @@
+{
+  "runtime": {
+    "ok": true,
+    "result": {
+      "runtime": "community",
+      "core_version": "42.6",
+      "replay_date": null,
+      "warning": "local Core 42.6 != plant Core 41.1"
+    }
+  },
+  "historical_table_partitioned": {
+    "ok": true,
+    "result": {
+      "rows": 12,
+      "dates": [
+        "2026-10-19",
+        "2026-10-20"
+      ],
+      "namespaces": [
+        "Market"
+      ],
+      "tables": [
+        "Quotes"
+      ]
+    }
+  },
+  "user_table_roundtrip": {
+    "ok": true,
+    "result": {
+      "rows": 1,
+      "deleted": true
+    }
+  },
+  "live_table_append": {
+    "ok": true,
+    "result": {
+      "before": 0,
+      "after": 6,
+      "columns": [
+        "Date",
+        "Timestamp",
+        "Sym",
+        "Px"
+      ]
+    }
+  },
+  "system_table_logger": {
+    "ok": true,
+    "result": {
+      "log_table_rows": 1,
+      "incremental_rows_in_2.5s": 6
+    }
+  },
+  "register_live_feed": {
+    "ok": true,
+    "result": {
+      "rows_after_2.2s": 3
+    }
+  },
+  "replay_mode": {
+    "ok": true,
+    "result": {
+      "replayed_rows_each_second": [
+        2,
+        4,
+        6,
+        6,
+        6
+      ],
+      "today()": "2026-10-20"
+    }
+  },
+  "input_table_keyed": {
+    "ok": true,
+    "result": [
+      {
+        "Desk": "Tech",
+        "Limit": 2.0
+      }
+    ]
+  },
+  "remote_table_and_pq_uri": {
+    "ok": true,
+    "result": {
+      "self_filtered": 1,
+      "barrage_columns": [
+        "Desk"
+      ],
+      "snapshot_rows": 2,
+      "pq_uri_rows": 2
+    }
+  },
+  "controller_import": {
+    "ok": true,
+    "result": {
+      "imported": "controller.shared.risk.limits",
+      "exec_script": true
+    }
+  },
+  "acl_noop": {
+    "ok": true,
+    "result": 2
+  },
+  "unsupported_is_explicit": {
+    "ok": true,
+    "result": "db.append_live_table_incremental has no Community emulation in dhfw; see dhfw.LIMITATIONS"
+  },
+  "summary": "12/12 passed"
+}

@@ -1,0 +1,20 @@
+services:
+  deephaven:
+    # Stock image + graphviz (for update-graph visualization); see server/Dockerfile.
+    build:
+      context: ./server
+      args:
+        DEEPHAVEN_VERSION: ${DEEPHAVEN_VERSION:-42.6}
+    image: deephaven-compare/server:${DEEPHAVEN_VERSION:-42.6}
+    ports:
+      - "${DEEPHAVEN_PORT:-10000}:10000"
+    volumes:
+      # Application mode: every *.app file in /app.d runs at server start, so the
+      # shared business logic (and the deephaven.ui dashboard) exist before any
+      # client connects.
+      - ./server/app.d:/app.d
+      - ./server/data:/data
+    environment:
+      # Anonymous auth keeps the local demo simple. Do NOT use outside localhost;
+      # swap for -Dauthentication.psk=<key> (PSK) when you want a login.
+      - START_OPTS=-Xmx2g -Ddeephaven.application.dir=/app.d -DAuthHandlers=io.deephaven.auth.AnonymousAuthenticationHandler

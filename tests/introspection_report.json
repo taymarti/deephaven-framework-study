@@ -1,0 +1,1955 @@
+{
+  "generated_at": "2026-10-20T15:25:26Z",
+  "errors": [],
+  "exports": [
+    {
+      "name": "ex3_callbacks",
+      "py_type": "builtins.function",
+      "underscore": false,
+      "kind": "callable",
+      "signature": "() -> int",
+      "defined_in": "__main__"
+    },
+    {
+      "name": "ex3_flip_count",
+      "py_type": "builtins.function",
+      "underscore": false,
+      "kind": "callable",
+      "signature": "() -> int",
+      "defined_in": "__main__"
+    },
+    {
+      "name": "ex3_positions",
+      "py_type": "builtins.function",
+      "underscore": false,
+      "kind": "callable",
+      "signature": "() -> str",
+      "defined_in": "__main__"
+    },
+    {
+      "name": "main",
+      "py_type": "builtins.function",
+      "underscore": false,
+      "kind": "callable",
+      "signature": "() -> 'None'",
+      "defined_in": "__main__"
+    },
+    {
+      "name": "on_checkpoint",
+      "py_type": "builtins.function",
+      "underscore": false,
+      "kind": "callable",
+      "signature": "(updates: dict, is_replay: bool) -> None",
+      "defined_in": "__main__"
+    },
+    {
+      "name": "order_feed",
+      "py_type": "builtins.function",
+      "underscore": false,
+      "kind": "callable",
+      "signature": "(stop: threading.Event)",
+      "defined_in": "__main__"
+    },
+    {
+      "name": "signal_feed",
+      "py_type": "builtins.function",
+      "underscore": false,
+      "kind": "callable",
+      "signature": "(stop: threading.Event)",
+      "defined_in": "__main__"
+    },
+    {
+      "name": "ex4_stop",
+      "py_type": "threading.Event",
+      "underscore": false,
+      "kind": "event",
+      "is_set": false
+    },
+    {
+      "name": "ex3_handle",
+      "py_type": "deephaven.table_listener.TableListenerHandle",
+      "underscore": false,
+      "kind": "listener_handle",
+      "started": true,
+      "description": "ex3 SignalTracker"
+    },
+    {
+      "name": "ex4_handle",
+      "py_type": "deephaven.table_listener.MergedListenerHandle",
+      "underscore": false,
+      "kind": "listener_handle",
+      "started": true,
+      "description": null
+    },
+    {
+      "name": "HERE",
+      "py_type": "pathlib.WindowsPath",
+      "underscore": false,
+      "kind": "python_object",
+      "repr": "WindowsPath('server')"
+    },
+    {
+      "name": "annotations",
+      "py_type": "__future__._Feature",
+      "underscore": false,
+      "kind": "python_object",
+      "repr": "_Feature((3, 7, 0, 'beta', 1), None, 16777216)"
+    },
+    {
+      "name": "app",
+      "py_type": "deephaven.appmode.ApplicationState",
+      "underscore": false,
+      "kind": "python_object",
+      "repr": "id: probe.second, name: Probe: a second application in the same worker"
+    },
+    {
+      "name": "ex3_tracker",
+      "py_type": "__main__.SignalTracker",
+      "underscore": false,
+      "kind": "python_object",
+      "repr": "<__main__.SignalTracker object at 0x000001D98CD210A0>"
+    },
+    {
+      "name": "ex4_errors",
+      "py_type": "builtins.list",
+      "underscore": false,
+      "kind": "python_object",
+      "repr": "[]"
+    },
+    {
+      "name": "q",
+      "py_type": "builtins.int",
+      "underscore": false,
+      "kind": "python_object",
+      "repr": "300"
+    },
+    {
+      "name": "_probe_underscore",
+      "py_type": "deephaven.table.Table",
+      "underscore": true,
+      "kind": "static_table",
+      "refreshing": false,
+      "blink": false,
+      "rows": 1,
+      "columns": 1,
+      "java_class": "QueryTable",
+      "attributes": [],
+      "entry_ids": []
+    },
+    {
+      "name": "_rs_underscore",
+      "py_type": "deephaven.table.Table",
+      "underscore": true,
+      "kind": "static_table",
+      "refreshing": false,
+      "blink": false,
+      "rows": 1,
+      "columns": 0,
+      "java_class": "",
+      "attributes": [],
+      "entry_ids": []
+    },
+    {
+      "name": "probe_bound",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "static_table",
+      "refreshing": false,
+      "blink": false,
+      "rows": 3,
+      "columns": 0,
+      "java_class": "",
+      "attributes": [],
+      "entry_ids": []
+    },
+    {
+      "name": "probe_clock",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "static_table",
+      "refreshing": false,
+      "blink": false,
+      "rows": 6,
+      "columns": 2,
+      "java_class": "InMemoryTable",
+      "attributes": [],
+      "entry_ids": []
+    },
+    {
+      "name": "probe_global",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "static_table",
+      "refreshing": false,
+      "blink": false,
+      "rows": 1,
+      "columns": 1,
+      "java_class": "QueryTable",
+      "attributes": [],
+      "entry_ids": []
+    },
+    {
+      "name": "probe_plain",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "static_table",
+      "refreshing": false,
+      "blink": false,
+      "rows": 1,
+      "columns": 1,
+      "java_class": "QueryTable",
+      "attributes": [],
+      "entry_ids": []
+    },
+    {
+      "name": "probe_rs_a",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "static_table",
+      "refreshing": false,
+      "blink": false,
+      "rows": 2,
+      "columns": 1,
+      "java_class": "QueryTable",
+      "attributes": [],
+      "entry_ids": []
+    },
+    {
+      "name": "probe_rs_b",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "static_table",
+      "refreshing": false,
+      "blink": false,
+      "rows": 2,
+      "columns": 2,
+      "java_class": "QueryTable",
+      "attributes": [],
+      "entry_ids": []
+    },
+    {
+      "name": "probe_runtime",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "static_table",
+      "refreshing": false,
+      "blink": false,
+      "rows": 4,
+      "columns": 2,
+      "java_class": "InMemoryTable",
+      "attributes": [],
+      "entry_ids": []
+    },
+    {
+      "name": "probe_scope_check",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "static_table",
+      "refreshing": false,
+      "blink": false,
+      "rows": 3,
+      "columns": 2,
+      "java_class": "InMemoryTable",
+      "attributes": [],
+      "entry_ids": []
+    },
+    {
+      "name": "probe_uri",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "static_table",
+      "refreshing": false,
+      "blink": false,
+      "rows": 5,
+      "columns": 3,
+      "java_class": "InMemoryTable",
+      "attributes": [],
+      "entry_ids": []
+    },
+    {
+      "name": "_blink",
+      "py_type": "deephaven.table.Table",
+      "underscore": true,
+      "kind": "table",
+      "refreshing": true,
+      "blink": true,
+      "rows": 2,
+      "columns": 2,
+      "java_class": "",
+      "attributes": [
+        "BlinkTable"
+      ],
+      "entry_ids": []
+    },
+    {
+      "name": "_cp_blink",
+      "py_type": "deephaven.table.Table",
+      "underscore": true,
+      "kind": "table",
+      "refreshing": true,
+      "blink": true,
+      "rows": 1,
+      "columns": 7,
+      "java_class": "",
+      "attributes": [
+        "BlinkTable"
+      ],
+      "entry_ids": []
+    },
+    {
+      "name": "_flips_blink",
+      "py_type": "deephaven.table.Table",
+      "underscore": true,
+      "kind": "table",
+      "refreshing": true,
+      "blink": true,
+      "rows": 3,
+      "columns": 5,
+      "java_class": "",
+      "attributes": [
+        "BlinkTable"
+      ],
+      "entry_ids": []
+    },
+    {
+      "name": "_o",
+      "py_type": "deephaven.table.Table",
+      "underscore": true,
+      "kind": "table",
+      "refreshing": true,
+      "blink": false,
+      "rows": 1,
+      "columns": 1,
+      "java_class": "BarrageRedirectedTable",
+      "attributes": [
+        "BarrageSchema",
+        "IsFlat"
+      ],
+      "entry_ids": [
+        3
+      ]
+    },
+    {
+      "name": "_orders_blink",
+      "py_type": "deephaven.table.Table",
+      "underscore": true,
+      "kind": "table",
+      "refreshing": true,
+      "blink": true,
+      "rows": 7,
+      "columns": 3,
+      "java_class": "",
+      "attributes": [
+        "BlinkTable"
+      ],
+      "entry_ids": []
+    },
+    {
+      "name": "_signals_blink",
+      "py_type": "deephaven.table.Table",
+      "underscore": true,
+      "kind": "table",
+      "refreshing": true,
+      "blink": true,
+      "rows": 2,
+      "columns": 3,
+      "java_class": "",
+      "attributes": [
+        "BlinkTable"
+      ],
+      "entry_ids": []
+    },
+    {
+      "name": "_sums",
+      "py_type": "deephaven.table.Table",
+      "underscore": true,
+      "kind": "table",
+      "refreshing": true,
+      "blink": false,
+      "rows": 2,
+      "columns": 3,
+      "java_class": "QueryTable",
+      "attributes": [
+        "AggregationRowLookup"
+      ],
+      "entry_ids": [
+        62
+      ]
+    },
+    {
+      "name": "ex2_bars",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "table",
+      "refreshing": true,
+      "blink": false,
+      "rows": 171,
+      "columns": 7,
+      "java_class": "QueryTable",
+      "attributes": [
+        "AggregationRowLookup"
+      ],
+      "entry_ids": [
+        7
+      ]
+    },
+    {
+      "name": "ex2_signals",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "table",
+      "refreshing": true,
+      "blink": false,
+      "rows": 3,
+      "columns": 6,
+      "java_class": "QueryTable",
+      "attributes": [],
+      "entry_ids": [
+        19
+      ]
+    },
+    {
+      "name": "ex2_trades",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "table",
+      "refreshing": true,
+      "blink": false,
+      "rows": 33774,
+      "columns": 4,
+      "java_class": "QueryTable",
+      "attributes": [
+        "AddOnly",
+        "AppendOnly"
+      ],
+      "entry_ids": [
+        5
+      ]
+    },
+    {
+      "name": "ex2_vwap",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "table",
+      "refreshing": true,
+      "blink": false,
+      "rows": 3,
+      "columns": 4,
+      "java_class": "QueryTable",
+      "attributes": [
+        "AggregationRowLookup"
+      ],
+      "entry_ids": [
+        8
+      ]
+    },
+    {
+      "name": "ex3_flips",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "table",
+      "refreshing": true,
+      "blink": false,
+      "rows": 809,
+      "columns": 5,
+      "java_class": "QueryTable",
+      "attributes": [
+        "AddOnly",
+        "AppendOnly"
+      ],
+      "entry_ids": [
+        21
+      ]
+    },
+    {
+      "name": "ex3_state_view",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "table",
+      "refreshing": true,
+      "blink": false,
+      "rows": 5,
+      "columns": 4,
+      "java_class": "QueryTable",
+      "attributes": [],
+      "entry_ids": [
+        25
+      ]
+    },
+    {
+      "name": "ex4_checkpoints",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "table",
+      "refreshing": true,
+      "blink": false,
+      "rows": 3346,
+      "columns": 7,
+      "java_class": "QueryTable",
+      "attributes": [
+        "AddOnly",
+        "AppendOnly"
+      ],
+      "entry_ids": [
+        32
+      ]
+    },
+    {
+      "name": "ex4_orders",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "table",
+      "refreshing": true,
+      "blink": false,
+      "rows": 14520,
+      "columns": 3,
+      "java_class": "QueryTable",
+      "attributes": [
+        "AddOnly",
+        "AppendOnly"
+      ],
+      "entry_ids": [
+        30
+      ]
+    },
+    {
+      "name": "ex4_quotes",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "table",
+      "refreshing": true,
+      "blink": false,
+      "rows": 13506,
+      "columns": 2,
+      "java_class": "QueryTable",
+      "attributes": [
+        "AddOnly",
+        "AppendOnly"
+      ],
+      "entry_ids": [
+        29
+      ]
+    },
+    {
+      "name": "ex4_signals",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "table",
+      "refreshing": true,
+      "blink": false,
+      "rows": 4798,
+      "columns": 3,
+      "java_class": "QueryTable",
+      "attributes": [
+        "AddOnly",
+        "AppendOnly"
+      ],
+      "entry_ids": [
+        31
+      ]
+    },
+    {
+      "name": "perf_ancestors",
+      "py_type": "deephaven.table.Table",
+      "underscore": false,
+      "kind": "table",
+      "refreshing": true,
+      "blink": false,
+      "rows": 39,
+      "columns": 4,
+      "java_class": "QueryTable",
+      "attributes": [
+        "AddOnly",
+        "AppendOnly"
+      ],
+      "entry_ids": [
+        1
+      ]
+    }
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": 2,
+        "description": "BarrageTable(1620946960) BarrageRedirectedTable(localhost:10000/Table:export/1)",
+        "kind": "source",
+        "label": "remote subscription (another worker/server)",
+        "variables": [],
+        "parents": [],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 0.82,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 0.0,
+        "active": true,
+        "reachable_from_scope": false
+      },
+      {
+        "id": 3,
+        "description": "BarrageTable(195776175) BarrageRedirectedTable(localhost:10000/Table:export/2)",
+        "kind": "source",
+        "label": "remote subscription (another worker/server)",
+        "variables": [
+          "_o"
+        ],
+        "parents": [],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 0.74,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 0.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 4,
+        "description": "TimeTable(null,100000000)",
+        "kind": "source",
+        "label": "time_table every 0.1s",
+        "variables": [],
+        "parents": [],
+        "children": [
+          5
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 2.17,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 0.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 5,
+        "description": "Update([Sym, Px, Qty])",
+        "kind": "op",
+        "label": "Update",
+        "variables": [
+          "ex2_trades"
+        ],
+        "parents": [
+          4
+        ],
+        "children": [
+          6,
+          8,
+          9,
+          13,
+          37
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 11.48,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 595.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 6,
+        "description": "Update([Minute])",
+        "kind": "op",
+        "label": "Update",
+        "variables": [],
+        "parents": [
+          5
+        ],
+        "children": [
+          7
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 4.94,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 595.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 7,
+        "description": "by(NORMAL:[ColumnAggregation{spec=AggSpecFirst{}, pair=PairImpl{input=ColumnName(Px), output=ColumnName(Open)}}, ColumnAggregation{spec=AggSpecMax{}, pair=Pair\u2026",
+        "kind": "op",
+        "label": "by",
+        "variables": [
+          "ex2_bars"
+        ],
+        "parents": [
+          6
+        ],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 8.19,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 595.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 8,
+        "description": "by(NORMAL:[ColumnAggregation{spec=AggSpecWAvg{weight=ColumnName(Qty)}, pair=PairImpl{input=ColumnName(Px), output=ColumnName(VWAP)}}, ColumnAggregation{spec=Ag\u2026",
+        "kind": "op",
+        "label": "by",
+        "variables": [
+          "ex2_vwap"
+        ],
+        "parents": [
+          5
+        ],
+        "children": [
+          17
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 9.77,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 595.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 9,
+        "description": "by(NORMAL:[Partition{column=ColumnName(__CONSTITUENT__), includeGroupByColumns=true}], [Sym])",
+        "kind": "internal",
+        "label": "engine internal",
+        "variables": [],
+        "parents": [
+          5
+        ],
+        "children": [
+          10,
+          20,
+          26,
+          27
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 53.59,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 595.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 10,
+        "description": "Update([__CONSTITUENT__])",
+        "kind": "internal",
+        "label": "engine internal",
+        "variables": [],
+        "parents": [
+          9
+        ],
+        "children": [
+          11
+        ],
+        "reachable_from_scope": true
+      },
+      {
+        "id": 11,
+        "description": "validate partitioned table constituents for QueryTable",
+        "kind": "internal",
+        "label": "engine internal",
+        "variables": [],
+        "parents": [
+          10
+        ],
+        "children": [
+          12
+        ],
+        "reachable_from_scope": true
+      },
+      {
+        "id": 12,
+        "description": "io.deephaven.engine.table.impl.updateby.BucketedPartitionedUpdateByManager@1e19e929-TransformFailureListener",
+        "kind": "internal",
+        "label": "engine internal",
+        "variables": [],
+        "parents": [
+          11
+        ],
+        "children": [
+          14
+        ],
+        "reachable_from_scope": true
+      },
+      {
+        "id": 13,
+        "description": "io.deephaven.engine.table.impl.updateby.BucketedPartitionedUpdateByManager@1e19e929-SourceListener",
+        "kind": "op",
+        "label": "update_by",
+        "variables": [],
+        "parents": [
+          5
+        ],
+        "children": [
+          14
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 19.29,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 595.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 14,
+        "description": "by(NORMAL:[ColumnAggregations{spec=AggSpecLast{}, pairs=[ColumnName(Timestamp), ColumnName(Px), ColumnName(Qty), ColumnName(MA50)]}], [Sym])",
+        "kind": "op",
+        "label": "by",
+        "variables": [],
+        "parents": [
+          12,
+          13
+        ],
+        "children": [
+          17
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 5.64,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 595.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 15,
+        "description": "leftTable: naturalJoin([Sym], [VWAP])",
+        "kind": "internal",
+        "label": "engine internal",
+        "variables": [],
+        "parents": [],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 0.7,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 177.0,
+        "active": false,
+        "reachable_from_scope": false
+      },
+      {
+        "id": 16,
+        "description": "rightTable: naturalJoin([Sym], [VWAP])",
+        "kind": "internal",
+        "label": "engine internal",
+        "variables": [],
+        "parents": [],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 0.61,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 177.0,
+        "active": true,
+        "reachable_from_scope": false
+      },
+      {
+        "id": 17,
+        "description": "naturalJoin([Sym], [VWAP])",
+        "kind": "op",
+        "label": "naturalJoin",
+        "variables": [],
+        "parents": [
+          14,
+          8
+        ],
+        "children": [
+          18
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 3.63,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 354.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 18,
+        "description": "Update([Signal])",
+        "kind": "op",
+        "label": "Update",
+        "variables": [],
+        "parents": [
+          17
+        ],
+        "children": [
+          19
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 5.34,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 177.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 19,
+        "description": "View([Sym, Timestamp, Px, MA50, VWAP, Signal])",
+        "kind": "op",
+        "label": "View",
+        "variables": [
+          "ex2_signals"
+        ],
+        "parents": [
+          18
+        ],
+        "children": [
+          22
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 0.98,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 177.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 20,
+        "description": "io.deephaven.engine.table.impl.updateby.BucketedPartitionedUpdateByManager@1e19e929-bucket-[AAPL]",
+        "kind": "op",
+        "label": "io.deephaven.engine.table.impl.updateby\u2026",
+        "variables": [],
+        "parents": [
+          9
+        ],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 2.44,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 198.4,
+        "active": true,
+        "reachable_from_scope": false
+      },
+      {
+        "id": 21,
+        "description": "BlinkTableTools.blinkToAppendOnly(unbounded, DEFAULT_MEMOIZATION_KEY)",
+        "kind": "source",
+        "label": "stream feed (table_publisher / blink -> append-only)",
+        "variables": [
+          "ex3_flips"
+        ],
+        "parents": [],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 0.56,
+        "calls_per_interval": 11.0,
+        "rows_changed_per_interval": 28.2,
+        "active": false,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 22,
+        "description": "ex3 SignalTracker",
+        "kind": "callback",
+        "label": "Python listener",
+        "variables": [],
+        "parents": [
+          19
+        ],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 60.01,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 177.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 23,
+        "description": "TimeTable(null,1000000000)",
+        "kind": "source",
+        "label": "time_table every 1s",
+        "variables": [],
+        "parents": [],
+        "children": [
+          24
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 1.82,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 0.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 24,
+        "description": "Update([Callbacks, Flips, Positions])",
+        "kind": "op",
+        "label": "Update",
+        "variables": [],
+        "parents": [
+          23
+        ],
+        "children": [
+          25
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 54.13,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 59.4,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 25,
+        "description": "tail(-5, 0)",
+        "kind": "op",
+        "label": "tail",
+        "variables": [
+          "ex3_state_view"
+        ],
+        "parents": [
+          24
+        ],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 2.52,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 59.4,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 26,
+        "description": "io.deephaven.engine.table.impl.updateby.BucketedPartitionedUpdateByManager@1e19e929-bucket-[MSFT]",
+        "kind": "op",
+        "label": "io.deephaven.engine.table.impl.updateby\u2026",
+        "variables": [],
+        "parents": [
+          9
+        ],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 1.97,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 198.2,
+        "active": true,
+        "reachable_from_scope": false
+      },
+      {
+        "id": 27,
+        "description": "io.deephaven.engine.table.impl.updateby.BucketedPartitionedUpdateByManager@1e19e929-bucket-[NVDA]",
+        "kind": "op",
+        "label": "io.deephaven.engine.table.impl.updateby\u2026",
+        "variables": [],
+        "parents": [
+          9
+        ],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 1.35,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 198.4,
+        "active": true,
+        "reachable_from_scope": false
+      },
+      {
+        "id": 28,
+        "description": "TimeTable(null,250000000)",
+        "kind": "source",
+        "label": "time_table every 0.25s",
+        "variables": [],
+        "parents": [],
+        "children": [
+          29
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 1.52,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 0.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 29,
+        "description": "Update([Mid])",
+        "kind": "op",
+        "label": "Update",
+        "variables": [
+          "ex4_quotes"
+        ],
+        "parents": [
+          28
+        ],
+        "children": [
+          36
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 3.93,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 238.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 30,
+        "description": "BlinkTableTools.blinkToAppendOnly(unbounded, DEFAULT_MEMOIZATION_KEY)",
+        "kind": "source",
+        "label": "stream feed (table_publisher / blink -> append-only)",
+        "variables": [
+          "ex4_orders"
+        ],
+        "parents": [],
+        "children": [
+          36
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 3.96,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 506.8,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 31,
+        "description": "BlinkTableTools.blinkToAppendOnly(unbounded, DEFAULT_MEMOIZATION_KEY)",
+        "kind": "source",
+        "label": "stream feed (table_publisher / blink -> append-only)",
+        "variables": [
+          "ex4_signals"
+        ],
+        "parents": [],
+        "children": [
+          36
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 2.97,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 169.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 32,
+        "description": "BlinkTableTools.blinkToAppendOnly(unbounded, DEFAULT_MEMOIZATION_KEY)",
+        "kind": "source",
+        "label": "stream feed (table_publisher / blink -> append-only)",
+        "variables": [
+          "ex4_checkpoints"
+        ],
+        "parents": [],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 3.4,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 118.0,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 33,
+        "description": "Python Wrapped Listener recorder",
+        "kind": "internal",
+        "label": "engine internal",
+        "variables": [],
+        "parents": [],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 0.57,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 238.0,
+        "active": false,
+        "reachable_from_scope": false
+      },
+      {
+        "id": 34,
+        "description": "Python Wrapped Listener recorder",
+        "kind": "internal",
+        "label": "engine internal",
+        "variables": [],
+        "parents": [],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 0.72,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 256.0,
+        "active": false,
+        "reachable_from_scope": false
+      },
+      {
+        "id": 35,
+        "description": "Python Wrapped Listener recorder",
+        "kind": "internal",
+        "label": "engine internal",
+        "variables": [],
+        "parents": [],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 0.59,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 84.6,
+        "active": false,
+        "reachable_from_scope": false
+      },
+      {
+        "id": 36,
+        "description": "ex4 synchronizer",
+        "kind": "callback",
+        "label": "Python listener",
+        "variables": [],
+        "parents": [
+          29,
+          30,
+          31
+        ],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 114.05,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 575.8,
+        "active": true,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 37,
+        "description": "sortInternal",
+        "kind": "op",
+        "label": "sortInternal",
+        "variables": [],
+        "parents": [
+          5
+        ],
+        "children": [
+          38
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 21.52,
+        "calls_per_interval": 30.5,
+        "rows_changed_per_interval": 308.0,
+        "active": false,
+        "reachable_from_scope": false
+      },
+      {
+        "id": 38,
+        "description": "head(0, 20)",
+        "kind": "op",
+        "label": "head",
+        "variables": [],
+        "parents": [
+          37
+        ],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 7.65,
+        "calls_per_interval": 59.0,
+        "rows_changed_per_interval": 594.0,
+        "active": false,
+        "reachable_from_scope": false
+      },
+      {
+        "id": 46,
+        "description": "BlinkTableTools.blinkToAppendOnly(unbounded, DEFAULT_MEMOIZATION_KEY)",
+        "kind": "source",
+        "label": "stream feed (table_publisher / blink -> append-only)",
+        "variables": [],
+        "parents": [],
+        "children": [
+          47,
+          54,
+          61
+        ],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 0.62,
+        "calls_per_interval": 8.0,
+        "rows_changed_per_interval": 8.0,
+        "active": false,
+        "reachable_from_scope": false
+      },
+      {
+        "id": 47,
+        "description": "tail(-1, 0)",
+        "kind": "op",
+        "label": "tail",
+        "variables": [],
+        "parents": [
+          46
+        ],
+        "children": [],
+        "update_graph": "DEFAULT",
+        "ms_per_interval": 0.5,
+        "calls_per_interval": 4.0,
+        "rows_changed_per_interval": 4.0,
+        "active": false,
+        "reachable_from_scope": false
+      },
+      {
+        "id": 54,
+        "description": "tail(-1, 0)",
+        "kind": "op",
+        "label": "tail",
+        "variables": [],
+        "parents": [
+          46
+        ],
+        "children": [],
+        "reachable_from_scope": false
+      },
+      {
+        "id": 61,
+        "description": "tail(-1, 0)",
+        "kind": "op",
+        "label": "tail",
+        "variables": [],
+        "parents": [
+          46
+        ],
+        "children": [],
+        "reachable_from_scope": false
+      },
+      {
+        "id": 62,
+        "description": "by(NORMAL:[ColumnAggregation{spec=AggSpecSum{}, pair=ColumnName(Qty)}, Count{column=ColumnName(Rows)}], [Sym])",
+        "kind": "op",
+        "label": "by",
+        "variables": [
+          "_sums"
+        ],
+        "parents": [],
+        "children": [
+          63
+        ],
+        "update_graph": "synchronizer_clock",
+        "ms_per_interval": 1.3,
+        "calls_per_interval": 1.0,
+        "rows_changed_per_interval": 3.0,
+        "active": false,
+        "reachable_from_scope": true
+      },
+      {
+        "id": 63,
+        "description": "Uninstrumented code",
+        "kind": "callback",
+        "label": "Python listener",
+        "variables": [],
+        "parents": [
+          62
+        ],
+        "children": [],
+        "reachable_from_scope": true
+      }
+    ],
+    "edges": [
+      [
+        37,
+        38
+      ],
+      [
+        5,
+        37
+      ],
+      [
+        46,
+        47
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        5,
+        13
+      ],
+      [
+        12,
+        14
+      ],
+      [
+        13,
+        14
+      ],
+      [
+        14,
+        17
+      ],
+      [
+        8,
+        17
+      ],
+      [
+        17,
+        18
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        9,
+        20
+      ],
+      [
+        19,
+        22
+      ],
+      [
+        23,
+        24
+      ],
+      [
+        24,
+        25
+      ],
+      [
+        9,
+        26
+      ],
+      [
+        9,
+        27
+      ],
+      [
+        28,
+        29
+      ],
+      [
+        29,
+        36
+      ],
+      [
+        30,
+        36
+      ],
+      [
+        31,
+        36
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        46,
+        54
+      ],
+      [
+        46,
+        61
+      ],
+      [
+        62,
+        63
+      ]
+    ],
+    "ancestry_complete": true,
+    "derived_nodes_without_parents": 0,
+    "update_graphs": [
+      "DEFAULT",
+      "synchronizer_clock"
+    ],
+    "interval_count": 57
+  },
+  "inputs": [
+    {
+      "via": "graph",
+      "id": 2,
+      "label": "remote subscription (another worker/server)",
+      "description": "BarrageTable(1620946960) BarrageRedirectedTable(localhost:10000/Table:export/1)",
+      "variables": [],
+      "active": true
+    },
+    {
+      "via": "graph",
+      "id": 3,
+      "label": "remote subscription (another worker/server)",
+      "description": "BarrageTable(195776175) BarrageRedirectedTable(localhost:10000/Table:export/2)",
+      "variables": [
+        "_o"
+      ],
+      "active": true
+    },
+    {
+      "via": "graph",
+      "id": 4,
+      "label": "time_table every 0.1s",
+      "description": "TimeTable(null,100000000)",
+      "variables": [],
+      "active": true
+    },
+    {
+      "via": "graph",
+      "id": 21,
+      "label": "stream feed (table_publisher / blink -> append-only)",
+      "description": "BlinkTableTools.blinkToAppendOnly(unbounded, DEFAULT_MEMOIZATION_KEY)",
+      "variables": [
+        "ex3_flips"
+      ],
+      "active": false
+    },
+    {
+      "via": "graph",
+      "id": 23,
+      "label": "time_table every 1s",
+      "description": "TimeTable(null,1000000000)",
+      "variables": [],
+      "active": true
+    },
+    {
+      "via": "graph",
+      "id": 28,
+      "label": "time_table every 0.25s",
+      "description": "TimeTable(null,250000000)",
+      "variables": [],
+      "active": true
+    },
+    {
+      "via": "graph",
+      "id": 30,
+      "label": "stream feed (table_publisher / blink -> append-only)",
+      "description": "BlinkTableTools.blinkToAppendOnly(unbounded, DEFAULT_MEMOIZATION_KEY)",
+      "variables": [
+        "ex4_orders"
+      ],
+      "active": true
+    },
+    {
+      "via": "graph",
+      "id": 31,
+      "label": "stream feed (table_publisher / blink -> append-only)",
+      "description": "BlinkTableTools.blinkToAppendOnly(unbounded, DEFAULT_MEMOIZATION_KEY)",
+      "variables": [
+        "ex4_signals"
+      ],
+      "active": true
+    },
+    {
+      "via": "graph",
+      "id": 32,
+      "label": "stream feed (table_publisher / blink -> append-only)",
+      "description": "BlinkTableTools.blinkToAppendOnly(unbounded, DEFAULT_MEMOIZATION_KEY)",
+      "variables": [
+        "ex4_checkpoints"
+      ],
+      "active": true
+    },
+    {
+      "via": "graph",
+      "id": 46,
+      "label": "stream feed (table_publisher / blink -> append-only)",
+      "description": "BlinkTableTools.blinkToAppendOnly(unbounded, DEFAULT_MEMOIZATION_KEY)",
+      "variables": [],
+      "active": false
+    },
+    {
+      "via": "graph",
+      "id": 62,
+      "label": "by",
+      "description": "by(NORMAL:[ColumnAggregation{spec=AggSpecSum{}, pair=ColumnName(Qty)}, Count{column=ColumnName(Rows)}], [Sym])",
+      "variables": [
+        "_sums"
+      ],
+      "active": false
+    },
+    {
+      "via": "scope",
+      "label": "remote subscription",
+      "variables": [
+        "_o"
+      ]
+    }
+  ],
+  "listeners": {
+    "in_graph": [
+      {
+        "id": 22,
+        "description": "ex3 SignalTracker",
+        "watches": [
+          19
+        ],
+        "ms_per_interval": 60.01,
+        "calls_per_interval": 59.0
+      },
+      {
+        "id": 36,
+        "description": "ex4 synchronizer",
+        "watches": [
+          29,
+          30,
+          31
+        ],
+        "ms_per_interval": 114.05,
+        "calls_per_interval": 59.0
+      }
+    ],
+    "handles_in_scope": [
+      {
+        "name": "ex3_handle",
+        "started": true,
+        "description": "ex3 SignalTracker"
+      },
+      {
+        "name": "ex4_handle",
+        "started": true,
+        "description": null
+      }
+    ],
+    "stacked": {},
+    "unreferenced_estimate": 0
+  },
+  "outputs": [
+    {
+      "label": "Python listener (may write anywhere: tables, files, sockets, queues)",
+      "id": 22,
+      "description": "ex3 SignalTracker"
+    },
+    {
+      "label": "Python listener (may write anywhere: tables, files, sockets, queues)",
+      "id": 36,
+      "description": "ex4 synchronizer"
+    }
+  ],
+  "runtime": {
+    "update_graph": {
+      "name": "DEFAULT",
+      "step": 3391,
+      "class": "PeriodicUpdateGraph",
+      "target_cycle_ms": 1000
+    },
+    "server_executors": [
+      "serial",
+      "concurrent"
+    ],
+    "embedded_pip_server": true,
+    "report_thread": "java-DeephavenApiServer-Scheduler-Serial-1",
+    "jvm_heap_mb": {
+      "max": 2048,
+      "total": 296,
+      "used": 148
+    },
+    "process_rss_mb": null,
+    "python_threads": [
+      {
+        "name": "MainThread",
+        "daemon": false,
+        "alive": true,
+        "target": null
+      },
+      {
+        "name": "ex4-asyncio",
+        "daemon": true,
+        "alive": true,
+        "target": "run"
+      }
+    ],
+    "java_threads_seen_by_python": 31,
+    "java_threads": {
+      "count": 63,
+      "by_name": {
+        "OperationInitializationThreadPool-initializationExecutor": 12,
+        "PeriodicUpdateGraph-updateExecutor": 12,
+        "qtp1508667424": 9,
+        "DeephavenApiServer-Scheduler-Concurrent": 4,
+        "pool-1-thread": 4,
+        "grpc-nio-worker-ELG-1": 2,
+        "grpc-default-executor": 2,
+        "Notification Thread": 1,
+        "Thread": 1,
+        "qtp1508667424-59-acceptor-0@5413ef85-oejs.ServerConnector@5ad40b77{HTTP/1.1, (http/1.1, h2c)}{0.0.0.0:10000}": 1,
+        "grpc-timer-server": 1,
+        "Common-Cleaner": 1,
+        "CleanupReferenceProcessor-liveness-drainingThread": 1,
+        "StatsDriver-updateScheduler": 1,
+        "PeriodicUpdateGraph.DEFAULT.refreshThread": 1,
+        "PyObject-cleanup": 1,
+        "JNA Cleaner": 1,
+        "Reference Handler": 1,
+        "Finalizer": 1,
+        "Attach Listener": 1,
+        "PythonDeephavenSession-serverThread": 1,
+        "Scheduler-335436727": 1,
+        "main": 1,
+        "DeephavenApiServer-Scheduler-Serial": 1,
+        "ServerStateTracker.Driver": 1
+      }
+    },
+    "listening_ports": null,
+    "third_party_modules": [
+      "cython_runtime",
+      "deephaven_server",
+      "puremagic",
+      "pyjsonpatch"
+    ],
+    "server_state_last_interval": {
+      "error": "ValueError('can only convert an array of size 1 to a Python scalar')"
+    }
+  },
+  "findings": [
+    {
+      "level": "info",
+      "message": "Python callbacks use 46% of engine time (174 of 381 ms per interval)."
+    },
+    {
+      "level": "info",
+      "message": "4 active node(s) are not upstream of any scope variable or listener: created by client sessions (grid sorts/filters, viewports, deephaven.ui renders) or leaked."
+    },
+    {
+      "level": "info",
+      "message": "1 Python thread(s) besides MainThread: ex4-asyncio (non-engine work running in the worker)."
+    },
+    {
+      "level": "info",
+      "message": "Non-platform libraries loaded: cython_runtime, deephaven_server, puremagic, pyjsonpatch"
+    },
+    {
+      "level": "info",
+      "message": "2 update graphs have engine nodes: ['DEFAULT', 'synchronizer_clock']. Tables on a non-default graph advance on that graph's own clock (event-driven graphs only on requestRefresh())."
+    },
+    {
+      "level": "warn",
+      "message": "Embedded pip server: the console scope is the host process's own __main__, so any client with console access can read and modify the host's module globals."
+    },
+    {
+      "level": "info",
+      "message": "Underscore-named objects published as fields anyway: ['_probe_underscore', '_rs_underscore', '_blink', '_cp_blink', '_flips_blink', '_o', '_orders_blink', '_signals_blink']"
+    }
+  ],
+  "elapsed_ms": 126,
+  "server_fields": [
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "_blink",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "_cp_blink",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "_flips_blink",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "_o",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "_orders_blink",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "_probe_underscore",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "_rs_underscore",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "_signals_blink",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "_sums",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "ex2_bars",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "ex2_signals",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "ex2_trades",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "ex2_vwap",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "ex3_flips",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "ex3_state_view",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "ex4_checkpoints",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "ex4_orders",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "ex4_quotes",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "ex4_signals",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "perf_ancestors",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "probe_bound",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "probe_clock",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "probe_global",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "probe_plain",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "probe_rs_a",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "probe_rs_b",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "probe_runtime",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "probe_scope_check",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "scope",
+      "application_name": "",
+      "field_name": "probe_uri",
+      "type": "Table",
+      "description": "query scope variable"
+    },
+    {
+      "application_id": "probe.scoping",
+      "application_name": "Probe: application-mode scoping",
+      "field_name": "probe_env",
+      "type": "Table",
+      "description": ""
+    },
+    {
+      "application_id": "probe.scoping",
+      "application_name": "Probe: application-mode scoping",
+      "field_name": "probe_field",
+      "type": "Table",
+      "description": ""
+    },
+    {
+      "application_id": "probe.second",
+      "application_name": "Probe: a second application in the same worker",
+      "field_name": "probe_field",
+      "type": "Table",
+      "description": ""
+    },
+    {
+      "application_id": "probe.second",
+      "application_name": "Probe: a second application in the same worker",
+      "field_name": "second_only",
+      "type": "Table",
+      "description": ""
+    }
+  ]
+}

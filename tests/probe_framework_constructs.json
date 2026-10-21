@@ -1,0 +1,99 @@
+{
+  "1a_classpath_has_jar": true,
+  "1a_jar_entries": [
+    "com/acme/Risk.class"
+  ],
+  "1b_load_jpy.get_type": "ok",
+  "1b_load_system_loader": "ok",
+  "1_java_udf_in_formula_full": "failed to add the static members of the Java class to the Query Library. : RuntimeError: java.lang.ClassNotFoundException: com/acme/Risk\nTraceback (most recent call last):\n  File \".venv-server\\Lib\\site-packages\\deephaven\\query_library.py\", line 46, in import_static\n    j_class = _JClass.forName(name)\n              ^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: java.lang.ClassNotFoundException: com/acme/Risk\n\tat java.base/java.lang.Class.forName0(Native Method)\n\tat java.base/java.lang.Class.forName(Class.java:375)\n\n",
+  "1_java_udf_in_formula": "FAIL: failed to add the static members of the Java class to the Query Library. : RuntimeError: java.lang.ClassNotFoundException: com/acme/Risk | Traceback (most recent call last): |   File \".venv-server\\Lib\\site-packages\\deephaven\\query_library.py\", line 46, in import_static |     j_class = _JClass.forName(name) |               ^^^^^^^^^^^^^^^^^^^^^ | RuntimeError: java.lang.ClassNotFoundException: com/acme/Risk",
+  "2_python_udf_pnl_int_full": "table update operation failed. : pnl_int\nTraceback (most recent call last):\n  File \".venv-server\\Lib\\site-packages\\deephaven\\table.py\", line 1372, in update\n    return Table(j_table=self.j_table.update(*formulas))\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: io.deephaven.engine.table.impl.select.FormulaCompilationException: Formula compilation error for: pnl_int(Qty, Px, Mark)\n\tat io.deephaven.engine.table.impl.select.DhFormulaColumn.initDef(DhFormulaColumn.java:210)\n\tat io.deephaven.engine.table.impl.select.SwitchColumn.initDef(SwitchColumn.java:65)\n\tat io.deephaven.engine.table.impl.select.analyzers.SelectAndViewAnalyzer.createContext(SelectAndViewAnalyzer.java:128)\n\tat io.deephaven.engine.table.impl.QueryTable.lambda$selectOrUpdate$38(QueryTable.java:1853)\n\tat io.deephaven.engine.table.impl.perf.QueryPerformanceRecorder.withNugget(QueryPerformanceRecorder.java:390)\n\tat io.deephaven.engine.table.impl.QueryTable.lambda$selectOrUpdate$39(QueryTable.java:1835)\n\tat io.deephaven.engine.table.impl.QueryTable.memoizeResult(QueryTable.java:3357)\n\tat io.deephaven.engine.table.impl.QueryTable.selectOrUpdate(QueryTable.java:1834)\n\tat io.deephaven.engine.table.impl.QueryTable.update(QueryTable.java:1813)\n\tat io.deephaven.engine.table.impl.QueryTable.update(QueryTable.java:94)\n\tat io.deephaven.api.TableOperationsDefaults.update(TableOperationsDefaults.java:94)\ncaused by io.deephaven.engine.table.impl.lang.QueryLanguageParser$QueryLanguageParseException: \n\nHaving trouble with the following expression:\nFull expression           : pnl_int(Qty, Px, Mark)\nExpression having trouble : pnl_int.call(Qty, Px, Mark)\nException type            : java.lang.IllegalArgumentException\nException message         : pnl_int: Unsupported type hint in signature for argument 0\n\n\tat io.deephaven.engine.util.PyCallableWrapperJpyImpl.verifyArguments(PyCallableWrapperJpyImpl.java:353)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.verifyPyCallableArguments(QueryLanguageParser.java:2541)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.visit(QueryLanguageParser.java:2513)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.visit(QueryLanguageParser.java:135)\n\tat com.github.javaparser.ast.expr.MethodCallExpr.accept(MethodCallExpr.java:135)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.visit(QueryLanguageParser.java:2421)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.visit(QueryLanguageParser.java:135)\n\tat com.github.javaparser.ast.expr.MethodCallExpr.accept(MethodCallExpr.java:135)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.<init>(QueryLanguageParser.java:326)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.<init>(QueryLanguageParser.java:219)\n\tat io.deephaven.engine.table.impl.select.codegen.FormulaAnalyzer.parseFormula(FormulaAnalyzer.java:240)\n\tat io.deephaven.engine.table.impl.select.codegen.FormulaAnalyzer.parseFormula(FormulaAnalyzer.java:122)\n\tat io.deephaven.engine.table.impl.select.DhFormulaColumn.initDef(DhFormulaColumn.java:189)\n\t... 10 more\n\n",
+  "2_python_udf_pnl_int": "FAIL: table update operation failed. : pnl_int | Traceback (most recent call last): |   File \".venv-server\\Lib\\site-packages\\deephaven\\table.py\", line 1372, in update |     return Table(j_table=self.j_table.update(*formulas)) |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ | RuntimeError: io.deephaven.engine.table.impl.select.FormulaCompilationException: Formula compilation error for: pnl_int(Qty, Px, Mark)",
+  "2_python_udf_pnl_np_full": "table update operation failed. : pnl_np\nTraceback (most recent call last):\n  File \".venv-server\\Lib\\site-packages\\deephaven\\table.py\", line 1372, in update\n    return Table(j_table=self.j_table.update(*formulas))\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: io.deephaven.engine.table.impl.select.FormulaCompilationException: Formula compilation error for: pnl_np(Qty, Px, Mark)\n\tat io.deephaven.engine.table.impl.select.DhFormulaColumn.initDef(DhFormulaColumn.java:210)\n\tat io.deephaven.engine.table.impl.select.SwitchColumn.initDef(SwitchColumn.java:65)\n\tat io.deephaven.engine.table.impl.select.analyzers.SelectAndViewAnalyzer.createContext(SelectAndViewAnalyzer.java:128)\n\tat io.deephaven.engine.table.impl.QueryTable.lambda$selectOrUpdate$38(QueryTable.java:1853)\n\tat io.deephaven.engine.table.impl.perf.QueryPerformanceRecorder.withNugget(QueryPerformanceRecorder.java:390)\n\tat io.deephaven.engine.table.impl.QueryTable.lambda$selectOrUpdate$39(QueryTable.java:1835)\n\tat io.deephaven.engine.table.impl.QueryTable.memoizeResult(QueryTable.java:3357)\n\tat io.deephaven.engine.table.impl.QueryTable.selectOrUpdate(QueryTable.java:1834)\n\tat io.deephaven.engine.table.impl.QueryTable.update(QueryTable.java:1813)\n\tat io.deephaven.engine.table.impl.QueryTable.update(QueryTable.java:94)\n\tat io.deephaven.api.TableOperationsDefaults.update(TableOperationsDefaults.java:94)\ncaused by io.deephaven.engine.table.impl.lang.QueryLanguageParser$QueryLanguageParseException: \n\nHaving trouble with the following expression:\nFull expression           : pnl_np(Qty, Px, Mark)\nExpression having trouble : pnl_np.call(Qty, Px, Mark)\nException type            : java.lang.IllegalArgumentException\nException message         : pnl_np: Unsupported type hint in signature for argument 0\n\n\tat io.deephaven.engine.util.PyCallableWrapperJpyImpl.verifyArguments(PyCallableWrapperJpyImpl.java:353)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.verifyPyCallableArguments(QueryLanguageParser.java:2541)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.visit(QueryLanguageParser.java:2513)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.visit(QueryLanguageParser.java:135)\n\tat com.github.javaparser.ast.expr.MethodCallExpr.accept(MethodCallExpr.java:135)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.visit(QueryLanguageParser.java:2421)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.visit(QueryLanguageParser.java:135)\n\tat com.github.javaparser.ast.expr.MethodCallExpr.accept(MethodCallExpr.java:135)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.<init>(QueryLanguageParser.java:326)\n\tat io.deephaven.engine.table.impl.lang.QueryLanguageParser.<init>(QueryLanguageParser.java:219)\n\tat io.deephaven.engine.table.impl.select.codegen.FormulaAnalyzer.parseFormula(FormulaAnalyzer.java:240)\n\tat io.deephaven.engine.table.impl.select.codegen.FormulaAnalyzer.parseFormula(FormulaAnalyzer.java:122)\n\tat io.deephaven.engine.table.impl.select.DhFormulaColumn.initDef(DhFormulaColumn.java:189)\n\t... 10 more\n\n",
+  "2_python_udf_pnl_np": "FAIL: table update operation failed. : pnl_np | Traceback (most recent call last): |   File \".venv-server\\Lib\\site-packages\\deephaven\\table.py\", line 1372, in update |     return Table(j_table=self.j_table.update(*formulas)) |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ | RuntimeError: io.deephaven.engine.table.impl.select.FormulaCompilationException: Formula compilation error for: pnl_np(Qty, Px, Mark)",
+  "2_python_udf_pnl_none": {
+    "values": [
+      "50.0",
+      "-25.0"
+    ],
+    "column_type": "org.jpy.PyObject"
+  },
+  "2_python_udf_pnl_float": {
+    "values": [
+      50.0,
+      -25.0
+    ],
+    "column_type": "double"
+  },
+  "1c_java_fully_qualified_in_formula": [
+    7.4625,
+    -3.73125
+  ],
+  "1d_java_import_static_via_class_object": [
+    7.4625,
+    -3.73125
+  ],
+  "3_function_generated_table": {
+    "function_calls_in_1.5s": 3,
+    "table_value": 3
+  },
+  "4_ring_table": {
+    "rows_after_3s_at_10_per_s": 5
+  },
+  "5_keyed_input_table": {
+    "after_add_and_upsert": [
+      {
+        "Desk": "FX",
+        "Limit": 1000000.0
+      },
+      {
+        "Desk": "Rates",
+        "Limit": 2000000.0
+      }
+    ],
+    "rows_after_delete": 1
+  },
+  "6_table_replayer": {
+    "replayed_rows_each_second": [
+      1,
+      6,
+      11,
+      16,
+      20,
+      20
+    ],
+    "wall_seconds": 6.0,
+    "graph_result": [
+      {
+        "Sym": "AAPL",
+        "N": 10,
+        "Qty": 100
+      },
+      {
+        "Sym": "MSFT",
+        "N": 10,
+        "Qty": 110
+      }
+    ],
+    "now()_in_formula_is_replay_time": "False",
+    "now()_hours_behind_wall": 0.001
+  },
+  "7_event_driven_backtest": {
+    "slices": 200,
+    "seconds": 0.13,
+    "callbacks": 200,
+    "requestRefresh_returned_after_step": "200/200",
+    "result": [
+      {
+        "Sym": "MSFT",
+        "N": 100,
+        "Qty": 10000
+      },
+      {
+        "Sym": "AAPL",
+        "N": 100,
+        "Qty": 10100
+      }
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "slices": 150,
+  "quotes": 900,
+  "live": {
+    "wall_seconds": 5.76,
+    "router_calls": 4,
+    "orders_routed": 33,
+    "orders": 33,
+    "book": [
+      {
+        "Sym": "AAPL",
+        "Pos": 100,
+        "Cost": 10586.23,
+        "Trades": 14,
+        "Mid": 104.7874,
+        "Mtm": 10478.74,
+        "PnL": -107.49,
+        "Gross": 10478.74
+      },
+      {
+        "Sym": "MSFT",
+        "Pos": -100,
+        "Cost": -10773.36,
+        "Trades": 5,
+        "Mid": 103.5394,
+        "Mtm": -10353.94,
+        "PnL": 419.42,
+        "Gross": 10353.94
+      },
+      {
+        "Sym": "NVDA",
+        "Pos": 100,
+        "Cost": 10493.26,
+        "Trades": 14,
+        "Mid": 104.7491,
+        "Mtm": 10474.91,
+        "PnL": -18.35,
+        "Gross": 10474.91
+      }
+    ],
+    "risk": [
+      {
+        "Desk": "Semis",
+        "Gross": 10474.91,
+        "PnL": -18.35,
+        "Names": 1,
+        "Limit": 15000.0,
+        "Breach": false
+      },
+      {
+        "Desk": "Tech",
+        "Gross": 20832.68,
+        "PnL": 311.93,
+        "Names": 2,
+        "Limit": 15000.0,
+        "Breach": true
+      }
+    ]
+  },
+  "backtest": {
+    "wall_seconds": 0.459,
+    "router_calls": 28,
+    "orders_routed": 33,
+    "orders": 33,
+    "book": [
+      {
+        "Sym": "AAPL",
+        "Pos": 100,
+        "Cost": 10586.23,
+        "Trades": 14,
+        "Mid": 104.7874,
+        "Mtm": 10478.74,
+        "PnL": -107.49,
+        "Gross": 10478.74
+      },
+      {
+        "Sym": "MSFT",
+        "Pos": -100,
+        "Cost": -10773.36,
+        "Trades": 5,
+        "Mid": 103.5394,
+        "Mtm": -10353.94,
+        "PnL": 419.42,
+        "Gross": 10353.94
+      },
+      {
+        "Sym": "NVDA",
+        "Pos": 100,
+        "Cost": 10493.26,
+        "Trades": 14,
+        "Mid": 104.7491,
+        "Mtm": 10474.91,
+        "PnL": -18.35,
+        "Gross": 10474.91
+      }
+    ],
+    "risk": [
+      {
+        "Desk": "Semis",
+        "Gross": 10474.91,
+        "PnL": -18.35,
+        "Names": 1,
+        "Limit": 15000.0,
+        "Breach": false
+      },
+      {
+        "Desk": "Tech",
+        "Gross": 20832.68,
+        "PnL": 311.93,
+        "Names": 2,
+        "Limit": 15000.0,
+        "Breach": true
+      }
+    ]
+  },
+  "same_final_book": true,
+  "same_final_risk": true
+}

@@ -1,0 +1,5 @@
+# Embedded Deephaven server for server/run_server.py. Versions match the Docker image
+# used so far (server 42.6, deephaven.ui 0.42.2, plotly-express 0.20.1).
+deephaven-server==42.6.*
+deephaven-plugin-ui==0.42.2
+deephaven-plugin-plotly-express==0.20.1

@@ -1,0 +1,31 @@
+{
+  "name": "deephaven-react-client",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@deephaven/app-utils": "^1.31.0",
+    "@deephaven/components": "^1.30.0",
+    "@deephaven/iris-grid": "^1.31.0",
+    "@deephaven/jsapi-bootstrap": "^1.30.0",
+    "@deephaven/jsapi-types": "~41.11.0",
+    "@deephaven/log": "^1.8.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-redux": "^7.2.9",
+    "redux": "^4.2.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "sass": "^1.83.0",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.7"
+  }
+}

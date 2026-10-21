@@ -1,0 +1,169 @@
+<svg width="4292px" height="764px"
+ viewBox="0.00 0.00 4292.26 764.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1.0 1.0) rotate(0.0) translate(4.0 760.0)">
+<title>deephaven_update_graph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-760 4288.26,-760 4288.26,4 -4,4"/>
+<!-- n23 -->
+<g id="node1" class="node">
+<title>n23</title>
+<ellipse fill="none" stroke="black" cx="1288.45" cy="-18" rx="153.27" ry="18"/>
+<text text-anchor="middle" x="1288.45" y="-14.3" font-family="Times,serif" font-size="14.00">23 TimeTable(null,100000000)</text>
+</g>
+<!-- n24 -->
+<g id="node2" class="node">
+<title>n24</title>
+<ellipse fill="none" stroke="black" cx="1288.45" cy="-90" rx="133.78" ry="18"/>
+<text text-anchor="middle" x="1288.45" y="-86.3" font-family="Times,serif" font-size="14.00">24 Update([Sym, Px, Qty])</text>
+</g>
+<!-- n24&#45;&gt;n23 -->
+<g id="edge1" class="edge">
+<title>n24&#45;&gt;n23</title>
+<path fill="none" stroke="black" d="M1288.45,-71.7C1288.45,-63.98 1288.45,-54.71 1288.45,-46.11"/>
+<polygon fill="black" stroke="black" points="1291.95,-46.1 1288.45,-36.1 1284.95,-46.1 1291.95,-46.1"/>
+</g>
+<!-- n28 -->
+<g id="node3" class="node">
+<title>n28</title>
+<ellipse fill="none" stroke="black" cx="654.45" cy="-162" rx="530.21" ry="18"/>
+<text text-anchor="middle" x="654.45" y="-158.3" font-family="Times,serif" font-size="14.00">28 by(NORMAL:[Partition{column=ColumnName(__CONSTITUENT__), includeGroupByColumns=true}], [Sym])</text>
+</g>
+<!-- n28&#45;&gt;n24 -->
+<g id="edge2" class="edge">
+<title>n28&#45;&gt;n24</title>
+<path fill="none" stroke="black" d="M802.29,-144.68C917.2,-131.99 1074.05,-114.67 1178.16,-103.18"/>
+<polygon fill="black" stroke="black" points="1178.82,-106.63 1188.38,-102.05 1178.05,-99.67 1178.82,-106.63"/>
+</g>
+<!-- n29 -->
+<g id="node4" class="node">
+<title>n29</title>
+<ellipse fill="none" stroke="black" cx="578.45" cy="-234" rx="162.47" ry="18"/>
+<text text-anchor="middle" x="578.45" y="-230.3" font-family="Times,serif" font-size="14.00">29 Update([__CONSTITUENT__])</text>
+</g>
+<!-- n29&#45;&gt;n28 -->
+<g id="edge3" class="edge">
+<title>n29&#45;&gt;n28</title>
+<path fill="none" stroke="black" d="M596.85,-216.05C606.3,-207.35 617.98,-196.59 628.34,-187.04"/>
+<polygon fill="black" stroke="black" points="630.97,-189.38 635.96,-180.03 626.23,-184.23 630.97,-189.38"/>
+</g>
+<!-- n30 -->
+<g id="node5" class="node">
+<title>n30</title>
+<ellipse fill="none" stroke="black" cx="578.45" cy="-306" rx="276.45" ry="18"/>
+<text text-anchor="middle" x="578.45" y="-302.3" font-family="Times,serif" font-size="14.00">30 validate partitioned table constituents for QueryTable</text>
+</g>
+<!-- n30&#45;&gt;n29 -->
+<g id="edge4" class="edge">
+<title>n30&#45;&gt;n29</title>
+<path fill="none" stroke="black" d="M578.45,-287.7C578.45,-279.98 578.45,-270.71 578.45,-262.11"/>
+<polygon fill="black" stroke="black" points="581.95,-262.1 578.45,-252.1 574.95,-262.1 581.95,-262.1"/>
+</g>
+<!-- n31 -->
+<g id="node6" class="node">
+<title>n31</title>
+<ellipse fill="none" stroke="black" cx="578.45" cy="-378" rx="578.4" ry="18"/>
+<text text-anchor="middle" x="578.45" y="-374.3" font-family="Times,serif" font-size="14.00">31 io.deephaven.engine.table.impl.updateby.BucketedPartitionedUpdateByManager@66d7ac2d&#45;TransformFailureListener</text>
+</g>
+<!-- n31&#45;&gt;n30 -->
+<g id="edge5" class="edge">
+<title>n31&#45;&gt;n30</title>
+<path fill="none" stroke="black" d="M578.45,-359.7C578.45,-351.98 578.45,-342.71 578.45,-334.11"/>
+<polygon fill="black" stroke="black" points="581.95,-334.1 578.45,-324.1 574.95,-334.1 581.95,-334.1"/>
+</g>
+<!-- n32 -->
+<g id="node7" class="node">
+<title>n32</title>
+<ellipse fill="none" stroke="black" cx="1288.45" cy="-234" rx="529.91" ry="18"/>
+<text text-anchor="middle" x="1288.45" y="-230.3" font-family="Times,serif" font-size="14.00">32 io.deephaven.engine.table.impl.updateby.BucketedPartitionedUpdateByManager@66d7ac2d&#45;SourceListener</text>
+</g>
+<!-- n32&#45;&gt;n24 -->
+<g id="edge6" class="edge">
+<title>n32&#45;&gt;n24</title>
+<path fill="none" stroke="black" d="M1288.45,-215.87C1288.45,-191.67 1288.45,-147.21 1288.45,-118.39"/>
+<polygon fill="black" stroke="black" points="1291.95,-118.19 1288.45,-108.19 1284.95,-118.19 1291.95,-118.19"/>
+</g>
+<!-- n33 -->
+<g id="node8" class="node">
+<title>n33</title>
+<ellipse fill="none" stroke="black" cx="1184.45" cy="-450" rx="787.16" ry="18"/>
+<text text-anchor="middle" x="1184.45" y="-446.3" font-family="Times,serif" font-size="14.00">33 by(NORMAL:[ColumnAggregations{spec=AggSpecLast{}, pairs=[ColumnName(Timestamp), ColumnName(Px), ColumnName(Qty), ColumnName(MA50)]}], [Sym])</text>
+</g>
+<!-- n33&#45;&gt;n31 -->
+<g id="edge7" class="edge">
+<title>n33&#45;&gt;n31</title>
+<path fill="none" stroke="black" d="M1039.68,-432.28C946.52,-421.52 825.62,-407.55 730.97,-396.62"/>
+<polygon fill="black" stroke="black" points="731.36,-393.14 721.02,-395.47 730.56,-400.09 731.36,-393.14"/>
+</g>
+<!-- n33&#45;&gt;n32 -->
+<g id="edge8" class="edge">
+<title>n33&#45;&gt;n32</title>
+<path fill="none" stroke="black" d="M1181.93,-431.91C1178.25,-400.67 1174.65,-333.39 1203.45,-288 1211.55,-275.23 1223.95,-265.03 1236.8,-257.11"/>
+<polygon fill="black" stroke="black" points="1238.78,-260.01 1245.71,-251.99 1235.3,-253.94 1238.78,-260.01"/>
+</g>
+<!-- n27 -->
+<g id="node9" class="node">
+<title>n27</title>
+<ellipse fill="none" stroke="black" cx="2748.45" cy="-306" rx="1535.63" ry="18"/>
+<text text-anchor="middle" x="2748.45" y="-302.3" font-family="Times,serif" font-size="14.00">27 by(NORMAL:[ColumnAggregation{spec=AggSpecWAvg{weight=ColumnName(Qty)}, pair=PairImpl{input=ColumnName(Px), output=ColumnName(VWAP)}}, ColumnAggregation{spec=AggSpecLast{}, pair=PairImpl{input=ColumnName(Px), output=ColumnName(Last)}}, Count{column=ColumnName(Trades)}], [Sym])</text>
+</g>
+<!-- n27&#45;&gt;n24 -->
+<g id="edge9" class="edge">
+<title>n27&#45;&gt;n24</title>
+<path fill="none" stroke="black" d="M2632.66,-288.03C2353.13,-247.06 1645.31,-143.31 1385.78,-105.27"/>
+<polygon fill="black" stroke="black" points="1386.02,-101.76 1375.62,-103.78 1385,-108.69 1386.02,-101.76"/>
+</g>
+<!-- n36 -->
+<g id="node10" class="node">
+<title>n36</title>
+<ellipse fill="none" stroke="black" cx="1591.45" cy="-522" rx="151.37" ry="18"/>
+<text text-anchor="middle" x="1591.45" y="-518.3" font-family="Times,serif" font-size="14.00">36 naturalJoin([Sym], [VWAP])</text>
+</g>
+<!-- n36&#45;&gt;n33 -->
+<g id="edge10" class="edge">
+<title>n36&#45;&gt;n33</title>
+<path fill="none" stroke="black" d="M1509.09,-506.83C1446.76,-496.12 1360.61,-481.3 1292.72,-469.62"/>
+<polygon fill="black" stroke="black" points="1293.29,-466.17 1282.84,-467.92 1292.1,-473.07 1293.29,-466.17"/>
+</g>
+<!-- n36&#45;&gt;n27 -->
+<g id="edge11" class="edge">
+<title>n36&#45;&gt;n27</title>
+<path fill="none" stroke="black" d="M1695.36,-508.88C1773.9,-499.23 1884.24,-484.62 1980.45,-468 2231.66,-424.61 2525.99,-358.63 2666.16,-326.26"/>
+<polygon fill="black" stroke="black" points="2667.03,-329.66 2675.98,-323.99 2665.45,-322.84 2667.03,-329.66"/>
+</g>
+<!-- n37 -->
+<g id="node11" class="node">
+<title>n37</title>
+<ellipse fill="none" stroke="black" cx="1591.45" cy="-594" rx="102.88" ry="18"/>
+<text text-anchor="middle" x="1591.45" y="-590.3" font-family="Times,serif" font-size="14.00">37 Update([Signal])</text>
+</g>
+<!-- n37&#45;&gt;n36 -->
+<g id="edge12" class="edge">
+<title>n37&#45;&gt;n36</title>
+<path fill="none" stroke="black" d="M1591.45,-575.7C1591.45,-567.98 1591.45,-558.71 1591.45,-550.11"/>
+<polygon fill="black" stroke="black" points="1594.95,-550.1 1591.45,-540.1 1587.95,-550.1 1594.95,-550.1"/>
+</g>
+<!-- n38 -->
+<g id="node12" class="node">
+<title>n38</title>
+<ellipse fill="none" stroke="black" cx="1591.45" cy="-666" rx="256.95" ry="18"/>
+<text text-anchor="middle" x="1591.45" y="-662.3" font-family="Times,serif" font-size="14.00">38 View([Sym, Timestamp, Px, MA50, VWAP, Signal])</text>
+</g>
+<!-- n38&#45;&gt;n37 -->
+<g id="edge13" class="edge">
+<title>n38&#45;&gt;n37</title>
+<path fill="none" stroke="black" d="M1591.45,-647.7C1591.45,-639.98 1591.45,-630.71 1591.45,-622.11"/>
+<polygon fill="black" stroke="black" points="1594.95,-622.1 1591.45,-612.1 1587.95,-622.1 1594.95,-622.1"/>
+</g>
+<!-- n41 -->
+<g id="node13" class="node">
+<title>n41</title>
+<ellipse fill="none" stroke="black" cx="1591.45" cy="-738" rx="109.68" ry="18"/>
+<text text-anchor="middle" x="1591.45" y="-734.3" font-family="Times,serif" font-size="14.00">41 ex3 SignalTracker</text>
+</g>
+<!-- n41&#45;&gt;n38 -->
+<g id="edge14" class="edge">
+<title>n41&#45;&gt;n38</title>
+<path fill="none" stroke="black" d="M1591.45,-719.7C1591.45,-711.98 1591.45,-702.71 1591.45,-694.11"/>
+<polygon fill="black" stroke="black" points="1594.95,-694.1 1591.45,-684.1 1587.95,-694.1 1594.95,-694.1"/>
+</g>
+</g>
+</svg>

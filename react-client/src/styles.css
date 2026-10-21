@@ -1,0 +1,82 @@
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto 240px minmax(360px, 1fr);
+  grid-template-areas:
+    'header header'
+    'kpis   kpis'
+    'risk   limits'
+    'stress trades';
+  gap: 12px;
+  padding: 12px;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+header {
+  grid-area: header;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+.kpis {
+  grid-area: kpis;
+}
+.risk {
+  grid-area: risk;
+}
+.limits {
+  grid-area: limits;
+}
+.stress {
+  grid-area: stress;
+}
+.trades {
+  grid-area: trades;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border: 1px solid var(--dh-color-hr, #444);
+  border-radius: 6px;
+  padding: 8px;
+}
+.card h2 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+}
+/* IrisGrid fills its parent absolutely, so give it a positioned box. */
+.grid-host {
+  position: relative;
+  flex: 1;
+  min-height: 160px;
+}
+
+.pos {
+  color: var(--dh-color-positive, #9fde6f);
+}
+.neg {
+  color: var(--dh-color-negative, #ff6087);
+}
+
+@media (max-width: 900px) {
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'header' 'kpis' 'risk' 'limits' 'stress' 'trades';
+    grid-template-rows: auto;
+  }
+}

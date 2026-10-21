@@ -1,0 +1,24 @@
+# Python environments and caches
+.venv/
+.venv-server/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+react-client/dist/
+
+# Deephaven server runtime state (pip launcher)
+layouts/
+notebooks/
+dhfw_data/
+
+# Build output and scratch
+deck/renders/
+deliverables/**/_html/
+tests/java_out/
+tests/embedded_thread_result.ready
+tests/embedded_thread_result.client
+
+# Editor / tool local settings
+.claude/settings.local.json

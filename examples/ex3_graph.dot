@@ -1,0 +1,30 @@
+digraph "deephaven_update_graph" {
+graph ["rankdir"="TB"]
+"n23" ["label"="23 TimeTable(null,100000000)"]
+"n24" ["label"="24 Update([Sym, Px, Qty])"]
+"n28" ["label"="28 by(NORMAL:[Partition{column=ColumnName(__CONSTITUENT__), includeGroupByColumns=true}], [Sym])"]
+"n29" ["label"="29 Update([__CONSTITUENT__])"]
+"n30" ["label"="30 validate partitioned table constituents for QueryTable"]
+"n31" ["label"="31 io.deephaven.engine.table.impl.updateby.BucketedPartitionedUpdateByManager@66d7ac2d-TransformFailureListener"]
+"n32" ["label"="32 io.deephaven.engine.table.impl.updateby.BucketedPartitionedUpdateByManager@66d7ac2d-SourceListener"]
+"n33" ["label"="33 by(NORMAL:[ColumnAggregations{spec=AggSpecLast{}, pairs=[ColumnName(Timestamp), ColumnName(Px), ColumnName(Qty), ColumnName(MA50)]}], [Sym])"]
+"n27" ["label"="27 by(NORMAL:[ColumnAggregation{spec=AggSpecWAvg{weight=ColumnName(Qty)}, pair=PairImpl{input=ColumnName(Px), output=ColumnName(VWAP)}}, ColumnAggregation{spec=AggSpecLast{}, pair=PairImpl{input=ColumnName(Px), output=ColumnName(Last)}}, Count{column=ColumnName(Trades)}], [Sym])"]
+"n36" ["label"="36 naturalJoin([Sym], [VWAP])"]
+"n37" ["label"="37 Update([Signal])"]
+"n38" ["label"="38 View([Sym, Timestamp, Px, MA50, VWAP, Signal])"]
+"n41" ["label"="41 ex3 SignalTracker"]
+"n24" -> "n23"
+"n28" -> "n24"
+"n29" -> "n28"
+"n30" -> "n29"
+"n31" -> "n30"
+"n32" -> "n24"
+"n33" -> "n31"
+"n33" -> "n32"
+"n27" -> "n24"
+"n36" -> "n33"
+"n36" -> "n27"
+"n37" -> "n36"
+"n38" -> "n37"
+"n41" -> "n38"
+}

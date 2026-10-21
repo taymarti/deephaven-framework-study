@@ -1,0 +1,30 @@
+{
+  "python": "3.12.0",
+  "1_started_on_thread": "dh-service",
+  "1_start_seconds": 9.4,
+  "1_host_loop_ticks_during_startup": 89,
+  "2_table_op_on_main_thread_without_ctx": "FAIL: failed to create a time table. : RuntimeError: io.deephaven.engine.exceptions.UpdateGraphConflictException: Attempt to setRefreshing(true) but Table was constru",
+  "2_with_main_thread_get_exec_ctx": "FAIL: failed to create a time table. : RuntimeError: io.deephaven.engine.exceptions.UpdateGraphConflictException: Attempt to setRefreshing(true) but Table was constru",
+  "3_rows_seen_by_asyncio_in_4s": 40,
+  "4_listener_lag_ms_idle_median": 36.6,
+  "4_listener_lag_ms_idle_max": 41.1,
+  "4_listener_lag_ms_host_busy_median": 74.8,
+  "4_listener_lag_ms_host_busy_max": 86.5,
+  "4_callbacks_idle_vs_busy": [
+    4,
+    6
+  ],
+  "5_host_main_is_console_scope_candidate": true,
+  "5_client_view": {
+    "HOST_STATE visible": "True",
+    "HOST_STATE note": "this dict lives in the host's __main__",
+    "embedded_summary visible": "True",
+    "fields_include_embedded_summary": "True"
+  },
+  "5_host_state_after_client": {
+    "note": "this dict lives in the host's __main__",
+    "modified_by_client": true
+  },
+  "6_second_server_same_process": "FAIL: Cannot create more than one instance of the server : Cannot create more than one instance of the server",
+  "7_main_returning_at": "11:16:35"
+}
