@@ -1,0 +1,63 @@
+{
+  "A_barrage_subscribe_scope_ticket": {
+    "ok": true,
+    "result": {
+      "is_refreshing": true,
+      "rows_each_second": [
+        2217,
+        2218,
+        2218,
+        2218
+      ]
+    }
+  },
+  "C_local_graph_on_remote_table_ticks": {
+    "ok": true,
+    "result": {
+      "symbols": 3,
+      "orders_counted_then": 2223,
+      "orders_counted_later": 2224,
+      "seconds_waited": 3
+    }
+  },
+  "B_pydeephaven_shaped_shared_ticket": {
+    "ok": true,
+    "result": {
+      "columns": [
+        "Timestamp",
+        "Sym",
+        "OrderQty",
+        "FillPx"
+      ],
+      "symbols_received": [
+        "AAPL"
+      ],
+      "rows_each_1.5s": [
+        772,
+        772,
+        774,
+        775
+      ]
+    }
+  },
+  "D_shared_ticket_after_pydeephaven_session_closes": {
+    "ok": true,
+    "result": {
+      "rows_every_2s_before_close": [
+        775,
+        776,
+        776
+      ],
+      "rows_every_2s_after_close": [
+        777,
+        778,
+        779,
+        780,
+        780
+      ],
+      "table_failed": false,
+      "new_subscription_after_close": "failed: failed to subscribe to the remote table with the provided ticket. : RuntimeError: io.deephaven.client.impl.TableHandle$TableHandleException: e8e0fab2-"
+    }
+  },
+  "summary": "4/4 passed"
+}

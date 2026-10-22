@@ -90,6 +90,9 @@ stated in Deephaven documentation, not tested here.
 | X13 | The rung-6 engine rebuilt on `dhapp` (3 stages, 1 action) gave an identical book and risk live (5.7 s) and in backtest (150 one-second buckets, 1.3 s), matching rung 6's hand-written numbers exactly | Verified: `examples/07_app_framework.py` |
 | X14 | A supervised action that raises is recorded in the health table (1 error in 1 call) and does not stop other actions; test mode steps deterministically (a repeated target made no new order) | Verified: same |
 | X15 | `dhapp.ui.dashboard(app)` rendered live in the browser; editing a keyed input table's cell in the grid changed downstream risk at the next cycle (Tech utilization 135.1% to 82.6%, breach cleared) | Verified: `examples/mm_app.d/mm_live.py`, browser |
+| X16 | A Community server gets a ticking table from a remote server with `deephaven.barrage.barrage_session(host, port, auth_type, auth_token).subscribe(b"s/<name>")`; the result is refreshing, and local tables built on it tick | Verified: `tests/probe_remote_ticking.py` |
+| X17 | `pydeephaven` can shape the table on the remote server (`open_table(...).where(...).view(...)`), `publish_table` it under a `SharedTicket`, and the local server subscribes to `ticket.bytes`. Only the shaped rows and columns arrive (only AAPL, 4 columns) | Verified: same |
+| X18 | After the publishing `pydeephaven` session closes, an **existing** Barrage subscription to its shared ticket kept ticking (777 to 780 rows over 8 s), but a **new** subscription to that ticket failed | Verified: same (refines T4 and U1) |
 | X12 | The `dhfw` wrapper's Community emulations pass 12/12 checks (historical and user tables, live append, system-table logging, registered feeds, replay mode, input tables, remote_table and `pq://`, controller imports, ACL no-op, explicit unsupported calls). Its Enterprise forwarding is untested | Verified (Community only): same |
 
 ## Corrections to earlier claims
@@ -114,7 +117,7 @@ overstated, imprecise or wrong. The **Status** column records any fix made since
 
 | # | Claim (where) | Why it is in doubt | Status |
 |---|---|---|---|
-| U1 | T4: a copy another session fetched earlier also stops working (ledger) | `fetch_table` may only re-reference the shared ticket, not make a copy; then the test shows one ticket dying, not a copy | Open |
+| U1 | T4: a copy another session fetched earlier also stops working (ledger) | `fetch_table` may only re-reference the shared ticket, not make a copy; then the test shows one ticket dying, not a copy | Partly settled by X18: a Barrage subscription made before the close survives; new fetches fail. The `fetch_table` case still needs a re-test |
 | U2 | R11: median listener lag rose from 36.6 to 74.8 ms under host CPU load (ledger, Anatomy, deck) | One run with only 4 idle and 6 busy callbacks; the busy window includes a 1.5 s drain. The direction is plausible, the size is not established | Open: re-run with more samples |
 | U3 | R9: the host loop ran at about half speed during startup (89 ticks in 9.4 s) (ledger, Anatomy) | No idle baseline; on Windows a 50 ms asyncio sleep often takes longer anyway | Open: measure a baseline |
 | U4 | R2 / Findings: latency is "bounded below by the cycle"; pushed rows wait ~1 s | `MaxBufferedMs` is the oldest row's wait. The cycle caps the wait from above; a row pushed just before a cycle waits almost nothing | Open: reword as "up to one cycle" |
