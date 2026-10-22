@@ -1,0 +1,109 @@
+{
+  "1_backtest_mode": {
+    "ok": true,
+    "result": {
+      "buckets": 150,
+      "rows": 900,
+      "seconds": 1.345,
+      "orders": 33,
+      "broker_sent": 33,
+      "risk": [
+        {
+          "Desk": "Semis",
+          "Gross": 10474.91,
+          "PnL": -18.35,
+          "Names": 1,
+          "Limit": 15000.0,
+          "Breach": false
+        },
+        {
+          "Desk": "Tech",
+          "Gross": 20832.68,
+          "PnL": 311.93,
+          "Names": 2,
+          "Limit": 15000.0,
+          "Breach": true
+        }
+      ]
+    }
+  },
+  "2_live_mode": {
+    "ok": true,
+    "result": {
+      "seconds": 5.71,
+      "orders": 33,
+      "broker_sent": 33,
+      "health": [
+        {
+          "Action": "route",
+          "Calls": 4,
+          "Errors": 0,
+          "LastError": ""
+        }
+      ],
+      "published_fields": [
+        "mm_book",
+        "mm_health",
+        "mm_limits",
+        "mm_orders",
+        "mm_risk"
+      ]
+    }
+  },
+  "3_live_equals_backtest": {
+    "ok": true,
+    "result": {
+      "book": true,
+      "risk": true
+    }
+  },
+  "4_same_numbers_as_rung6": {
+    "ok": true,
+    "result": {
+      "same_risk_as_hand_written_rung6": true
+    }
+  },
+  "5_test_mode_and_supervision": {
+    "ok": true,
+    "result": {
+      "orders_after_step1": 1,
+      "orders_after_step2": 1,
+      "health": [
+        {
+          "Action": "alert",
+          "Calls": 1,
+          "Errors": 1,
+          "LastError": "RuntimeError: alert service down"
+        },
+        {
+          "Action": "route",
+          "Calls": 1,
+          "Errors": 0,
+          "LastError": ""
+        }
+      ]
+    }
+  },
+  "6_catalog_location_transparency": {
+    "ok": true,
+    "result": {
+      "here=MarketMaking@ny": "same plant PQ RiskLimits",
+      "here=RiskLimits@ny (deployed into the owner)": "local global 'desk_limits'",
+      "here=MarketMaking@ldn (another plant)": "plant ny PQ RiskLimits",
+      "db entry": "db live MarketUs.QuoteStock"
+    }
+  },
+  "7_storage_recipes": {
+    "ok": true,
+    "result": {
+      "snapshot_rows": 1,
+      "daily_rows": 2,
+      "state_table_rows": 2
+    }
+  },
+  "8_dashboard_builds": {
+    "ok": true,
+    "result": "DashboardElement"
+  },
+  "summary": "8/8 passed"
+}

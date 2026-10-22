@@ -87,6 +87,9 @@ stated in Deephaven documentation, not tested here.
 | X9 | Enterprise replay queries (`ReplayScript`) swap in a simulated clock (`today`, `timeTable`) and redirect `db.live_table` to history, with speed and sorted-replay settings | Docs |
 | X10 | Custom Java sources implement `StreamPublisher` and feed `StreamToBlinkTableAdapter` | Docs (Javadoc) |
 | X11 | On native Windows, `parquet.read` / `parquet.write` reject `C:\...` paths (URISyntaxException); `file:///` URIs work, including key=value partitioned directories | Verified: `tests/test_dhfw_community.py` |
+| X13 | The rung-6 engine rebuilt on `dhapp` (3 stages, 1 action) gave an identical book and risk live (5.7 s) and in backtest (150 one-second buckets, 1.3 s), matching rung 6's hand-written numbers exactly | Verified: `examples/07_app_framework.py` |
+| X14 | A supervised action that raises is recorded in the health table (1 error in 1 call) and does not stop other actions; test mode steps deterministically (a repeated target made no new order) | Verified: same |
+| X15 | `dhapp.ui.dashboard(app)` rendered live in the browser; editing a keyed input table's cell in the grid changed downstream risk at the next cycle (Tech utilization 135.1% to 82.6%, breach cleared) | Verified: `examples/mm_app.d/mm_live.py`, browser |
 | X12 | The `dhfw` wrapper's Community emulations pass 12/12 checks (historical and user tables, live append, system-table logging, registered feeds, replay mode, input tables, remote_table and `pq://`, controller imports, ACL no-op, explicit unsupported calls). Its Enterprise forwarding is untested | Verified (Community only): same |
 
 ## Corrections to earlier claims

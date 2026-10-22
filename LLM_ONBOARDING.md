@@ -85,6 +85,14 @@ The project's question: **what is Deephaven, really, as an application framework
     - on Community, it emulates `db`, `remote_table`, `pq://`, system-table logging, controller imports, ACLs and replay mode
 
     Its Community emulations pass 12/12 tests (`tests/test_dhfw_community.py`). The Enterprise path is untested; there was no plant access.
+11. **From toolbox to recipes: `dhapp`.** An application layer on `dhfw`:
+    - four roles: source, stage, action, surface
+    - three modes: live, backtest, test (feed and step)
+    - a `Catalog` that resolves logical table names by location (same PQ, same plant, another plant, laptop)
+    - trading and risk `recipes`, standard `schemas`, `store` persistence recipes
+    - an automatic deephaven.ui `dashboard`
+
+    The rung-6 engine rebuilt on it passes 8/8 (`examples/07_app_framework.py`): live equals backtest equals rung 6. The live dashboard runs from `examples/mm_app.d/`.
 
 ## 3. What we now believe (the short list)
 
@@ -176,6 +184,9 @@ The same three living docs also exist as Claude Docs; the PDFs are snapshots. Th
 | `tests/probe_framework_constructs.py` (+ `.json`), `java/com/acme/Risk.java`, `acme-risk.jar` | Java and Python functions in formulas, sources, replay, backtest |
 | `dhfw/` | The runtime wrapper: `runtime`, `database` (`db`), `remote`, `systable`, `controller`, `acl` |
 | `tests/test_dhfw_community.py` (+ `.json`) | 12/12 Community checks of `dhfw` |
+| `dhapp/` | The application layer: `app` (roles, modes, health), `catalog`, `recipes`, `schemas`, `store`, `ui` |
+| `examples/mm_app.py`, `07_app_framework.py` (+ `.json`) | The engine on `dhapp`, run live, backtest and test: 8/8 |
+| `examples/mm_app.d/` | Application-mode demo: the app live with a synthetic feed and `mm_dashboard` |
 | `deck/build_deck.js`, `render.ps1`, `sheet.py`, `assets/` | Deck generator (pptxgenjs) and visual QA through PowerPoint |
 | `tools/build_deliverables.py` | Builds the PDF and text deliverables |
 
