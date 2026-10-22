@@ -1,10 +1,62 @@
-# Deephaven app comparison: deephaven.ui vs. web-client-ui
+# Deephaven as an application framework
+
+A tested study of Deephaven (Community 42.6, with Enterprise in view) as a
+framework for trading and risk applications, plus two thin layers that make it
+easier to build on:
+
+- **`dhapp/`**: an application layer. Four roles (source, stage, action,
+  surface), live/backtest/test modes, a location-aware table catalog, trading
+  and risk recipes, storage recipes and automatic deephaven.ui dashboards.
+- **`dhfw/`**: one API for both runtimes. You write against the Enterprise
+  (Core+) API; it forwards on Enterprise and emulates on Community.
+
+Start here:
+
+| You want | Read or run |
+|---|---|
+| The story and an index of everything | [`LLM_ONBOARDING.md`](LLM_ONBOARDING.md) |
+| Every claim and how we know it | [`VERIFIED_FACTS.md`](VERIFIED_FACTS.md) (test, source or docs) |
+| How the engine works and how to program it | `deliverables/2026-10-21/Building a Deephaven Application A Programmer's Guide.pdf` |
+| How to build on `dhapp` / `dhfw` | `deliverables/2026-10-21/dhapp and dhfw Framework Reference.pdf` |
+| A working app with a live dashboard | `server/run_server.py --app-dir examples/mm_app.d`, then http://localhost:10000/iframe/widget/?name=mm_dashboard |
+| The tests | `examples/07_app_framework.py` (8/8), `tests/test_dhfw_community.py` (12/12) |
+
+## Building an app with dhapp
+
+```python
+from dhapp import App, Catalog, recipes, schemas
+from dhapp.ui import dashboard
+
+app = App("mm", Catalog({"desk_limits": {"pq": "RiskLimits", "table": "desk_limits", "plant": "ny"}}))
+app.source("quotes", schemas.QUOTES, history=load_quotes)   # pushed live; replayed in backtest
+app.source("limits", catalog="desk_limits")                 # resolved by where the app runs
+
+@app.stage
+def orders(quotes):
+    return recipes.fill_at_touch(recipes.target_to_orders(recipes.ema_cross(quotes)))
+
+@app.action(on="orders", services=["broker"])               # supervised; failures land in app.health
+def route(rows, broker): broker.send(rows)
+
+app.service("broker", live=OrderGateway(), sim=RecordingBroker())
+app.surface("orders")
+app.start("live")                                            # or "backtest" + app.run_history(), or "test"
+mm_dashboard = dashboard(app)
+```
+
+The full engine (`examples/mm_app.py`) gives identical results live and in
+backtest, equal to the hand-written `examples/06_trading_engine.py`.
+Environment variables (`DHFW_PLANT`, `DHFW_PQ`, `DHFW_PQ_MAP`,
+`DHFW_DATA_ROOT`, ...) choose the runtime bindings; the code does not change.
+The Framework Reference covers the API, deployment and a cookbook. Nothing has
+run on an Enterprise plant yet: the first step there is to run the two test
+suites.
+
+## The two-UI comparison: deephaven.ui vs. web-client-ui
 
 The same small "market-making book monitor" is built twice on top of one
 Deephaven Community server (v42.6; Docker, or the pip `deephaven-server` run as
-a plain Python process). Everything we learned is collected in
-[`VERIFIED_FACTS.md`](VERIFIED_FACTS.md), with how we know each claim: a test
-in this repo, the installed 42.6 source, or the Deephaven docs.
+a plain Python process).
 
 | | (1) deephaven.ui | (2) React + `@deephaven/*` |
 |---|---|---|
@@ -133,7 +185,14 @@ path only for the one or two apps that need a fully custom frontend.
 ## Files
 
 ```
+LLM_ONBOARDING.md                the story so far and an index of every file
 VERIFIED_FACTS.md                every claim, with how we know it (test, source or docs)
+dhapp/                           application layer: app, catalog, recipes, schemas, store, ui
+dhfw/                            Enterprise API on both runtimes: db, remote, systable, controller, acl
+examples/mm_app.py               the trading engine on dhapp; 07_app_framework.py runs it 3 ways
+examples/mm_app.d/               application-mode demo with the live mm_dashboard
+deliverables/                    PDF documents and text extracts
+deck/                            presentation deck and its generator
 docker-compose.yml               Deephaven 42.6 (+ Graphviz), app mode, anonymous auth
 server/run_server.py             the same server via pip, no Docker (native Windows ok)
 server/app.d/book.app            application-mode manifest
@@ -149,7 +208,9 @@ examples/                        the experiment ladder, introspection, graph ren
 introspect/                      dh_introspect.py (in-worker report) + its client
 tests/                           probes behind the Verified marks (scopes, fields,
                                  tickets, runtime features, event-driven clock,
-                                 embedded thread, subprocess hosting)
+                                 embedded thread, subprocess hosting, extension
+                                 points, dhfw)
+tools/build_deliverables.py      builds the PDFs and text extracts
 ```
 
 Docs used: [deephaven.ui docs](https://deephaven.io/core/ui/docs/),

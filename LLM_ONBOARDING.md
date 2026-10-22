@@ -92,7 +92,17 @@ The project's question: **what is Deephaven, really, as an application framework
     - trading and risk `recipes`, standard `schemas`, `store` persistence recipes
     - an automatic deephaven.ui `dashboard`
 
-    The rung-6 engine rebuilt on it passes 8/8 (`examples/07_app_framework.py`): live equals backtest equals rung 6. The live dashboard runs from `examples/mm_app.d/`.
+    The rung-6 engine rebuilt on it passes 8/8 (`examples/07_app_framework.py`): live equals backtest equals rung 6. The live dashboard runs from `examples/mm_app.d/`; in the browser, editing a limit in the grid cleared a breach at the next cycle.
+
+    These layers have their own document, *dhapp and dhfw: Framework Reference*. The code is published at github.com/taymarti/deephaven-framework-study (public).
+
+## How to work on dhapp and dhfw
+
+- **Stages stay pure and table-native.** No per-row Python; recipes take tables and return tables.
+- **New Enterprise-vs-Community differences go into `dhfw`**, never into app code. Each emulation states its limits in its docstring and in `dhfw.LIMITATIONS`. An unsupported call raises `UnsupportedOnCommunity`.
+- **Location lives in the `Catalog`.** App code never names a host, a PQ or a plant.
+- **Every change must keep both suites green:** `examples/07_app_framework.py` (8/8) and `tests/test_dhfw_community.py` (12/12). Run them with `.venv-server`.
+- **Record new facts** in `VERIFIED_FACTS.md` with an ID and their evidence.
 
 ## 3. What we now believe (the short list)
 
@@ -156,7 +166,8 @@ The same three living docs also exist as Claude Docs; the PDFs are snapshots. Th
 | `Deephaven as an Application Framework Findings and Guidance.pdf` | The original consolidated write-up: runtime, the two UI routes, gotchas, Enterprise PQ considerations, placement guidance, vendor questions |
 | `Deephaven Concepts Scopes, Fields, Tickets and Barrage.pdf` | Glossary and tested claims: global scope, application mode, fields, tickets, Barrage, URIs |
 | `Anatomy of a Deephaven Application.pdf` | The runtime in space and time, threads, and hosting on a thread vs. as a subprocess, with measurements |
-| `Building a Deephaven Application A Programmer's Guide.pdf` | The practical guide: diagrams, construct syntax, extending, backtesting, the worked engine, the LEAN comparison, three-tier testing, `dhfw` |
+| `Building a Deephaven Application A Programmer's Guide.pdf` | The practical guide to the engine: diagrams, construct syntax, extending, backtesting, the worked engine, the LEAN comparison, three-tier testing, and summaries of `dhfw` and `dhapp` |
+| `dhapp and dhfw Framework Reference.pdf` | The reference for building on our two layers: a layer diagram, quick start, concepts (roles, modes, catalog, health), API, environment variables and deployment, cookbook, limits and evidence |
 | `Verified Facts Ledger.pdf` | `VERIFIED_FACTS.md` rendered: every claim with its evidence, the corrections, and the U table |
 | `Repository README.pdf`, `Examples README.pdf` | How to run the two UI routes and the experiment ladder |
 | `Deephaven as an Application Framework.pptx` | 23-slide presentation deck, with speaker notes |
@@ -199,7 +210,10 @@ The same three living docs also exist as Claude Docs; the PDFs are snapshots. Th
 
 ## 9. Open threads
 
-- Run `tests/test_dhfw_community.py` on a Core+ worker with `DHFW_RUNTIME=enterprise`, to validate the forwarding. The `auth_context` function name in particular is unconfirmed.
+- Run `tests/test_dhfw_community.py` and `examples/07_app_framework.py` on a Core+ worker with `DHFW_RUNTIME=enterprise`, to validate the forwarding. The `auth_context` function name and the `for_remote_cluster` credentials in particular are unconfirmed.
+- Add a laptop-to-plant catalog binding through the Core+ Python client.
+- Persist Community `state_table` contents to parquet, so local edits survive restarts.
+- The dashboard's KPI cards are clipped in small windows; the panels can be resized.
 - U2 and U3: re-run the GIL-lag and startup-speed measurements with more samples and a baseline.
 - Check cross-plant `remote_table` reconnect behaviour on the plant.
 - Questions for the vendor:

@@ -28,7 +28,7 @@ Extending and Backtesting answer what you can add and how history replays.
 Worked engine shows one program end to end.
 Deephaven vs. LEAN maps the concepts and states the limits.
 Building a Deephaven Application: A Programmer's Guide
-Page 1 of 20
+Page 1 of 23
 Claims marked Tested ran on Community 42.6 in this repo. Docs means read in
 Deephaven's documentation, and Source means read in the installed 42.6 code.
 Anatomy of a running app
@@ -42,7 +42,7 @@ to grids and deephaven.ui. Console commands wait for the lock; submit_task  work
 on its own JVM threads at any time.
 thread swimlanes · one cycle of the default update graph
 Building a Deephaven Application: A Programmer's Guide
-Page 2 of 20
+Page 2 of 23
 The top row happens once per worker. The loop below it repeats for the life of the worker.
 A listener that throws drops out of the loop permanently, while the rest of the graph
 carries on, so wrap every callback.-$
@@ -74,7 +74,7 @@ engine client requests, subscriptions,
 deltas
 n/a
 Building a Deephaven Application: A Programmer's Guide
-Page 3 of 20
+Page 3 of 23
 The programming model: every construct and its syntax
 There is no special DSL file. A Deephaven program is an ordinary Python script calling the
 deephaven  package. A small Java-like expression language appears inside quoted strings
@@ -138,7 +138,7 @@ history, reference
 data
 Docs
 Building a Deephaven Application: A Programmer's Guide
-Page 4 of 20
+Page 4 of 23
 A push feed produces a blink table: each cycle it holds only the rows added in that cycle.
 Aggregations over a blink table therefore accumulate correctly without holding history in
 memory.
@@ -176,7 +176,7 @@ keep the last N
 rows, or everything
 Tested
 Building a Deephaven Application: A Programmer's Guide
-Page 5 of 20
+Page 5 of 23
 mid    = quotes.update(["Mid = (Bid + Ask) / 2", "Spread = Ask - Bid"])         
 # formulas (compiled to Java)
 liquid = mid.where(["Spread < 0.05", "Sym in `AAPL`, `MSFT`"])                  
@@ -205,7 +205,7 @@ update_by  offers about 40 operations: ema_* , ems_* , cum_* , delta , forward_f
 and rolling_{sum,avg,min,max,std,wavg,count,prod,group,formula}_{tick,time} .
 rolling_formula_*  takes your own expression over each window.
 Building a Deephaven Application: A Programmer's Guide
-Page 6 of 20
+Page 6 of 23
 3. Edges: where your Python runs
 def on_signals(update, is_replay):              # runs on an engine update 
 thread, inside the cycle
@@ -247,7 +247,7 @@ with update_graph.shared_lock(t):  or
 exclusive_lock
 Source
 Building a Deephaven Application: A Programmer's Guide
-Page 7 of 20
+Page 7 of 23
 5. Surfaces: what people and other programs see
 quotes_view = mid            # any global name holding a table is a field 
 clients can open
@@ -298,7 +298,7 @@ Barrage subscriptions input tables console
 sessions
 Docs
 Building a Deephaven Application: A Programmer's Guide
-Page 8 of 20
+Page 8 of 23
 Extending the framework
 You can add your own functions at both the Python and the Java level, and your own
 data sources. You cannot plug in a new incremental table operation through a public
@@ -390,7 +390,7 @@ against engine
 interfaces
 Docs (Javadoc)
 Building a Deephaven Application: A Programmer's Guide
-Page 9 of 20
+Page 9 of 23
 Three gotchas we hit on native Windows:
 1. Integer type hints fail. def f(qty: int)  and np.int64  are rejected with
 "Unsupported type hint". Deephaven expects numpy code l  for 64-bit integers, but
@@ -448,7 +448,7 @@ ask the vendor
 first
 Source
 Building a Deephaven Application: A Programmer's Guide
-Page 10 of 20
+Page 10 of 23
 Backtesting and replay
 Yes, with one condition: write the graph as a function of its source tables. Then the
 same graph code runs live, under replay, or in a fast backtest, and only the sources you
@@ -512,7 +512,7 @@ step finished (200 of
 200)
 Evidence Tested Docs Tested
 Building a Deephaven Application: A Programmer's Guide
-Page 11 of 20
+Page 11 of 23
 # live
 signals, book, risk = build_graph(live_trades, live_quotes)
 # replay at real speed
@@ -547,7 +547,7 @@ One function holds the whole strategy and risk engine as tables. We ran it live 
 backtest on the same 900 quotes. Both ended with an identical book and desk risk, and
 the backtest was 12 times faster. The full program is examples/06_trading_engine.py .
 Building a Deephaven Application: A Programmer's Guide
-Page 12 of 20
+Page 12 of 23
 This is its engine:
 def build_engine(quotes, limits, desks):
     q   = quotes.update("Mid = (Bid + Ask) / 2")
@@ -587,7 +587,7 @@ update_graph=UpdateGraph(j_update_graph=ug))
 for rows in history:
     pub.add(slice_table(rows)); ug.requestRefresh()
 Building a Deephaven Application: A Programmer's Guide
-Page 13 of 20
+Page 13 of 23
 The router-call counts show the clocks at work. Live, one cycle collected many slices, so
 33 orders arrived in 4 batches. In the backtest every slice was its own checkpoint, so each
 slice that traded produced its own call. At the end the Tech desk was over its 15,000 limit
@@ -623,7 +623,7 @@ merged_listen([...], fn)
 once per cycle
 yes
 Building a Deephaven Application: A Programmer's Guide
-Page 14 of 20
+Page 14 of 23
 LEAN concept LEAN syntax Deephaven equivalent Built in?
 Time frontier,
 slice
@@ -695,7 +695,7 @@ yes, with the
 rule in
 Backtesting
 Building a Deephaven Application: A Programmer's Guide
-Page 15 of 20
+Page 15 of 23
 Where Deephaven is stronger:
 Cross-sectional work over thousands of symbols at once, such as joins against
 positions, reference data and limits.
@@ -715,13 +715,12 @@ positions, P&L, limits, dashboards, sharing). Keep the order, fill and broker ha
 algorithm framework, feeding Deephaven through table_publisher  and reading its
 tables back. Or build that half once as a shared table library.
 Source for LEAN: Algorithm engine.
-Testing on three tiers, and one API for both runtimes
-Write against the Enterprise API. A thin wrapper, dhfw , forwards to Enterprise on the
-plant and emulates the same calls with Community constructs on a laptop, so
-application code never checks which runtime it is in. Tested: all 12 emulation checks pass
-on Community 42.6 ( tests/test_dhfw_community.py ). The Enterprise forwarding is
-untested here because we have no plant access; it calls the documented Core+ functions
-directly.
+From toolbox to recipes: the dhapp application layer
+dhapp  turns the toolbox into five steps: declare sources, write stages from recipes,
+add a few actions, surface tables, then start in a mode. It runs on dhfw , so the same app
+works on Community and Enterprise. Tested: the worked engine rebuilt on dhapp
+passed 8 of 8 checks ( examples/07_app_framework.py ). The live and backtest runs gave
+an identical book and risk, matching the hand-written rung-6 numbers exactly.
 LEAN concept LEAN syntax Deephaven equivalent Built in?
 Charts and UI plot(...) plotly-express, deephaven.ui
 dashboards, any client
@@ -734,7 +733,127 @@ every client and other workers
 yes, a core
 strength
 Building a Deephaven Application: A Programmer's Guide
-Page 16 of 20
+Page 16 of 23
+The full reference (quick start, API, environment variables, deployment and a cookbook)
+is in  dhapp and dhfw: Framework Reference . This section is the summary.
+app = App("mm", catalog)
+app.source("quotes", schemas.QUOTES, history=load_quotes)   # pushed live; 
+replayed in backtest
+app.source("limits", catalog="desk_limits")                 # wherever the 
+catalog says it lives
+@app.stage                                                     # parameter 
+names ARE table names
+def orders(quotes):
+    return 
+recipes.fill_at_touch(recipes.target_to_orders(recipes.ema_cross(quotes)))
+@app.stage
+def risk(orders, quotes, desks, limits):
+    return 
+recipes.risk_rollup(recipes.mark_to_market(recipes.positions(orders), 
+quotes), desks, limits)
+@app.action(on="orders", services=["broker"])               # the only per-
+cycle Python, supervised
+def route(rows, broker): broker.send(rows)
+app.service("broker", live=OrderGateway(), sim=RecordingBroker())
+app.surface("risk", "orders", "limits")
+app.start("live")            # or "backtest" (then app.run_history()) or 
+"test" (app.feed + app.step)
+mm_dashboard = dashboard(app, kpis={"risk": ["Gross", "PnL"]})
+How it answers each worry:
+Building a Deephaven Application: A Programmer's Guide
+Page 17 of 23
+Worry What dhapp does Tested result
+Too many options Four roles (source, stage, action,
+surface) and recipes in
+dhapp.recipes : mid , bars ,
+ema_cross , target_to_orders ,
+fill_at_touch , positions ,
+mark_to_market , risk_rollup .
+A stage is a plain function, so the
+full table API is always available
+The rung-6 engine became
+3 stages and 1 action
+Building a dashboard dashboard(app)  makes one
+panel per surfaced table,
+optional KPI cards, and a status
+panel. kpi_row , table_panel
+and status_panel  are the
+building blocks for your own
+It rendered live in the
+browser. Editing a limit in
+the grid cleared a breach at
+the next cycle
+Community vs.
+Enterprise
+Everything that differs goes
+through dhfw ; engine and UI
+code is not wrapped
+The app ran on Community;
+Enterprise forwarding is
+untested here
+Remote tables that
+become local on
+deployment
+Catalog  maps a logical name to
+a binding from DHFW_PLANT  and
+DHFW_PQ : a local global when
+deployed inside the owning PQ,
+remote_table  on the same
+plant, for_remote_cluster  on
+another plant, dhfw 's mapping
+on a laptop
+One desk_limits  entry
+resolved three ways as the
+location changed
+Persistence and your
+own tables
+dhapp.store : snapshot  (user
+table), daily_partition
+(history), intraday_log
+(Intraday), state_table
+(editable, keyed)
+Snapshot and daily
+partitions round-tripped;
+the state table drove the
+dashboard
+Building a Deephaven Application: A Programmer's Guide
+Page 18 of 23
+Rules and limits:
+Frozen in backtest and test. Catalog and live-factory sources tick on the default clock,
+so they are snapshotted in backtest and test modes. One graph cannot mix two clocks.
+Backtest speed. run_history  replays history sources in time buckets, one
+checkpoint per bucket: 900 quotes in 150 buckets took 1.3 s.
+Laptop as a client of a real plant is not covered yet. On a laptop, remote names map to
+local Community servers. Reaching a real plant from a laptop needs the Core+ client
+and plant credentials.
+Plant behaviour is unconfirmed. On Enterprise, state_table  and intraday_log
+persist; on Community they live only in memory. Both paths go through dhfw , and the
+Enterprise side is untested.
+Testing on three tiers, and one API for both runtimes
+Write against the Enterprise API. A thin wrapper, dhfw , forwards to Enterprise on the
+plant and emulates the same calls with Community constructs on a laptop, so
+application code never checks which runtime it is in. Tested: all 12 emulation checks pass
+on Community 42.6 ( tests/test_dhfw_community.py ). The Enterprise forwarding is
+untested here because we have no plant access; it calls the documented Core+ functions
+directly.
+Worry What dhapp does Tested result
+Trusting what runs Actions are wrapped: an
+exception is recorded in
+app.health  and the action
+keeps running. Surfaces are
+published as <app>_<name>
+fields
+A failing action logged 1
+error in 1 call while routing
+carried on
+Testing streaming logic test  mode: app.feed(...) ,
+then app.step() , then assert
+on app.table(...) , with no
+sleeps
+A repeated target
+produced no second order
+Building a Deephaven Application: A Programmer's Guide
+Page 19 of 23
 The Enterprise local-development guide covers only the unit tier, for Java and Groovy
 (Gradle, Core+ jars, a Mockito-mocked db ). Our setup covers the other two, and dhfw
 makes the same code run in all three.
@@ -793,7 +912,7 @@ db.add_unpartitioned_table ,
 add_table_partition , delete_*
 parquet writes and deletes none significant
 Building a Deephaven Application: A Programmer's Guide
-Page 17 of 20
+Page 20 of 23
 What is not wrapped, because it is the same engine on both: table operations, listeners,
 update graphs and execution contexts, table_publisher , deephaven.ui and plotly-
 express. The one exception is the version. The plant's Core+ worker may run a different
@@ -847,7 +966,7 @@ a pointer to the limits
 explicit, never
 silent
 Building a Deephaven Application: A Programmer's Guide
-Page 18 of 20
+Page 21 of 23
 Deephaven's parquet read and write parse paths as URIs, so C:\...  fails with a
 URISyntaxException. dhfw  passes file:///  URIs.
 Integer type hints on Python functions are rejected (see Extending).
@@ -889,11 +1008,11 @@ backtest
 examples/06_trading_engine.py identical final book and risk;
 5.76 s vs 0.46 s
 Building a Deephaven Application: A Programmer's Guide
-Page 19 of 20
+Page 22 of 23
 Claim Test or source Result
 Enterprise replay query Create a replay query Docs
 Java stream sources StreamToBlinkTableAdapter Javadoc Docs
 Java classes on the classpath Install and use Java packages Docs
 LEAN engine model QuantConnect: Algorithm engine Docs
 Building a Deephaven Application: A Programmer's Guide
-Page 20 of 20
+Page 23 of 23
