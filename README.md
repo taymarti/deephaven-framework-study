@@ -48,6 +48,10 @@ The full engine (`examples/mm_app.py`) gives identical results live and in
 backtest, equal to the hand-written `examples/06_trading_engine.py`.
 Environment variables (`DHFW_PLANT`, `DHFW_PQ`, `DHFW_PQ_MAP`,
 `DHFW_DATA_ROOT`, ...) choose the runtime bindings; the code does not change.
+On Community, a remote table is a live `deephaven.barrage` subscription to the
+server `DHFW_PQ_MAP` names (anonymous, basic or PSK auth). Filters and column
+choices are applied on that server via `pydeephaven`, so only the slice you
+asked for travels.
 The Framework Reference covers the API, deployment and a cookbook. Nothing has
 run on an Enterprise plant yet: the first step there is to run the two test
 suites.

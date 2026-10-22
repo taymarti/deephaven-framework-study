@@ -28,9 +28,9 @@ LIMITATIONS = {
     "db input tables": "Community: in-memory keyed input tables; contents are lost on restart.",
     "replay": "Community: TableReplayer at 1x; now()/today() inside query strings stay wall-clock; "
               "use dhfw.today() in Python for the replay date.",
-    "remote_table": "Community: dh+plain Barrage subscription to a host:port mapped by DHFW_PQ_MAP; "
-                    "filters/included_columns applied after the subscription (whole table crosses the wire); "
-                    "no automatic reconnect.",
+    "remote_table": "Community: a Barrage subscription (deephaven.barrage) to the server DHFW_PQ_MAP names, "
+                    "with anonymous, basic or PSK auth and optional TLS; filters/included_columns are applied on "
+                    "the remote server via a pydeephaven shared ticket; no automatic reconnect policy.",
     "log_table": "Community: appends to the in-process live table; no Intraday storage, no tailer, "
                  "nothing survives a restart.",
     "controller_import": "Community: modules come from a local checkout at DHFW_CONTROLLER_ROOT, "

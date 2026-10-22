@@ -3,3 +3,6 @@
 deephaven-server==42.6.*
 deephaven-plugin-ui==0.42.2
 deephaven-plugin-plotly-express==0.20.1
+# dhfw's Community remote_table shapes remote tables with pydeephaven (filters applied remotely)
+pydeephaven==42.6.*
+bitstring<5

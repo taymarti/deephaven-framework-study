@@ -4,7 +4,7 @@
     "result": {
       "buckets": 150,
       "rows": 900,
-      "seconds": 1.345,
+      "seconds": 1.382,
       "orders": 33,
       "broker_sent": 33,
       "risk": [
@@ -30,7 +30,7 @@
   "2_live_mode": {
     "ok": true,
     "result": {
-      "seconds": 5.71,
+      "seconds": 5.74,
       "orders": 33,
       "broker_sent": 33,
       "health": [

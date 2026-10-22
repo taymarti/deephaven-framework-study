@@ -96,6 +96,16 @@ The project's question: **what is Deephaven, really, as an application framework
 
     These layers have their own document, *dhapp and dhfw: Framework Reference*. The code is published at github.com/taymarti/deephaven-framework-study (public).
 
+12. **Ticking remote tables in a local app.** Inside a Community server, `deephaven.barrage.barrage_session(...).subscribe(ticket)` gives a ticking local table from another server (X16). `pydeephaven` can shape the table on the remote side and publish it under a shared ticket, so only that slice travels (X17).
+
+    Lifetimes:
+    - an existing subscription survives the publisher's close; a new one fails (X18)
+    - dropping the published `pydeephaven` Table object breaks the ticket (X19)
+
+    `dhfw`'s Community `remote_table` now works this way, with anonymous, basic or PSK auth from `DHFW_PQ_MAP` and filters applied remotely (X20).
+
+    `pydeephaven-ticking` is the alternative for plain Python processes with no engine. It delivers callbacks, not tables, and has Linux-only wheels.
+
 ## How to work on dhapp and dhfw
 
 - **Stages stay pure and table-native.** No per-row Python; recipes take tables and return tables.
@@ -194,7 +204,8 @@ The same three living docs also exist as Claude Docs; the PDFs are snapshots. Th
 | `tests/probe_introspection.py`, `introspection_report.json` | Introspection end to end, with a saved report |
 | `tests/probe_framework_constructs.py` (+ `.json`), `java/com/acme/Risk.java`, `acme-risk.jar` | Java and Python functions in formulas, sources, replay, backtest |
 | `dhfw/` | The runtime wrapper: `runtime`, `database` (`db`), `remote`, `systable`, `controller`, `acl` |
-| `tests/test_dhfw_community.py` (+ `.json`) | 12/12 Community checks of `dhfw` |
+| `tests/test_dhfw_community.py` (+ `.json`) | 12/12 Community checks of `dhfw` (the test server uses PSK auth) |
+| `tests/probe_remote_ticking.py` (+ `.json`) | Ticking remote tables in a local server: Barrage, pydeephaven-shaped shared tickets, lifetimes (needs a server with ticking tables on :10000) |
 | `dhapp/` | The application layer: `app` (roles, modes, health), `catalog`, `recipes`, `schemas`, `store`, `ui` |
 | `examples/mm_app.py`, `07_app_framework.py` (+ `.json`) | The engine on `dhapp`, run live, backtest and test: 8/8 |
 | `examples/mm_app.d/` | Application-mode demo: the app live with a synthetic feed and `mm_dashboard` |

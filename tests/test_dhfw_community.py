@@ -17,7 +17,9 @@ OUT = pathlib.Path(__file__).with_name("test_dhfw_community.json")
 PORT = int(os.environ.get("DH_PORT", "10005"))
 WORK = pathlib.Path(tempfile.mkdtemp(prefix="dhfw_"))
 os.environ.update({"DHFW_DATA_ROOT": str(WORK / "data"), "DHFW_CONTROLLER_ROOT": str(WORK / "repo"),
-                   "DHFW_PQ_MAP": json.dumps({"Self": "self", "Local": f"localhost:{PORT}"}),
+                   "DHFW_PQ_MAP": json.dumps({"Self": "self", "Local": {"host": "localhost", "port": PORT, "auth_type": "psk",
+                                                                          "auth_token_env": "DHFW_TEST_PSK"}}),
+                   "DHFW_TEST_PSK": "dhfw-test-key",
                    "DHFW_PLANT_CORE_VERSION": "41.1"})
 R = {}
 
@@ -33,7 +35,7 @@ def check(name, fn):
 
 
 def jvm_args() -> list:
-    args = ["-Xmx1g", "-DAuthHandlers=io.deephaven.auth.AnonymousAuthenticationHandler"]
+    args = ["-Xmx1g", "-Dauthentication.psk=dhfw-test-key"]  # PSK, so remote_table's auth path is exercised
     if os.name == "nt":  # same workarounds as server/run_server.py
         jh = pathlib.Path(os.environ["JAVA_HOME"])
         for d in (jh / "bin", jh / "bin" / "server"):
@@ -144,10 +146,19 @@ def main() -> None:
         net = dhfw.remote_table("Local", "desk_risk").subscribe(included_columns=["Desk"])
         snap = dhfw.remote_table("Local", "desk_risk").snapshot()
         via_uri = dhfw.resolve_uri("pq://Local/scope/desk_risk")
+        __main__.ticks = time_table("PT0.2s").update("V = ii")
+        shaped = dhfw.remote_table("Local", "ticks").subscribe(filters=["V % 2 == 0"], included_columns=["V"])
         time.sleep(1.5)
+        first = shaped.size
+        time.sleep(2.0)
+        vals = to_pandas(shaped)["V"].tolist()
         sizes = {"self_filtered": selfsub.size, "barrage_columns": [c.name for c in net.columns],
-                 "snapshot_rows": snap.size, "pq_uri_rows": via_uri.size}
-        assert sizes == {"self_filtered": 1, "barrage_columns": ["Desk"], "snapshot_rows": 2, "pq_uri_rows": 2}, sizes
+                 "snapshot_rows": snap.size, "pq_uri_rows": via_uri.size,
+                 "shaped_columns": [c.name for c in shaped.columns], "shaped_refreshing": shaped.is_refreshing,
+                 "shaped_rows_then_later": [first, len(vals)], "shaped_all_even": all(v % 2 == 0 for v in vals)}
+        assert sizes["self_filtered"] == 1 and sizes["barrage_columns"] == ["Desk"] and sizes["snapshot_rows"] == 2 \
+            and sizes["pq_uri_rows"] == 2 and sizes["shaped_columns"] == ["V"] and sizes["shaped_refreshing"] \
+            and len(vals) > first and sizes["shaped_all_even"], sizes
         return sizes
     check("remote_table_and_pq_uri", remote)
 

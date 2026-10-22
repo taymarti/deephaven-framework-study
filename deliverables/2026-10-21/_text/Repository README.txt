@@ -46,9 +46,11 @@ app.start("live")                                            # or "backtest" + a
 mm_dashboard = dashboard(app)
 The full engine (examples/mm_app.py ) gives identical results live and in backtest, equal to the hand-written
 examples/06_trading_engine.py . Environment variables (DHFW_PLANT , DHFW_PQ , DHFW_PQ_MAP , DHFW_DATA_ROOT ,
-...) choose the runtime bindings; the code does not change. The Framework Reference covers the API,
-deployment and a cookbook. Nothing has run on an Enterprise plant yet: the first step there is to run the two
-test suites.
+...) choose the runtime bindings; the code does not change. On Community, a remote table is a live
+deephaven.barrage  subscription to the server DHFW_PQ_MAP  names (anonymous, basic or PSK auth). Filters and
+column choices are applied on that server via pydeephaven , so only the slice you asked for travels. The
+Framework Reference covers the API, deployment and a cookbook. Nothing has run on an Enterprise plant yet:
+the first step there is to run the two test suites.
 The two-UI comparison: deephaven.ui vs. web-client-ui
 The same small "market-making book monitor" is built twice on top of one Deephaven Community server
 (v42.6; Docker, or the pip deephaven-server  run as a plain Python process).
@@ -130,9 +132,9 @@ panel state
 ui.use_state  hoisted to book_layout
 (row click → desk)
 React useState  in App
+Feature (1) deephaven.ui (2) React + web-client-ui
 Chart dx.line(...) , one line Not included. It would need @deephaven/chart  + plotly
 wiring
-Feature (1) deephaven.ui (2) React + web-client-ui
 Layout ui.dashboard  (drag/dock/tabs for free) Your own CSS grid, or @deephaven/dashboard  + golden-
 layout (heavy)
 Takeaways

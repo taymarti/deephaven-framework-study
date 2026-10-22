@@ -12,7 +12,7 @@ For how the engine itself works (cycles, threads, Barrage, replay), see the Prog
 Guide. This document is the reference for building on the two layers.
 layers · your app, dhapp, dhfw, and the two runtimes
 dhapp and dhfw: Framework Reference
-Page 1 of 13
+Page 1 of 14
 Quick start: a working app in five steps
 Declare sources, write stages, add actions, surface tables, then start in a mode. This is
 the market-making demo in examples/mm_app.py , cut down.
@@ -47,7 +47,7 @@ app.service("broker", live=OrderGateway(), sim=RecordingBroker())
 # 4. Surfaces: published fields, and the dashboard's panels
 app.surface("book", "risk", "orders", "limits")
 dhapp and dhfw: Framework Reference
-Page 2 of 13
+Page 2 of 14
 # 5. Start in a mode
 app.start("live")                 # then app.feed("quotes", rows) from your 
 feed thread
@@ -91,7 +91,7 @@ and dashboard panels
 publish results, not
 every intermediate
 dhapp and dhfw: Framework Reference
-Page 3 of 13
+Page 3 of 14
 Stages run in dependency order, worked out from their parameter names. A name no
 source or stage produces is an error at start() .
 Three modes
@@ -132,7 +132,7 @@ frozen
 (snapshot)
 sim
 dhapp and dhfw: Framework Reference
-Page 4 of 13
+Page 4 of 14
 API reference
 dhapp.App(name, catalog=None)
 Method Purpose
@@ -166,7 +166,7 @@ seconds
 table(name) , tables , health , stop() read results; stop()  removes the action
 listeners
 dhapp and dhfw: Framework Reference
-Page 5 of 13
+Page 5 of 14
 dhapp.Catalog(entries, plants=None)
 The catalog also has resolve(name, subscribe_kwargs=None) , and binding(name) ,
 which gives the binding in words. plants  takes {name: {"url": ..., "key_file":
@@ -206,7 +206,7 @@ risk_rollup(book, desks, limits) Sym, Gross, PnL per Desk: Gross, PnL,
 Names, Limit, Utilization,
 Breach
 dhapp and dhfw: Framework Reference
-Page 6 of 13
+Page 6 of 14
 dhapp.schemas , dhapp.store , dhapp.ui
 dhfw  (used underneath; usable directly)
 db  (Enterprise Database  methods), remote_table , resolve_uri , log_table ,
@@ -239,64 +239,60 @@ ui.kpi_row , ui.table_panel ,
 ui.status_panel
 building blocks for custom dashboards
 dhapp and dhfw: Framework Reference
-Page 7 of 13
+Page 7 of 14
 Variable Meaning Laptop (Community) Plant
 (Enterprise
 PQ)
-DHFW_PLANT this plant's
-name,
+DHFW_PLANT this plant's name,
 compared with
 catalog plant
-e.g. ny the plant name,
-set in the PQ's
+e.g. ny the plant
+name, set in
+the PQ's
 environment
 DHFW_PQ this PQ's name,
 compared with
 catalog pq
-the name of the PQ you
-are standing in for
+the name of the PQ
+you are standing in for
 the PQ's own
 name
-DHFW_RUNTIME force
-community  or
-enterprise
+DHFW_RUNTIME force community
+or enterprise
 usually unset (auto-
 detected)
 usually unset
-DHFW_PQ_MAP Community
-only: PQ name
-to host:port ,
-or "self"
+DHFW_PQ_MAP Community only:
+PQ name to
+host:port ,
+"self", or
+{host, port,
+auth_type,
+auth_token_env,
+use_tls} with
+auth anonymous,
+basic or psk
 e.g. {"RiskLimits":
 "localhost:10001"}
 not used
-DHFW_DATA_ROOT Community
-only: folder for
-emulated db
-tables
+DHFW_DATA_ROOT Community only:
+folder for emulated
+db  tables
 e.g. ./dhfw_data not used
-DHFW_REPLAY_DATE Community
-only: replay that
-day's partition
-as live
+DHFW_REPLAY_DATE Community only:
+replay that day's
+partition as live
 e.g. 2026-10-20 use an
 Enterprise
 replay query
 instead
-DHFW_CONTROLLER_ROOT Community
-only: local
-checkout of the
-controller
+DHFW_CONTROLLER_ROOT Community only:
+local checkout of
+the controller
 repository
 path not used
-DHFW_PLANT_CORE_VERSION the plant's Core
-version;
-runtime()
-warns on a
-mismatch
-e.g. 41.1 not needed
 dhapp and dhfw: Framework Reference
-Page 8 of 13
+Page 8 of 14
 Where a {"pq": ...}  table resolves. This is tested: one desk_limits  entry produced
 each of these as the location variables changed.
 Two consequences of deploying into the owner's PQ:
@@ -305,12 +301,14 @@ was not as a remote subscription.
 The app's code does not change.
 Running locally: write an app.d/*.app  file pointing at your script (see
 examples/mm_app.d/ ), then run server/run_server.py --app-dir <dir> .
-Running on the plant: the PQ script imports the app module from the controller
-repository through dhfw.meta_import , sets DHFW_PLANT  and DHFW_PQ , and calls
-app.start("live") . Use an Enterprise replay query for history at a simulated speed.
 Variable Meaning Laptop (Community) Plant
 (Enterprise
 PQ)
+DHFW_PLANT_CORE_VERSION the plant's Core
+version;
+runtime()  warns
+on a mismatch
+e.g. 41.1 not needed
 DHFW_USER identity on
 Community
 your name not used
@@ -344,7 +342,10 @@ dhfw  maps the PQ name to a local server or
 stand-ins for the
 real PQs
 dhapp and dhfw: Framework Reference
-Page 9 of 13
+Page 9 of 14
+Running on the plant: the PQ script imports the app module from the controller
+repository through dhfw.meta_import , sets DHFW_PLANT  and DHFW_PQ , and calls
+app.start("live") . Use an Enterprise replay query for history at a simulated speed.
 Cookbook
 Add a live feed from any client SDK. Declare a pushed source, then call feed  from the
 SDK's callback thread:
@@ -359,20 +360,54 @@ On a laptop, put parquet files under DHFW_DATA_ROOT/MarketUs/QuoteStock/Date=YYY
 MM-DD/ .
 Subscribe to another PQ's table. Add an entry with pq , table  and plant . To keep the
 transfer small, pass subscribe_kwargs  with filters  and included_columns . On
-Enterprise they go to `remote_table`'s `subscribe` (whether filtering happens upstream
-is not yet verified). Community applies them after the transfer.
+Community, dhfw shapes the table on the remote server with pydeephaven, so only those
+rows and columns travel (tested). On Enterprise they go to remote_table's subscribe;
+whether filtering happens upstream there is not yet verified.
 catalog.entries["desk_risk"] = {"pq": "RiskEngine", "table": "desk_risk", 
 "plant": "ny"}
 rates = catalog.resolve("desk_risk", {"filters": ["Desk == `Rates`"], 
 "included_columns": ["Desk", "Gross"]})
+Consume a remote server's ticking table from a local app, without dhfw . This is what
+dhfw  does underneath on Community, and it is tested:
+dhapp and dhfw: Framework Reference
+Page 10 of 14
+from deephaven.barrage import barrage_session
+from pydeephaven import Session
+from pydeephaven.ticket import SharedTicket
+bs = barrage_session(host="riskhost", port=10000, 
+auth_type="io.deephaven.authentication.psk.PskAuthenticationHandler",
+                     auth_token=os.environ["RISK_PSK"])
+orders = bs.subscribe(b"s/mm_orders")                 # whole table, ticking 
+in the local graph
+s = Session(host="riskhost", port=10000, 
+auth_type="io.deephaven.authentication.psk.PskAuthenticationHandler",
+            auth_token=os.environ["RISK_PSK"])
+shaped = s.open_table("mm_orders").where("Sym == `AAPL`").view(["Sym", 
+"OrderQty"])
+ticket = SharedTicket.random_ticket()
+s.publish_table(ticket, shaped)                       # keep BOTH s and 
+shaped referenced
+aapl = bs.subscribe(ticket.bytes)                     # only AAPL, 2 columns, 
+ticking
+Three lifetime rules, all tested:
+A subscription made before the pydeephaven  session closes keeps ticking afterwards.
+A new subscription to that ticket fails once the session is closed.
+If the published pydeephaven  Table object is garbage-collected, the ticket stops
+resolving even while the session is open.
+deephaven.barrage  or pydeephaven-ticking ? Inside a Deephaven server (a local app),
+use deephaven.barrage . The result is a table in your graph that you can join, aggregate
+and put on a dashboard. Use pydeephaven-ticking  only in a plain Python process with
+no Deephaven engine, such as an asyncio service. It delivers per-update callbacks (added,
+removed and modified rows), and you keep the state yourself. Its pip wheels are Linux
+x86_64 only; Windows needs a source build of the C++ client.
 Backtest a day. Pushed sources need history= :
 app = make_app(catalog, quotes_history=lambda: 
 db.historical_table("MarketUs", "QuoteStock").where("Date == `2026-10-20`"))
 app.start("backtest"); print(app.run_history(bucket_ms=1000)); 
 print(app.table("risk"))
-Persist results.
 dhapp and dhfw: Framework Reference
-Page 10 of 13
+Page 11 of 14
+Persist results.
 store.snapshot(app.table("risk"), "Risk", "EodRisk")                 # end of 
 day
 store.daily_partition(app.table("book"), "Risk", "DailyBook")      # one 
@@ -403,7 +438,7 @@ def vwap(trades, by="Sym"):
                  .agg_by([agg.sum_(["Notional", "Volume = Qty"])], by=by) \
                  .update("Vwap = Notional / Volume")
 dhapp and dhfw: Framework Reference
-Page 11 of 13
+Page 12 of 14
 Limits, open items and evidence
 Everything below the Enterprise boundary was tested on Community 42.6. Nothing has
 run on a plant yet, so the first task on Enterprise is to run the two test suites there.
@@ -414,8 +449,9 @@ Backtest speed. run_history  pulls history into Python (pandas) to slice it. Fin
 day of quotes per symbol set, but for very large histories use an Enterprise replay
 query.
 Community emulation. On Community, state_table  and intraday_log  live in
-memory and vanish on restart. Remote filters apply after transfer, and there is no
-reconnect policy. ACLs are not enforced.
+memory and vanish on restart. Remote subscriptions have no reconnect policy, and the
+pydeephaven sessions that shape them stay open until dhfw.remote.close_all(). ACLs
+are not enforced.
 No laptop-to-plant client binding yet. Developing on a laptop against the real plant's
 tables needs the Core+ client and credentials; today remote names map to local stand-
 in servers.
@@ -437,7 +473,7 @@ engine
 examples/07_app_framework.py 8 of 8 checks; risk equal
 to rung 6 to the cent
 dhapp and dhfw: Framework Reference
-Page 12 of 13
+Page 13 of 14
 Code: dhapp/  and dhfw/  in taymarti/deephaven-framework-study. Background on the
 engine itself: the Programmer's Guide.
 Claim Test Result
@@ -445,8 +481,8 @@ A failing action is
 supervised
 same 1 error in 1 call recorded;
 routing continued
-The catalog resolves by
-location
+The catalog resolves
+by location
 same local global, same plant
 and another plant from
 one entry
@@ -454,12 +490,26 @@ Storage recipes round-
 trip
 same snapshot 1 row; daily
 partitions 2 rows
-The dashboard renders
-and edits
+The dashboard
+renders and edits
 examples/mm_app.d/mm_live.py ,
 browser
 a limit edit cleared a
 breach at the next cycle
 dhfw  emulations tests/test_dhfw_community.py 12 of 12
+A local app gets ticking
+remote tables, shaped
+on the remote server,
+over PSK auth
+tests/probe_remote_ticking.py,
+tests/test_dhfw_community.py
+4 of 4 and 12 of 12;
+filtered rows only, 2 to 7
+rows in 2 s
+Shared-ticket lifetimes same existing subscription
+survives session close;
+new one fails; dropping
+the published Table
+breaks the ticket
 dhapp and dhfw: Framework Reference
-Page 13 of 13
+Page 14 of 14

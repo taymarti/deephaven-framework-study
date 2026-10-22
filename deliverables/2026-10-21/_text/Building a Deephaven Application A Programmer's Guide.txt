@@ -903,8 +903,9 @@ in-process only
 Replay query ( ReplayScript ) DHFW_REPLAY_DATE=YYYY-MM-
 DD : live_table  replays that
 partition through
-TableReplayer ; dhfw.today()
-returns the replay date
+TableReplayer ;
+dhfw.today()  returns the
+replay date
 1x speed only;
 now()  in formulas
 stays wall time
@@ -920,14 +921,6 @@ Core version, and dhfw.runtime()  warns when DHFW_PLANT_CORE_VERSION  differs fr
 the local one. Some things cannot be emulated at all: PQ scheduling, restarts and failover,
 query servers, merge and validation jobs, and Enterprise authentication.
 Application code looks identical on both runtimes:
-from dhfw import db, remote_table, today
-quotes = db.live_table("MarketUs", "QuoteStock").where(f"Date == 
-`{today()}`")
-limits = remote_table("RiskLimits", "desk_limits").subscribe()
-engine = build_engine(quotes, limits, desks)          # the graph: no runtime 
-checks anywhere
-Native-Windows gotchas the wrapper and its users must handle (the first found while
-building it):
 Enterprise API Community emulation in dhfw Limits on
 Community
 db.append_live_table ,
@@ -942,16 +935,21 @@ cannot see it
 db  input tables in-memory keyed input tables lost on restart
 remote_table.in_local_cluster(q,
 t).subscribe(...) , pq://q/scope/t
-dh+plain  Barrage subscription
-to a server mapped by
-DHFW_PQ_MAP  (or a global in this
-worker)
+a deephaven.barrage
+subscription to a server
+mapped by DHFW_PQ_MAP  (or a
+global in this worker)
+PSK, basic or
+anonymous auth;
 filters and
-columns apply
-after transfer; no
+columns applied
+on the remote
+server via a
+pydeephaven
+shared ticket; no
 reconnect policy
-controller_import.meta_import , exec_script imports from a local checkout of
-the controller repository
+controller_import.meta_import , exec_script imports from a local checkout
+of the controller repository
 ( DHFW_CONTROLLER_ROOT )
 not the
 controller's Git
@@ -967,6 +965,14 @@ explicit, never
 silent
 Building a Deephaven Application: A Programmer's Guide
 Page 21 of 23
+from dhfw import db, remote_table, today
+quotes = db.live_table("MarketUs", "QuoteStock").where(f"Date == 
+`{today()}`")
+limits = remote_table("RiskLimits", "desk_limits").subscribe()
+engine = build_engine(quotes, limits, desks)          # the graph: no runtime 
+checks anywhere
+Native-Windows gotchas the wrapper and its users must handle (the first found while
+building it):
 Deephaven's parquet read and write parse paths as URIs, so C:\...  fails with a
 URISyntaxException. dhfw  passes file:///  URIs.
 Integer type hints on Python functions are rejected (see Extending).
@@ -995,6 +1001,9 @@ ms setting (paced by the 1 s
 cycle)
 ring_table same held exactly 5 rows of a 10-
 per-second feed
+Building a Deephaven Application: A Programmer's Guide
+Page 22 of 23
+Claim Test or source Result
 Keyed input table same upsert by key replaced Rates
 1e6 with 2e6; delete by key
 left 1 row
@@ -1007,9 +1016,6 @@ Same engine live and as a
 backtest
 examples/06_trading_engine.py identical final book and risk;
 5.76 s vs 0.46 s
-Building a Deephaven Application: A Programmer's Guide
-Page 22 of 23
-Claim Test or source Result
 Enterprise replay query Create a replay query Docs
 Java stream sources StreamToBlinkTableAdapter Javadoc Docs
 Java classes on the classpath Install and use Java packages Docs

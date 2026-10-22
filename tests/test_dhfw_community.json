@@ -87,7 +87,16 @@
         "Desk"
       ],
       "snapshot_rows": 2,
-      "pq_uri_rows": 2
+      "pq_uri_rows": 2,
+      "shaped_columns": [
+        "V"
+      ],
+      "shaped_refreshing": true,
+      "shaped_rows_then_later": [
+        2,
+        7
+      ],
+      "shaped_all_even": true
     }
   },
   "controller_import": {
