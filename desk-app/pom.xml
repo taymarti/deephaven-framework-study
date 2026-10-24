@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Java build unit of desk-app (Maven standard layout: src/main/java, src/test/java, target/).
+  `mvn package` compiles, runs the JUnit tests and writes target/dh-desk.jar, which the Python
+  wheel bundles. Run by `pixi run desk-app-java` (pixi supplies the JDK and Maven).
+  Deephaven dependencies are "provided": the server's classpath already has them at runtime.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.acme</groupId>
+  <artifactId>dh-desk</artifactId>
+  <version>0.1.0</version>
+  <packaging>jar</packaging>
+
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <deephaven.version>42.6</deephaven.version>
+  </properties>
+
+  <dependencies>
+    <dependency><groupId>io.deephaven</groupId><artifactId>deephaven-engine-table</artifactId><version>${deephaven.version}</version><scope>provided</scope></dependency>
+    <dependency><groupId>io.deephaven</groupId><artifactId>deephaven-engine-api</artifactId><version>${deephaven.version}</version><scope>provided</scope></dependency>
+    <dependency><groupId>io.deephaven</groupId><artifactId>deephaven-table-api</artifactId><version>${deephaven.version}</version><scope>provided</scope></dependency>
+    <dependency><groupId>io.deephaven</groupId><artifactId>deephaven-engine-query-constants</artifactId><version>${deephaven.version}</version><scope>provided</scope></dependency>
+    <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><version>5.10.2</version><scope>test</scope></dependency>
+  </dependencies>
+
+  <build>
+    <finalName>dh-desk</finalName>
+    <plugins>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>3.2.5</version></plugin>
+    </plugins>
+  </build>
+</project>

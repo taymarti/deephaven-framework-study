@@ -25,3 +25,9 @@ tests/embedded_thread_result.client
 
 # hybrid project build output (Maven's target/, rebuilt by hybrid/build.py or mvn)
 hybrid/target/
+
+# pixi environments (the lockfile, pixi.lock, is committed)
+.pixi/
+# desk-app build outputs and npm packages
+desk-app/target/
+desk-app/node_modules/

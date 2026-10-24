@@ -1,0 +1,193 @@
+# The monorepo's toolchain and task orchestrator.
+#
+# Pixi pins every toolchain (JDK, Maven, Node, Python, uv, ruff) from conda-forge, per platform, in
+# pixi.lock. A checkout therefore builds the same way on any machine that has only `pixi` installed.
+# Each language keeps its own build tool and manifest (Maven, npm, hatchling/uv). Pixi provides those
+# tools and runs them in order; it never replaces them.
+#
+#   [workspace.dependencies]  toolchain versions, pinned once for every project ({ workspace = true })
+#   features                  one per toolchain (jvm, node, py, lint) plus one per project (its tasks)
+#   environments              one per project, composed from features; solve-groups keep the
+#                             project's environments on identical versions
+#   tasks                     one per build unit: inputs/outputs (skipped when up to date), depends-on
+#                             edges (also across environments), typed args, MiniJinja templates
+#   repo-level tasks          `pixi run build` / `check` / `ci` fan out to every project
+#
+# Conventions for adding a project (alongside desk-app/):
+#   - a feature named after the project carries its tasks, each prefixed "<project>-"
+#   - each task sets cwd = "<project>", and its inputs/outputs are root-relative "<project>/..."
+#   - every task sets default-environment, so `pixi run <task>` never asks which environment to use
+#   - the repo-level aliases at the bottom list the project's build, check and smoke tasks
+#
+# Common commands:
+#   pixi task list                 every task, with its description
+#   pixi run build                 every project (today: desk-app's java + web units, then the wheel)
+#   pixi run ci                    lint + type-check + unit tests + smoke deploy of every project
+#   pixi run desk-app-run-server 10030      typed args: port (default 10000), heap (default 2g)
+#   pixi run desk-app-run-web 4030 http://localhost:10030
+#   pixi list -e desk-app          the resolved toolchain;  pixi tree -e desk-app openjdk
+#
+# (The repo's Python-only studies predate Pixi and use their own venvs; see README.md.)
+
+[workspace]
+name = "deephaven-compare"
+description = "Deephaven framework study; Pixi-orchestrated polyglot projects"
+channels = ["conda-forge"]
+platforms = ["win-64", "linux-64", "osx-arm64"]
+requires-pixi = ">=0.60"
+channel-priority = "strict"
+
+# The toolchain pool: one version per tool for the whole repo. Projects opt in with { workspace = true }.
+[workspace.dependencies]
+openjdk = "17.*"      # a full JDK: Maven compiles with it, and Deephaven compiles formulas at runtime
+maven = "3.9.*"
+nodejs = "22.*"
+python = "3.12.*"
+uv = ">=0.5"
+ruff = ">=0.8"
+
+# ================================================================= toolchain features
+[feature.jvm.dependencies]
+openjdk = { workspace = true }
+maven = { workspace = true }
+
+[feature.node.dependencies]
+nodejs = { workspace = true }
+
+[feature.node.activation.env]
+npm_config_update_notifier = "false"
+npm_config_fund = "false"
+
+[feature.py.dependencies]
+python = { workspace = true }
+uv = { workspace = true }
+
+[feature.py.activation.env]
+UV_LINK_MODE = "copy"            # the uv cache and the project may be on different drives (Windows)
+
+[feature.lint.dependencies]
+ruff = { workspace = true }
+
+# ================================================================= environments
+# no-default-feature: a project's environment gets only the features it lists. The repo-level
+# aliases live in the default feature, so they stay in the (empty) default environment and reach
+# each project's tasks through environment-pinned depends-on.
+[environments]
+desk-app = { features = ["jvm", "node", "py", "desk-app"], solve-group = "desk-app", no-default-feature = true }
+desk-app-ci = { features = ["jvm", "node", "py", "lint", "desk-app", "desk-app-ci"], solve-group = "desk-app", no-default-feature = true }
+
+# ================================================================= project: desk-app
+# An options risk desk: Java + React/TypeScript + Python, shipped as one wheel. See desk-app/README.md.
+
+[feature.desk-app.tasks.desk-app-java]
+description = "Java unit: compile, JUnit tests, jar (target/dh-desk.jar)"
+cmd = "mvn -B -q package"
+cwd = "desk-app"
+default-environment = "desk-app"
+inputs = ["desk-app/pom.xml", "desk-app/src/main/java/**", "desk-app/src/test/java/**"]
+outputs = ["desk-app/target/dh-desk.jar"]
+
+# Hidden from `pixi task list` (leading "_"): an internal step, not something people run directly.
+[feature.desk-app.tasks._desk-app-web-deps]
+cmd = "npm ci --no-audit"
+cwd = "desk-app"
+default-environment = "desk-app"
+inputs = ["desk-app/package.json", "desk-app/package-lock.json"]
+outputs = ["desk-app/node_modules/.package-lock.json"]
+
+[feature.desk-app.tasks.desk-app-web]
+description = "Web unit: type-check and build the React app (target/web)"
+cmd = "npm run build"
+cwd = "desk-app"
+default-environment = "desk-app"
+depends-on = ["_desk-app-web-deps"]
+inputs = ["desk-app/src/main/web/**", "desk-app/package.json", "desk-app/tsconfig*.json", "desk-app/vite.config.ts"]
+outputs = ["desk-app/target/web/index.html"]
+
+[feature.desk-app.tasks.desk-app-wheel]
+description = "Python unit: the wheel, bundling the jar and the web build (target/dist)"
+cmd = "uv build --wheel --out-dir target/dist"
+cwd = "desk-app"
+default-environment = "desk-app"
+depends-on = ["desk-app-java", "desk-app-web"]
+inputs = ["desk-app/pyproject.toml", "desk-app/README.md", "desk-app/src/main/python/**",
+          "desk-app/target/dh-desk.jar", "desk-app/target/web/**"]
+outputs = ["desk-app/target/dist/*.whl"]
+
+# A pure alias (no cmd) cannot take default-environment, and this feature is in two environments,
+# so a one-line cmd makes it a regular task that can.
+[feature.desk-app.tasks.desk-app-build]
+description = "Build every unit of desk-app and package the wheel"
+cmd = "echo desk-app built: target/dist"
+cwd = "desk-app"
+depends-on = ["desk-app-wheel"]
+default-environment = "desk-app"
+
+[feature.desk-app.tasks.desk-app-smoke]
+description = "Install the wheel into a fresh venv, run both entry points, test end to end"
+cmd = "python src/test/python/smoke.py"
+cwd = "desk-app"
+default-environment = "desk-app"
+depends-on = ["desk-app-wheel"]
+env = { PYTHONUNBUFFERED = "1" }
+
+[feature.desk-app.tasks.desk-app-install]
+description = "Deploy: a new venv (desk-app/target/venv) with the wheel installed, as a user would"
+# deno_task_shell (Pixi's cross-platform shell) expands the glob and runs && on every OS
+cmd = "uv venv --allow-existing target/venv && uv pip install --python target/venv --reinstall-package dh-desk target/dist/dh_desk-*.whl"
+cwd = "desk-app"
+default-environment = "desk-app"
+depends-on = ["desk-app-wheel"]
+
+# Typed task args, rendered into cmd with MiniJinja: `pixi run desk-app-run-server 10030 4g`
+[feature.desk-app.tasks.desk-app-run-server]
+description = "Run the installed dh-desk-server (Deephaven + the app). Args: port, heap"
+args = [{ arg = "port", default = "10000" }, { arg = "heap", default = "2g" }]
+cmd = "uv run --python target/venv --no-project dh-desk-server --port {{ port }} --heap {{ heap }}"
+cwd = "desk-app"
+default-environment = "desk-app"
+
+[feature.desk-app.tasks.desk-app-run-web]
+description = "Run the installed dh-desk-web (React UI + proxy). Args: port, dh_url"
+args = [{ arg = "port", default = "4010" }, { arg = "dh_url", default = "http://localhost:10000" }]
+cmd = "uv run --python target/venv --no-project dh-desk-web --port {{ port }} --dh-url {{ dh_url }}"
+cwd = "desk-app"
+default-environment = "desk-app"
+
+[feature.desk-app.tasks.desk-app-web-dev]
+description = "Develop the React app with hot reload (proxies to a running dh-desk-server)"
+cmd = "npm run dev"
+cwd = "desk-app"
+default-environment = "desk-app"
+depends-on = ["_desk-app-web-deps"]
+
+[feature.desk-app.tasks.desk-app-clean]
+description = "Delete every unit's output (desk-app/target)"
+cmd = "rm -rf target"
+cwd = "desk-app"
+default-environment = "desk-app"
+
+# Checks run only in the desk-app-ci environment: the same solve-group as desk-app, so the CI
+# toolchain is version-identical to the build one, plus the lint feature (ruff).
+[feature.desk-app-ci.tasks.desk-app-lint]
+description = "Lint the Python unit (ruff) and type-check the web unit (tsc)"
+cmd = "ruff check src/main/python src/test/python && npm run typecheck"
+cwd = "desk-app"
+default-environment = "desk-app-ci"
+depends-on = ["_desk-app-web-deps"]
+inputs = ["desk-app/src/main/python/**", "desk-app/src/test/python/**", "desk-app/src/main/web/**", "desk-app/tsconfig*.json"]
+
+# ================================================================= repo-level aliases
+# Each project adds its tasks here. Environment-pinned depends-on runs every task in its own
+# project's environment, so one command orchestrates projects with different toolchains.
+[tasks.build]
+description = "Build every project"
+depends-on = [{ task = "desk-app-build", environment = "desk-app" }]
+
+[tasks.check]
+description = "Lint and type-check every project"
+depends-on = [{ task = "desk-app-lint", environment = "desk-app-ci" }]
+
+[tasks.ci]
+description = "Everything CI runs: checks, unit tests (inside the builds), smoke deploys"
+depends-on = ["check", { task = "desk-app-smoke", environment = "desk-app" }]

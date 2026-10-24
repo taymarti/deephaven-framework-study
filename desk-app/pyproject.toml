@@ -1,0 +1,48 @@
+# Python build unit of desk-app. The package lives in src/main/python (beside src/main/java and
+# src/main/web); the wheel bundles the other units' outputs from target/ (see force-include).
+# Built by `pixi run desk-app-wheel` (uv build -> hatchling), after the java and web units.
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dh-desk"
+version = "0.1.0"
+description = "An options risk desk on Deephaven: Python app, Java pricing, React trader UI, in one wheel"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+dependencies = [
+    # The engine and the server, embedded in this Python process (needs a Java 17+ JDK in JAVA_HOME)
+    "deephaven-server==42.6.*",
+    # Server-side UI for the internal ops dashboard
+    "deephaven-plugin-ui==0.42.2",
+    # The web entry point: static file server + reverse proxy to Deephaven
+    "aiohttp>=3.10",
+]
+
+[project.optional-dependencies]
+test = ["pydeephaven==42.6.*", "bitstring<5"]
+
+[project.scripts]
+dh-desk-server = "dh_desk.server:main"   # the Deephaven app (Python + bundled Java jar)
+dh-desk-web = "dh_desk.web:main"         # the React trader UI (bundled static build) + proxy
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/main/python/dh_desk"]
+
+# The Java and web units' outputs, placed inside the package as data (no copy step).
+[tool.hatch.build.targets.wheel.force-include]
+"target/dh-desk.jar" = "dh_desk/_bundle/java/dh-desk.jar"
+"target/web" = "dh_desk/_bundle/web"
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "pom.xml", "package.json", "package-lock.json", "tsconfig.json", "tsconfig.app.json", "tsconfig.node.json", "vite.config.ts", "README.md"]
+
+# Run by `pixi run desk-app-lint` (ruff comes from the workspace's lint feature).
+[tool.ruff]
+line-length = 140
+src = ["src/main/python", "src/test/python"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "RUF"]

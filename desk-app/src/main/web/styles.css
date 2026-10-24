@@ -1,0 +1,33 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f6f7f9; --panel: #ffffff; --text: #1b2430; --muted: #5f6f82; --line: #dde3ea;
+  --accent: #2f6fdb; --bad: #d64545; --bad-bg: #fde8e8;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #11161c; --panel: #1a2129; --text: #e6ebf0; --muted: #93a1b2; --line: #2b3540; --bad-bg: #3a1c1c; }
+}
+body { margin: 0; background: var(--bg); color: var(--text); }
+main { max-width: 1400px; margin: 0 auto; padding: 16px; }
+header h1 { margin: 0; font-size: 22px; }
+header p { margin: 4px 0 16px; color: var(--muted); }
+.layout { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; overflow-x: auto; }
+.panel h2 { margin: 0 0 8px; font-size: 15px; }
+.grid { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.grid th, .grid td { padding: 4px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.grid th { color: var(--muted); font-weight: 600; }
+.right { text-align: right; } .left { text-align: left; }
+.grid tr.breach td { background: var(--bad-bg); }
+.empty { color: var(--muted); text-align: center; }
+.bar { position: relative; display: inline-block; width: 140px; height: 16px; background: var(--line); border-radius: 3px; }
+.fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); border-radius: 3px; }
+.fill.over { background: var(--bad); }
+.barlabel { position: relative; font-size: 12px; padding: 0 4px; }
+.form { display: grid; gap: 8px; }
+.form label { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: 8px; }
+.form input, .form select, .form button { font: inherit; padding: 4px 6px; }
+.form button { justify-self: start; padding: 6px 14px; background: var(--accent); color: white; border: 0; border-radius: 4px; cursor: pointer; }
+.form button:disabled { opacity: .6; }
+.form output { color: var(--muted); min-height: 1.2em; }

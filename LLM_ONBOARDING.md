@@ -117,6 +117,24 @@ The project's question: **what is Deephaven, really, as an application framework
 
     The pip server refuses Groovy app scripts (X21) and ships no Java launcher (X22). On Enterprise, jars go on Extra Classpaths, a WorkerKind directory or `custom_lib` (X26, Docs).
 
+14. **A complete app in three languages, shipped as one wheel** (`desk-app/`; read `desk-app/README.md`). An options risk desk:
+    - **Python** owns the app: feed, graph, alert action, deephaven.ui ops dashboard, both entry points, packaging
+    - **Java** owns the CPU-hot nodes: Black-Scholes per row (`Pricing`) and a stateful breach tracker (`LimitBreachTracker`)
+    - **React 19 + TypeScript** is the trader UI: live grids over the JS API, and forms that write to input tables
+
+    One Maven-style tree holds three build units (Maven, npm + Vite, hatchling via uv). The wheel bundles the jar and the web build through `force-include`. Deploying is `pip install` into a fresh venv plus two console scripts, `dh-desk-server` and `dh-desk-web` (static files plus a reverse proxy for `/jsapi`, gRPC-web and websockets).
+
+15. **Pixi as the monorepo orchestrator** (`pixi.toml` at the root; read `MONOREPO_TOOLING.md`). Every toolchain is pinned from conda-forge, and per-project environments are built from features. Other features in use:
+    - a `[workspace.dependencies]` pool
+    - solve-groups
+    - task inputs and outputs (cached)
+    - environment-pinned `depends-on` for the repo-level `build`, `check` and `ci`
+    - typed task args
+
+    `pixi run ci` passes: ruff, tsc, JUnit, the build, then a smoke test that installs the wheel into a fresh venv and checks it end to end (9/9).
+
+    `MONOREPO_TOOLING.md` also compares Pixi with Pants, confirming that Pants' edge is code-level targets, dependency inference, target selection and resolves. Pixi has resolves natively, as environments and solve-groups. The acchapm1 tutorials' `members = [...]` monorepo layout is rejected by Pixi 0.81.
+
 ## How to work on dhapp and dhfw
 
 - **Stages stay pure and table-native.** No per-row Python; recipes take tables and return tables.
@@ -176,6 +194,7 @@ The project's question: **what is Deephaven, really, as an application framework
   - integer type hints on Python functions used in formulas are rejected
   - `query_library.import_static` cannot see jars added with `extra_classpath`
   - parquet needs `file:///` URIs
+- **Pixi** (0.81, `~/AppData/Local/pixi/bin/pixi.exe`) provides its own JDK 17, Maven, Node 22, Python 3.12, uv and ruff for `desk-app`. No system JDK is needed there.
 - **Docker** files exist (`docker-compose.yml`, `server/Dockerfile`), but Docker was unusable on this machine.
 
 ## 6. Index of documents
@@ -218,6 +237,8 @@ The same three living docs also exist as Claude Docs; the PDFs are snapshots. Th
 | `tests/test_dhfw_community.py` (+ `.json`) | 12/12 Community checks of `dhfw` (the test server uses PSK auth) |
 | `tests/probe_remote_ticking.py` (+ `.json`) | Ticking remote tables in a local server: Barrage, pydeephaven-shaped shared tickets, lifetimes (needs a server with ticking tables on :10000) |
 | `hybrid/` | One project in Python and Java, Maven layout: `GUIDE.md` (how to combine them, both directions), `pom.xml`, `src/main/java` (Fast, SignalFlipTracker, HybridApp), `src/main/python`, `src/main/resources/app.d/*`, `src/test/java` (JUnit), `src/test/python` (bench, check_entry), `results/bench.json`, `build.py`, `run.py` |
+| `desk-app/` | Python + Java + React app in one wheel: `pom.xml`, `package.json`, `tsconfig*.json`, `vite.config.ts`, `pyproject.toml`, `src/main/{java,python,web}`, `src/test/{java,python}` (JUnit; `smoke.py` + `smoke_check.py`), `README.md` |
+| `pixi.toml`, `pixi.lock`, `MONOREPO_TOOLING.md` | The monorepo's toolchains and tasks (`pixi task list`), and the Pixi features used plus the Pixi vs Pants comparison |
 | `dhapp/` | The application layer: `app` (roles, modes, health), `catalog`, `recipes`, `schemas`, `store`, `ui` |
 | `examples/mm_app.py`, `07_app_framework.py` (+ `.json`) | The engine on `dhapp`, run live, backtest and test: 8/8 |
 | `examples/mm_app.d/` | Application-mode demo: the app live with a synthetic feed and `mm_dashboard` |

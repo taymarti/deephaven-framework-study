@@ -20,6 +20,8 @@ Start here:
 | How to build on `dhapp` / `dhfw` | `deliverables/2026-10-21/dhapp and dhfw Framework Reference.pdf` |
 | A working app with a live dashboard | `server/run_server.py --app-dir examples/mm_app.d`, then http://localhost:10000/iframe/widget/?name=mm_dashboard |
 | Python and Java in one project; Java for slow nodes | [`hybrid/GUIDE.md`](hybrid/GUIDE.md): `hybrid/run.py --entry python\|java`, `hybrid/src/test/python/bench.py` |
+| A complete app in Python + Java + React, shipped as one wheel | [`desk-app/README.md`](desk-app/README.md): `pixi run build`, `pixi run ci`, `pixi run desk-app-install` |
+| The monorepo toolchain (Pixi), and Pixi vs Pants | [`pixi.toml`](pixi.toml), [`MONOREPO_TOOLING.md`](MONOREPO_TOOLING.md) |
 | The tests | `examples/07_app_framework.py` (8/8), `tests/test_dhfw_community.py` (12/12) |
 
 ## Building an app with dhapp
