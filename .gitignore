@@ -29,6 +29,10 @@ hybrid/target/
 # pixi environments (the lockfile, pixi.lock, is committed)
 .pixi/
 # desk-app build outputs and npm packages
-desk-app/target/
-desk-app/node_modules/
+desk-app/dist/
+desk-app/.venv/
+desk-app/.venv-smoke/
+desk-app/java/target/
+desk-app/web/dist/
+desk-app/web/node_modules/
 *.tsbuildinfo

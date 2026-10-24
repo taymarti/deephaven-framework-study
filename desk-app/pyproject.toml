@@ -1,5 +1,6 @@
-# Python build unit of desk-app. The package lives in src/main/python (beside src/main/java and
-# src/main/web); the wheel bundles the other units' outputs from target/ (see force-include).
+# Python build unit of desk-app, and the project's host: a standard src layout (src/dh_desk, tests/).
+# The Java unit (java/, Maven) and the web unit (web/, npm + Vite) keep their own idiomatic layouts;
+# the wheel bundles their outputs, java/target/dh-desk.jar and web/dist (see force-include).
 # Built by `pixi run desk-app-wheel` (uv build -> hatchling), after the java and web units.
 [build-system]
 requires = ["hatchling>=1.25"]
@@ -29,20 +30,20 @@ dh-desk-server = "dh_desk.server:main"   # the Deephaven app (Python + bundled J
 dh-desk-web = "dh_desk.web:main"         # the React trader UI (bundled static build) + proxy
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/main/python/dh_desk"]
+packages = ["src/dh_desk"]
 
 # The Java and web units' outputs, placed inside the package as data (no copy step).
 [tool.hatch.build.targets.wheel.force-include]
-"target/dh-desk.jar" = "dh_desk/_bundle/java/dh-desk.jar"
-"target/web" = "dh_desk/_bundle/web"
+"java/target/dh-desk.jar" = "dh_desk/_bundle/java/dh-desk.jar"
+"web/dist" = "dh_desk/_bundle/web"
 
 [tool.hatch.build.targets.sdist]
-include = ["src", "pom.xml", "package.json", "package-lock.json", "tsconfig.json", "tsconfig.app.json", "tsconfig.node.json", "vite.config.ts", "README.md"]
+include = ["src", "tests", "README.md", "java/pom.xml", "java/src", "web/package.json", "web/package-lock.json", "web/index.html", "web/src", "web/tsconfig*.json", "web/vite.config.ts"]
 
 # Run by `pixi run desk-app-lint` (ruff comes from the workspace's lint feature).
 [tool.ruff]
 line-length = 140
-src = ["src/main/python", "src/test/python"]
+src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "RUF"]

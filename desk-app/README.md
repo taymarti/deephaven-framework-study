@@ -22,9 +22,9 @@ An options risk desk, built from three languages, each where it is strongest. It
 
 | Language | Role in this app | Why it is the right tool here |
 |---|---|---|
-| **Python** (`src/main/python/dh_desk`) | Owns the application: the market-data feed, the table graph, the alert action, the internal ops dashboard (deephaven.ui), both entry points, the packaging | Deephaven's application language: the graph is a short declarative script, feeds and SDKs are Python libraries, deephaven.ui builds an operator view in minutes with no front-end build, and pip is the deployment vehicle |
-| **Java** (`src/main/java`) | The CPU-hot nodes: Black-Scholes price and Greeks per row (`Pricing`), and a stateful breach tracker on the update cycle (`LimitBreachTracker`) | Runs as native engine code with no GIL. Per-row functions were 4.7–6.5x faster and stateful listeners 13–20x cheaper than Python in `hybrid/`'s benchmark |
-| **React + TypeScript** (`src/main/web`) | The trader-facing web app: live risk and book grids, a limit editor, an order ticket | Your own UX, branding and routing; forms that write back into Deephaven; deployable as static files. It talks to Deephaven only through the JS API |
+| **Python** (`src/dh_desk`) | Owns the application: the market-data feed, the table graph, the alert action, the internal ops dashboard (deephaven.ui), both entry points, the packaging | Deephaven's application language: the graph is a short declarative script, feeds and SDKs are Python libraries, deephaven.ui builds an operator view in minutes with no front-end build, and pip is the deployment vehicle |
+| **Java** (`java/`) | The CPU-hot nodes: Black-Scholes price and Greeks per row (`Pricing`), and a stateful breach tracker on the update cycle (`LimitBreachTracker`) | Runs as native engine code with no GIL. Per-row functions were 4.7–6.5x faster and stateful listeners 13–20x cheaper than Python in `hybrid/`'s benchmark |
+| **React + TypeScript** (`web/`) | The trader-facing web app: live risk and book grids, a limit editor, an order ticket | Your own UX, branding and routing; forms that write back into Deephaven; deployable as static files. It talks to Deephaven only through the JS API |
 
 Some things are deliberately *not* in a given language:
 
@@ -58,27 +58,40 @@ Try it:
 
 ## Project layout: one project, three build units
 
-Each build unit keeps its own ecosystem's idiomatic manifest at the project root. Sources share one Maven-style tree instead of being split into top-level per-language folders, because nothing here needs that extra separation.
+Each build unit uses **its own ecosystem's standard layout**. Nothing is bent to match another
+language:
+- **Python** is the host, because it owns the deliverable (the wheel). It uses the standard src
+  layout at the project root: `pyproject.toml`, `src/dh_desk/`, `tests/`, and builds into `dist/`.
+- **Java** is a Maven module in `java/`: `pom.xml` at the module root, above `src/main/java` and
+  `src/test/java`, and it builds into `target/`. In Maven's convention, `java` is the leaf under
+  `src/main/`, not a top-level folder. The `java/` directory here is the module, as in any multi-module
+  or multi-language repo.
+- **Web** is a standard Vite app in `web/`: `package.json`, `vite.config.ts`, `tsconfig*.json`,
+  `index.html` and `src/`, and it builds into `dist/`.
 
 ```text
 desk-app/
-  pom.xml                          Java unit   (Maven: src/main/java, src/test/java -> target/dh-desk.jar)
-  package.json, package-lock.json  web unit    (npm + Vite: src/main/web -> target/web)
-  tsconfig.json (+ .app, .node)    TypeScript project references: browser code vs build config
-  vite.config.ts
-  pyproject.toml                   Python unit (hatchling: src/main/python -> target/dist/*.whl)
-  src/main/java/com/acme/desk/     Pricing.java, LimitBreachTracker.java
-  src/main/python/dh_desk/         server.py, web.py (entry points), app.py, feeds.py, ops_ui.py, resources.py
-  src/main/web/                    index.html, main.tsx, App.tsx, deephaven.ts, hooks.ts, components/
-  src/test/java/                   JUnit 5 (run by `mvn package`)
-  src/test/python/                 smoke.py (deploy + run), smoke_check.py (end-to-end assertions)
-  target/                          every unit's output (git-ignored)
+  pyproject.toml        Python unit (hatchling): the wheel, bundling the other units' outputs
+  src/dh_desk/          server.py, web.py (entry points), app.py, feeds.py, ops_ui.py, resources.py
+  tests/                smoke.py (deploy + run), smoke_check.py (end-to-end assertions)
+  dist/                 the wheel (git-ignored)
+  java/                 Java unit (Maven module)
+    pom.xml
+    src/main/java/com/acme/desk/   Pricing.java, LimitBreachTracker.java
+    src/test/java/com/acme/desk/   PricingTest.java (JUnit 5, run by `mvn package`)
+    target/dh-desk.jar             (git-ignored)
+  web/                  web unit (npm + Vite, React 19 + TypeScript)
+    package.json, package-lock.json, vite.config.ts
+    tsconfig.json (+ .app, .node)  project references: browser code vs build config
+    index.html
+    src/                main.tsx, App.tsx, deephaven.ts, hooks.ts, format.ts, components/
+    dist/               (git-ignored)
 ```
 
-The wheel takes the other units' outputs straight from `target/`, through hatchling's
-`force-include`, and places them inside the package as `dh_desk/_bundle/{java,web}`. There is no
-copy step. At runtime, `dh_desk.resources` finds them in the installed package, or in `target/`
-when running from source.
+The wheel takes the other units' outputs straight from `java/target/dh-desk.jar` and `web/dist`,
+through hatchling's `force-include`, and places them inside the package as
+`dh_desk/_bundle/{java,web}`. There is no copy step. At runtime, `dh_desk.resources` finds them in
+the installed package, or in the units' build folders when running from source.
 
 ## Build: Pixi orchestrates, each unit uses its own toolchain
 
@@ -99,12 +112,12 @@ The `desk-app-ci` environment shares a solve-group with `desk-app`, so it has th
 plus ruff. See [`../MONOREPO_TOOLING.md`](../MONOREPO_TOOLING.md) for every Pixi feature used.
 
 ```bash
-pixi run desk-app-build      # all units, then the wheel in desk-app/target/dist/
+pixi run desk-app-build      # all units, then the wheel in desk-app/dist/
 pixi run ci                  # lint + type-check, build (with JUnit), smoke deploy: what CI runs
 pixi run desk-app-smoke      # fresh venv, install the wheel, run both entry points, end-to-end checks
 pixi run desk-app-java       # one unit at a time
 pixi run desk-app-web-dev    # hot-reloading React against a running server
-pixi run desk-app-clean      # delete target/
+pixi run desk-app-clean      # delete dist/, java/target/, web/dist/
 ```
 
 ## Deploy: install the wheel, run two entry points
@@ -126,7 +139,7 @@ Then open:
 - **the ops dashboard** at http://localhost:10000/iframe/widget/?name=desk_ops
 - **the Deephaven IDE** at http://localhost:10000/ide/
 
-`pixi run desk-app-install` does the same into `desk-app/target/venv`. Then two tasks start the entry points; both take typed args:
+`pixi run desk-app-install` does the same into `desk-app/.venv`. Then two tasks start the entry points; both take typed args:
 - `pixi run desk-app-run-server [port] [heap]`, defaults `10000`, `2g`
 - `pixi run desk-app-run-web [port] [dh_url]`, defaults `4010`, `http://localhost:10000`
 

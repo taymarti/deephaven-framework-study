@@ -122,7 +122,7 @@ The project's question: **what is Deephaven, really, as an application framework
     - **Java** owns the CPU-hot nodes: Black-Scholes per row (`Pricing`) and a stateful breach tracker (`LimitBreachTracker`)
     - **React 19 + TypeScript** is the trader UI: live grids over the JS API, and forms that write to input tables
 
-    One Maven-style tree holds three build units (Maven, npm + Vite, hatchling via uv). The wheel bundles the jar and the web build through `force-include`. Deploying is `pip install` into a fresh venv plus two console scripts, `dh-desk-server` and `dh-desk-web` (static files plus a reverse proxy for `/jsapi`, gRPC-web and websockets).
+    There are three build units, each in its ecosystem's standard layout: Python (hatchling via uv) is the host at the project root, with `java/` as a Maven module and `web/` as a Vite app. The wheel bundles the jar and the web build through `force-include`. Deploying is `pip install` into a fresh venv plus two console scripts, `dh-desk-server` and `dh-desk-web` (static files plus a reverse proxy for `/jsapi`, gRPC-web and websockets).
 
 15. **Pixi as the monorepo orchestrator** (`pixi.toml` at the root; read `MONOREPO_TOOLING.md`). Every toolchain is pinned from conda-forge, and per-project environments are built from features. Other features in use:
     - a `[workspace.dependencies]` pool
@@ -237,7 +237,7 @@ The same three living docs also exist as Claude Docs; the PDFs are snapshots. Th
 | `tests/test_dhfw_community.py` (+ `.json`) | 12/12 Community checks of `dhfw` (the test server uses PSK auth) |
 | `tests/probe_remote_ticking.py` (+ `.json`) | Ticking remote tables in a local server: Barrage, pydeephaven-shaped shared tickets, lifetimes (needs a server with ticking tables on :10000) |
 | `hybrid/` | One project in Python and Java, Maven layout: `GUIDE.md` (how to combine them, both directions), `pom.xml`, `src/main/java` (Fast, SignalFlipTracker, HybridApp), `src/main/python`, `src/main/resources/app.d/*`, `src/test/java` (JUnit), `src/test/python` (bench, check_entry), `results/bench.json`, `build.py`, `run.py` |
-| `desk-app/` | Python + Java + React app in one wheel: `pom.xml`, `package.json`, `tsconfig*.json`, `vite.config.ts`, `pyproject.toml`, `src/main/{java,python,web}`, `src/test/{java,python}` (JUnit; `smoke.py` + `smoke_check.py`), `README.md` |
+| `desk-app/` | Python + Java + React app in one wheel, each unit in its own standard layout: Python at the root (`pyproject.toml`, `src/dh_desk`, `tests/` with `smoke.py` + `smoke_check.py`), `java/` (a Maven module: `pom.xml`, `src/main/java`, `src/test/java`), `web/` (Vite: `package.json`, `vite.config.ts`, `index.html`, `src/`), `README.md` |
 | `pixi.toml`, `pixi.lock`, `MONOREPO_TOOLING.md` | The monorepo's toolchains and tasks (`pixi task list`), and the Pixi features used plus the Pixi vs Pants comparison |
 | `dhapp/` | The application layer: `app` (roles, modes, health), `catalog`, `recipes`, `schemas`, `store`, `ui` |
 | `examples/mm_app.py`, `07_app_framework.py` (+ `.json`) | The engine on `dhapp`, run live, backtest and test: 8/8 |

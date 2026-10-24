@@ -6,7 +6,7 @@ End-to-end check of an installed dh-desk (run by smoke.py, from the fresh venv):
           restoring it -> CLEAR
   web     dh-desk-web serves the React build and proxies Deephaven's JS API
 
-    python src/test/python/smoke_check.py --server-port 10020 --web-port 4020
+    python tests/smoke_check.py --server-port 10020 --web-port 4020
 """
 import argparse
 import sys

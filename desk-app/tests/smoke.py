@@ -2,11 +2,11 @@
 Deploy the built wheel exactly as a user would, then test it end to end:
 
   1. a fresh virtual environment (uv venv)
-  2. pip-install target/dist/dh_desk-*.whl into it (its dependencies come from PyPI)
+  2. pip-install dist/dh_desk-*.whl into it (its dependencies come from PyPI)
   3. run the two entry points: dh-desk-server, then dh-desk-web
   4. run smoke_check.py against them (tables, Java pricing, breach -> alert flow, web + proxy)
 
-    pixi run desk-app-smoke        (or: python src/test/python/smoke.py, with uv and a JDK available)
+    pixi run desk-app-smoke        (or: python tests/smoke.py, with uv and a JDK available)
 """
 import os
 import shutil
@@ -16,8 +16,8 @@ import threading
 import time
 from pathlib import Path
 
-PROJECT = Path(__file__).resolve().parents[3]  # desk-app/
-VENV = PROJECT / "target" / "smoke-venv"
+PROJECT = Path(__file__).resolve().parents[1]  # desk-app/
+VENV = PROJECT / ".venv-smoke"
 WIN = os.name == "nt"
 SERVER_PORT, WEB_PORT = 10020, 4020
 
@@ -45,7 +45,7 @@ def wait_for(proc: subprocess.Popen, marker: str, timeout: float) -> None:
 def main() -> None:
     if not os.environ.get("JAVA_HOME"):
         sys.exit("JAVA_HOME must point to a JDK 17+ (pixi's environment sets it)")
-    wheel = next((PROJECT / "target" / "dist").glob("dh_desk-*.whl"))
+    wheel = next((PROJECT / "dist").glob("dh_desk-*.whl"))
     shutil.rmtree(VENV, ignore_errors=True)
     run(["uv", "venv", "--python", f"{sys.version_info.major}.{sys.version_info.minor}", VENV])
     py = VENV / ("Scripts" if WIN else "bin") / ("python.exe" if WIN else "python")
@@ -62,7 +62,7 @@ def main() -> None:
                                stderr=subprocess.STDOUT, text=True)
         procs.append(web)
         wait_for(web, "dh-desk web", 60)
-        run([py, PROJECT / "src" / "test" / "python" / "smoke_check.py",
+        run([py, PROJECT / "tests" / "smoke_check.py",
              "--server-port", SERVER_PORT, "--web-port", WEB_PORT])
         print("SMOKE OK", flush=True)
     finally:
