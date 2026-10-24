@@ -1,1 +1,0 @@
-{"root":["./src/main/web/app.tsx","./src/main/web/deephaven.ts","./src/main/web/format.ts","./src/main/web/hooks.ts","./src/main/web/main.tsx","./src/main/web/components/forms.tsx","./src/main/web/components/livegrid.tsx","./vite.config.ts"],"errors":true,"version":"5.7.3"}

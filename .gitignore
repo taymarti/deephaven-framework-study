@@ -31,3 +31,4 @@ hybrid/target/
 # desk-app build outputs and npm packages
 desk-app/target/
 desk-app/node_modules/
+*.tsbuildinfo
