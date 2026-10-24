@@ -1,5 +1,5 @@
 """Where the bundled, non-Python artifacts live: inside the installed wheel, or (when running from
-the source tree, e.g. an editable install) in the units' own build folders (java/target, web/dist)."""
+the source tree, e.g. an editable install) in the units' own build folders (target/, web/dist)."""
 from importlib.resources import files
 from pathlib import Path
 
@@ -9,7 +9,7 @@ _PROJECT = Path(__file__).resolve().parents[2]  # desk-app/, from src/dh_desk/re
 
 def java_jar() -> Path:
     """The Java unit's jar (Pricing, LimitBreachTracker)."""
-    return _first(_BUNDLE / "java" / "dh-desk.jar", _PROJECT / "java" / "target" / "dh-desk.jar")
+    return _first(_BUNDLE / "java" / "dh-desk.jar", _PROJECT / "target" / "dh-desk.jar")
 
 
 def web_root() -> Path:

@@ -81,12 +81,12 @@ desk-app-ci = { features = ["jvm", "node", "py", "lint", "desk-app", "desk-app-c
 # An options risk desk: Java + React/TypeScript + Python, shipped as one wheel. See desk-app/README.md.
 
 [feature.desk-app.tasks.desk-app-java]
-description = "Java unit: compile, JUnit tests, jar (java/target/dh-desk.jar)"
+description = "Java unit: compile, JUnit tests, jar (target/dh-desk.jar)"
 cmd = "mvn -B -q package"
-cwd = "desk-app/java"
+cwd = "desk-app"
 default-environment = "desk-app"
-inputs = ["desk-app/java/pom.xml", "desk-app/java/src/**"]
-outputs = ["desk-app/java/target/dh-desk.jar"]
+inputs = ["desk-app/pom.xml", "desk-app/src/main/java/**", "desk-app/src/test/java/**"]
+outputs = ["desk-app/target/dh-desk.jar"]
 
 # Hidden from `pixi task list` (leading "_"): an internal step, not something people run directly.
 [feature.desk-app.tasks._desk-app-web-deps]
@@ -111,8 +111,8 @@ cmd = "uv build --wheel"
 cwd = "desk-app"
 default-environment = "desk-app"
 depends-on = ["desk-app-java", "desk-app-web"]
-inputs = ["desk-app/pyproject.toml", "desk-app/README.md", "desk-app/src/**",
-          "desk-app/java/target/dh-desk.jar", "desk-app/web/dist/**"]
+inputs = ["desk-app/pyproject.toml", "desk-app/README.md", "desk-app/src/dh_desk/**",
+          "desk-app/target/dh-desk.jar", "desk-app/web/dist/**"]
 outputs = ["desk-app/dist/*.whl"]
 
 # A pure alias (no cmd) cannot take default-environment, and this feature is in two environments,
@@ -163,8 +163,8 @@ default-environment = "desk-app"
 depends-on = ["_desk-app-web-deps"]
 
 [feature.desk-app.tasks.desk-app-clean]
-description = "Delete every unit's output (dist, java/target, web/dist)"
-cmd = "rm -rf dist java/target web/dist"
+description = "Delete every unit's output (dist, target, web/dist)"
+cmd = "rm -rf dist target web/dist"
 cwd = "desk-app"
 default-environment = "desk-app"
 
@@ -172,11 +172,11 @@ default-environment = "desk-app"
 # toolchain is version-identical to the build one, plus the lint feature (ruff).
 [feature.desk-app-ci.tasks.desk-app-lint]
 description = "Lint the Python unit (ruff) and type-check the web unit (tsc)"
-cmd = "ruff check src tests && npm --prefix web run typecheck"
+cmd = "ruff check src/dh_desk tests && npm --prefix web run typecheck"
 cwd = "desk-app"
 default-environment = "desk-app-ci"
 depends-on = ["_desk-app-web-deps"]
-inputs = ["desk-app/src/**", "desk-app/tests/**", "desk-app/web/src/**", "desk-app/web/tsconfig*.json"]
+inputs = ["desk-app/src/dh_desk/**", "desk-app/tests/**", "desk-app/web/src/**", "desk-app/web/tsconfig*.json"]
 
 # ================================================================= repo-level aliases
 # Each project adds its tasks here. Environment-pinned depends-on runs every task in its own

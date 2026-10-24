@@ -23,7 +23,7 @@ An options risk desk, built from three languages, each where it is strongest. It
 | Language | Role in this app | Why it is the right tool here |
 |---|---|---|
 | **Python** (`src/dh_desk`) | Owns the application: the market-data feed, the table graph, the alert action, the internal ops dashboard (deephaven.ui), both entry points, the packaging | Deephaven's application language: the graph is a short declarative script, feeds and SDKs are Python libraries, deephaven.ui builds an operator view in minutes with no front-end build, and pip is the deployment vehicle |
-| **Java** (`java/`) | The CPU-hot nodes: Black-Scholes price and Greeks per row (`Pricing`), and a stateful breach tracker on the update cycle (`LimitBreachTracker`) | Runs as native engine code with no GIL. Per-row functions were 4.7–6.5x faster and stateful listeners 13–20x cheaper than Python in `hybrid/`'s benchmark |
+| **Java** (`pom.xml`, `src/main/java`) | The CPU-hot nodes: Black-Scholes price and Greeks per row (`Pricing`), and a stateful breach tracker on the update cycle (`LimitBreachTracker`) | Runs as native engine code with no GIL. Per-row functions were 4.7–6.5x faster and stateful listeners 13–20x cheaper than Python in `hybrid/`'s benchmark |
 | **React + TypeScript** (`web/`) | The trader-facing web app: live risk and book grids, a limit editor, an order ticket | Your own UX, branding and routing; forms that write back into Deephaven; deployable as static files. It talks to Deephaven only through the JS API |
 
 Some things are deliberately *not* in a given language:
@@ -58,40 +58,40 @@ Try it:
 
 ## Project layout: one project, three build units
 
-Each build unit uses **its own ecosystem's standard layout**. Nothing is bent to match another
-language:
+Python and Java share the project root and one `src/` tree. Each keeps its own tool's convention,
+and the two don't collide:
 - **Python** is the host, because it owns the deliverable (the wheel). It uses the standard src
-  layout at the project root: `pyproject.toml`, `src/dh_desk/`, `tests/`, and builds into `dist/`.
-- **Java** is a Maven module in `java/`: `pom.xml` at the module root, above `src/main/java` and
-  `src/test/java`, and it builds into `target/`. In Maven's convention, `java` is the leaf under
-  `src/main/`, not a top-level folder. The `java/` directory here is the module, as in any multi-module
-  or multi-language repo.
-- **Web** is a standard Vite app in `web/`: `package.json`, `vite.config.ts`, `tsconfig*.json`,
-  `index.html` and `src/`, and it builds into `dist/`.
+  layout: `pyproject.toml`, `src/dh_desk/`, `tests/`, and builds into `dist/`.
+- **Java** follows Maven's standard directory layout relative to `pom.xml`: `src/main/java`,
+  `src/test/java`, and it builds into `target/`. Maven reads only `src/main/java` and
+  `src/test/java`, and hatchling packages only `src/dh_desk`.
+- **Web** is a self-contained Vite project in `web/`: `package.json`, `vite.config.ts`,
+  `tsconfig*.json`, `index.html` and `src/`, and it builds into `dist/`. Its configs belong with its
+  own `node_modules`, and keeping them in `web/` keeps the project root uncluttered.
 
 ```text
 desk-app/
-  pyproject.toml        Python unit (hatchling): the wheel, bundling the other units' outputs
-  src/dh_desk/          server.py, web.py (entry points), app.py, feeds.py, ops_ui.py, resources.py
-  tests/                smoke.py (deploy + run), smoke_check.py (end-to-end assertions)
-  dist/                 the wheel (git-ignored)
-  java/                 Java unit (Maven module)
-    pom.xml
-    src/main/java/com/acme/desk/   Pricing.java, LimitBreachTracker.java
-    src/test/java/com/acme/desk/   PricingTest.java (JUnit 5, run by `mvn package`)
-    target/dh-desk.jar             (git-ignored)
-  web/                  web unit (npm + Vite, React 19 + TypeScript)
+  pyproject.toml                   Python unit (hatchling): the wheel, bundling the other units' outputs
+  pom.xml                          Java unit (Maven)
+  src/
+    dh_desk/                       server.py, web.py (entry points), app.py, feeds.py, ops_ui.py, resources.py
+    main/java/com/acme/desk/       Pricing.java, LimitBreachTracker.java
+    test/java/com/acme/desk/       PricingTest.java (JUnit 5, run by `mvn package`)
+  tests/                           smoke.py (deploy + run), smoke_check.py (end-to-end assertions)
+  dist/                            the wheel (git-ignored)
+  target/                          dh-desk.jar (git-ignored)
+  web/                             web unit (npm + Vite, React 19 + TypeScript)
     package.json, package-lock.json, vite.config.ts
     tsconfig.json (+ .app, .node)  project references: browser code vs build config
     index.html
-    src/                main.tsx, App.tsx, deephaven.ts, hooks.ts, format.ts, components/
-    dist/               (git-ignored)
+    src/                           main.tsx, App.tsx, deephaven.ts, hooks.ts, format.ts, components/
+    dist/                          (git-ignored)
 ```
 
-The wheel takes the other units' outputs straight from `java/target/dh-desk.jar` and `web/dist`,
-through hatchling's `force-include`, and places them inside the package as
-`dh_desk/_bundle/{java,web}`. There is no copy step. At runtime, `dh_desk.resources` finds them in
-the installed package, or in the units' build folders when running from source.
+The wheel takes the other units' outputs straight from `target/dh-desk.jar` and `web/dist`, through
+hatchling's `force-include`, and places them inside the package as `dh_desk/_bundle/{java,web}`.
+There is no copy step. At runtime, `dh_desk.resources` finds them in the installed package, or in
+the units' build folders when running from source.
 
 ## Build: Pixi orchestrates, each unit uses its own toolchain
 
@@ -117,7 +117,7 @@ pixi run ci                  # lint + type-check, build (with JUnit), smoke depl
 pixi run desk-app-smoke      # fresh venv, install the wheel, run both entry points, end-to-end checks
 pixi run desk-app-java       # one unit at a time
 pixi run desk-app-web-dev    # hot-reloading React against a running server
-pixi run desk-app-clean      # delete dist/, java/target/, web/dist/
+pixi run desk-app-clean      # delete dist/, target/, web/dist/
 ```
 
 ## Deploy: install the wheel, run two entry points
