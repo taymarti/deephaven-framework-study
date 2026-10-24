@@ -19,6 +19,7 @@ Start here:
 | How the engine works and how to program it | `deliverables/2026-10-21/Building a Deephaven Application A Programmer's Guide.pdf` |
 | How to build on `dhapp` / `dhfw` | `deliverables/2026-10-21/dhapp and dhfw Framework Reference.pdf` |
 | A working app with a live dashboard | `server/run_server.py --app-dir examples/mm_app.d`, then http://localhost:10000/iframe/widget/?name=mm_dashboard |
+| Python and Java in one project; Java for slow nodes | [`hybrid/GUIDE.md`](hybrid/GUIDE.md): `hybrid/run.py --entry python\|java`, `hybrid/src/test/python/bench.py` |
 | The tests | `examples/07_app_framework.py` (8/8), `tests/test_dhfw_community.py` (12/12) |
 
 ## Building an app with dhapp

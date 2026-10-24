@@ -1,0 +1,41 @@
+{
+  "1_row_function": {
+    "rows": 2000000,
+    "python_udf_s": 2.006,
+    "java_static_s": 0.308,
+    "inline_formula_s": 0.329,
+    "same_values": true,
+    "java_speedup_vs_python": 6.5,
+    "java_null_in_null_out": true
+  },
+  "2_stateful_listener": {
+    "none": {
+      "steps": 100,
+      "rows_per_step": 20000,
+      "symbols": 20000,
+      "seconds": 0.332,
+      "ms_per_step": 3.32,
+      "flips": 0
+    },
+    "java": {
+      "steps": 100,
+      "rows_per_step": 20000,
+      "symbols": 20000,
+      "seconds": 0.546,
+      "ms_per_step": 5.46,
+      "flips": 621778
+    },
+    "python": {
+      "steps": 100,
+      "rows_per_step": 20000,
+      "symbols": 20000,
+      "seconds": 3.457,
+      "ms_per_step": 34.57,
+      "flips": 621778
+    },
+    "python_listener_cost_s": 3.125,
+    "java_listener_cost_s": 0.214,
+    "same_flips": true,
+    "java_speedup_vs_python": 14.6
+  }
+}

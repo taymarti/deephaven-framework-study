@@ -106,6 +106,17 @@ The project's question: **what is Deephaven, really, as an application framework
 
     `pydeephaven-ticking` is the alternative for plain Python processes with no engine. It delivers callbacks, not tables, and has Linux-only wheels.
 
+13. **Python and Java in one project** (`hybrid/`, Maven layout; read `hybrid/GUIDE.md`). `build.py` compiles `src/main/java` against the server's own jars into `target/`; `pom.xml` does the same with Maven. `run.py` builds and then starts with the jar on the classpath, using either entry point:
+    - Python: the graph in Python, calling Java nodes
+    - Java: `HybridApp.start()` builds the graph; a loader publishes it into the scope and adds a Python action
+
+    Measured:
+    - a per-row function was 4.7–6.5x faster in Java (X24)
+    - a stateful listener was 13–20x cheaper in Java (X25)
+    - Java formula functions must handle Deephaven's null sentinels (X27); listeners attached in app scripts need `do_replay=True` (X28)
+
+    The pip server refuses Groovy app scripts (X21) and ships no Java launcher (X22). On Enterprise, jars go on Extra Classpaths, a WorkerKind directory or `custom_lib` (X26, Docs).
+
 ## How to work on dhapp and dhfw
 
 - **Stages stay pure and table-native.** No per-row Python; recipes take tables and return tables.
@@ -206,6 +217,7 @@ The same three living docs also exist as Claude Docs; the PDFs are snapshots. Th
 | `dhfw/` | The runtime wrapper: `runtime`, `database` (`db`), `remote`, `systable`, `controller`, `acl` |
 | `tests/test_dhfw_community.py` (+ `.json`) | 12/12 Community checks of `dhfw` (the test server uses PSK auth) |
 | `tests/probe_remote_ticking.py` (+ `.json`) | Ticking remote tables in a local server: Barrage, pydeephaven-shaped shared tickets, lifetimes (needs a server with ticking tables on :10000) |
+| `hybrid/` | One project in Python and Java, Maven layout: `GUIDE.md` (how to combine them, both directions), `pom.xml`, `src/main/java` (Fast, SignalFlipTracker, HybridApp), `src/main/python`, `src/main/resources/app.d/*`, `src/test/java` (JUnit), `src/test/python` (bench, check_entry), `results/bench.json`, `build.py`, `run.py` |
 | `dhapp/` | The application layer: `app` (roles, modes, health), `catalog`, `recipes`, `schemas`, `store`, `ui` |
 | `examples/mm_app.py`, `07_app_framework.py` (+ `.json`) | The engine on `dhapp`, run live, backtest and test: 8/8 |
 | `examples/mm_app.d/` | Application-mode demo: the app live with a synthetic feed and `mm_dashboard` |

@@ -182,8 +182,8 @@ deephaven_core.proto
 stubs
 Extension points and replay
 # Fact Evidence
-X1 A user-compiled Java class on Server(extra_classpath=[jar])
-is callable from formulas by fully qualified name
+X1 A user-compiled Java class on Server(extra_classpath=
+[jar])  is callable from formulas by fully qualified name
 (com.acme.Risk.dv01(Qty, Px, 7.5) ) or after
 getQueryLibrary().importStatic(<Class>)
 Verified:
@@ -192,27 +192,28 @@ X2 query_library.import_static("com.acme.Risk")  raised
 ClassNotFound for that jar although jpy.get_type  loaded it
 Verified: same
 X3 Python functions work in formulas; float hints give a double
-column; no hints give a PyObject  column; int  / np.int64  hints
-are rejected on native Windows (numpy reports int64 as q ,
+column; no hints give a PyObject  column; int  / np.int64
+hints are rejected on native Windows (numpy reports int64 as q ,
 Deephaven accepts l )
 Verified: same, and deephaven/_udf.py
-X4 function_generated_table(fn, refresh_interval_ms=200)
-ran 3 times in 1.5 s (paced by the ~1 s cycle)
+X4 function_generated_table(fn,
+refresh_interval_ms=200)  ran 3 times in 1.5 s (paced by the
+~1 s cycle)
 Verified: same
 X5 ring_table(t, 5)  held exactly the last 5 rows; a keyed
 input_table  upserts by key and deletes by key
 Verified: same
 X6 TableReplayer  released rows by timestamp at wall-clock pace
-(20 rows over ~4 s) through unchanged graph code; now()  stayed
-wall-clock time
+(20 rows over ~4 s) through unchanged graph code; now()
+stayed wall-clock time
 Verified: same
-X7 On an event-driven graph, requestRefresh()  returned only after
-the step finished (200/200); 200 slices took 0.137 s
+X7 On an event-driven graph, requestRefresh()  returned only
+after the step finished (200/200); 200 slices took 0.137 s
 Verified: same
-X8 One build_engine(quotes, limits, desks)  ran live (5.76 s, 4
-router calls) and as an event-driven backtest (0.46 s, 28 calls) on the
-same 900 quotes, with an identical final book and desk risk (33
-orders each)
+X8 One build_engine(quotes, limits, desks)  ran live (5.76 s,
+4 router calls) and as an event-driven backtest (0.46 s, 28 calls) on
+the same 900 quotes, with an identical final book and desk risk
+(33 orders each)
 Verified: examples/06_trading_engine.py
 # Fact Evidence
 X9 Enterprise replay queries (ReplayScript ) swap in a simulated
@@ -227,26 +228,28 @@ C:\...  paths (URISyntaxException); file:///  URIs work,
 including key=value partitioned directories
 Verified: tests/test_dhfw_community.py
 X13 The rung-6 engine rebuilt on dhapp  (3 stages, 1 action) gave an
-identical book and risk live (5.7 s) and in backtest (150 one-second
-buckets, 1.3 s), matching rung 6's hand-written numbers exactly
+identical book and risk live (5.7 s) and in backtest (150 one-
+second buckets, 1.3 s), matching rung 6's hand-written numbers
+exactly
 Verified: examples/07_app_framework.py
 X14 A supervised action that raises is recorded in the health table (1
 error in 1 call) and does not stop other actions; test mode steps
 deterministically (a repeated target made no new order)
 Verified: same
-X15 dhapp.ui.dashboard(app)  rendered live in the browser; editing
-a keyed input table's cell in the grid changed downstream risk at
-the next cycle (Tech utilization 135.1% to 82.6%, breach cleared)
+X15 dhapp.ui.dashboard(app)  rendered live in the browser;
+editing a keyed input table's cell in the grid changed downstream
+risk at the next cycle (Tech utilization 135.1% to 82.6%, breach
+cleared)
 Verified: examples/mm_app.d/mm_live.py ,
 browser
-X16 A Community server gets a ticking table from a remote server with
-deephaven.barrage.barrage_session(host, port,
-auth_type, auth_token).subscribe(b"s/<name>") ; the result
-is refreshing, and local tables built on it tick
+X16 A Community server gets a ticking table from a remote server
+with deephaven.barrage.barrage_session(host, port,
+auth_type, auth_token).subscribe(b"s/<name>") ; the
+result is refreshing, and local tables built on it tick
 Verified: tests/probe_remote_ticking.py
 X17 pydeephaven  can shape the table on the remote server
-(open_table(...).where(...).view(...) ), publish_table  it
-under a SharedTicket , and the local server subscribes to
+(open_table(...).where(...).view(...) ), publish_table
+it under a SharedTicket , and the local server subscribes to
 ticket.bytes . Only the shaped rows and columns arrive (only
 AAPL, 4 columns)
 Verified: same
@@ -254,20 +257,66 @@ X18 After the publishing pydeephaven  session closes, an existing
 Barrage subscription to its shared ticket kept ticking (777 to 780
 rows over 8 s), but a new subscription to that ticket failed
 Verified: same (refines T4 and U1)
-X19 A shared ticket published with pydeephaven  stops resolving once
-the published pydeephaven  Table object is garbage-collected,
-even with its session still open; a later subscribe  fails. Keep a
-reference to the Table as well as the Session
+X19 A shared ticket published with pydeephaven  stops resolving
+once the published pydeephaven  Table object is garbage-
+collected, even with its session still open; a later subscribe  fails.
+Keep a reference to the Table as well as the Session
 Verified: tests/test_dhfw_community.py
 (failed before the fix in dhfw/remote.py ,
 passed after)
 X20 dhfw.remote_table(...).subscribe(filters,
-included_columns)  on Community: a PSK-authenticated Barrage
-subscription, shaped on the remote server; result refreshing, only
-the filtered rows (all even V ) and 1 column, growing 2 to 7 rows in
-2 s
+included_columns)  on Community: a PSK-authenticated
+Barrage subscription, shaped on the remote server; result
+refreshing, only the filtered rows (all even V ) and 1 column,
+growing 2 to 7 rows in 2 s
 Verified: same, 12/12
 # Fact Evidence
+X21 The pip (Python-console) server refuses Groovy application
+scripts: "Cannot instantiate Groovy application on a Python app
+session"
+Verified: hybrid/run.py --entry java  with a
+Groovy .app  (now
+src/main/resources/app.d/groovy-
+console/ )
+X22 The pip package ships no standalone Java launcher (no
+JettyMain , no generated Dagger server component); a Java-first
+server process needs the server-jetty-app  distribution or the
+Docker image
+Source: the 368 jars in
+deephaven_server/jars
+X23 One project (Maven layout) with Java compiled against the
+server's own jars (hybrid/build.py ) runs from either entry: the
+graph in Python using Java nodes, or the graph built in Java by
+HybridApp.start()  and published into the scope by a loader
+that also attaches a Python action. Both published ticking tables;
+the Java listener published flips and the Python action's alerts
+matched them, one cycle behind
+Verified: hybrid/run.py --entry
+python|java ,
+hybrid/src/test/python/check_entry.py
+X24 A per-row function on 2,000,000 rows: Python UDF 1.50–2.01 s,
+Java static method 0.31–0.38 s (4.7–6.5x), the same math inline in
+the formula 0.32–0.42 s; identical values (three runs)
+Verified: hybrid/src/test/python/bench.py
+X25 A stateful flip-tracking listener at 20,000 updates per step: Python
+adds 31–32 ms per step, the Java listener 1.6–2.4 ms (13–20x;
+graph alone 4.8 ms); identical 621,778 flips
+Verified: same (best of 3 after a warm-up run,
+three runs)
+X27 A null primitive cell reaches a Java formula function as the
+QueryConstants.NULL_DOUBLE  sentinel, not NaN; checking for
+it and returning the sentinel gives null out
+Verified: same (java_null_in_null_out )
+X28 A listener attached in an app script can miss rows: the graph ticks
+while the script runs. With listen(..., do_replay=True)  the
+Python action's count caught up with the Java flips; rows a
+listener publishes appear one cycle later
+Verified: check_entry.py  against --entry
+java
+X26 Enterprise Core+ workers load jars from a PQ's Extra Classpaths
+(exact paths, no wildcards), a WorkerKind directory, or the
+installation's custom_lib  folder
+Docs
 X12 The dhfw  wrapper's Community emulations pass 12/12 checks
 (historical and user tables, live append, system-table logging,
 registered feeds, replay mode, input tables, remote_table and
@@ -279,6 +328,7 @@ Earlier claim Correction
 App-mode scripts need global  to reach the console
 scope
 Not in Community 42.6 Python (S2)
+Earlier claim Correction
 An underscore keeps a name private Underscore names are published (S4)
 Export tickets look like e/<n> e  + 4 binary bytes (T1)
 A shared ticket can outlive its publisher It dies with the publishing session (T4)
@@ -314,7 +364,6 @@ callbacks; the busy window includes a 1.5
 s drain. The direction is plausible, the size
 is not established
 Open: re-run with more samples
-# Claim (where) Why it is in doubt Status
 U3 R9: the host loop ran at about
 half speed during startup (89
 ticks in 9.4 s) (ledger, Anatomy)
@@ -336,6 +385,7 @@ were seen in ListFields ; figures,
 partitioned and plugin objects were not
 tested
 Open
+# Claim (where) Why it is in doubt Status
 U6 G6 / Findings: "2 Python
 listeners matching 2 handles,
 using 34% of engine time"

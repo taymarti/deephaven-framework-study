@@ -12,7 +12,7 @@ For how the engine itself works (cycles, threads, Barrage, replay), see the Prog
 Guide. This document is the reference for building on the two layers.
 layers · your app, dhapp, dhfw, and the two runtimes
 dhapp and dhfw: Framework Reference
-Page 1 of 14
+Page 1 of 16
 Quick start: a working app in five steps
 Declare sources, write stages, add actions, surface tables, then start in a mode. This is
 the market-making demo in examples/mm_app.py , cut down.
@@ -47,7 +47,7 @@ app.service("broker", live=OrderGateway(), sim=RecordingBroker())
 # 4. Surfaces: published fields, and the dashboard's panels
 app.surface("book", "risk", "orders", "limits")
 dhapp and dhfw: Framework Reference
-Page 2 of 14
+Page 2 of 16
 # 5. Start in a mode
 app.start("live")                 # then app.feed("quotes", rows) from your 
 feed thread
@@ -91,7 +91,7 @@ and dashboard panels
 publish results, not
 every intermediate
 dhapp and dhfw: Framework Reference
-Page 3 of 14
+Page 3 of 16
 Stages run in dependency order, worked out from their parameter names. A name no
 source or stage produces is an error at start() .
 Three modes
@@ -132,7 +132,7 @@ frozen
 (snapshot)
 sim
 dhapp and dhfw: Framework Reference
-Page 4 of 14
+Page 4 of 16
 API reference
 dhapp.App(name, catalog=None)
 Method Purpose
@@ -166,7 +166,7 @@ seconds
 table(name) , tables , health , stop() read results; stop()  removes the action
 listeners
 dhapp and dhfw: Framework Reference
-Page 5 of 14
+Page 5 of 16
 dhapp.Catalog(entries, plants=None)
 The catalog also has resolve(name, subscribe_kwargs=None) , and binding(name) ,
 which gives the binding in words. plants  takes {name: {"url": ..., "key_file":
@@ -206,7 +206,7 @@ risk_rollup(book, desks, limits) Sym, Gross, PnL per Desk: Gross, PnL,
 Names, Limit, Utilization,
 Breach
 dhapp and dhfw: Framework Reference
-Page 6 of 14
+Page 6 of 16
 dhapp.schemas , dhapp.store , dhapp.ui
 dhfw  (used underneath; usable directly)
 db  (Enterprise Database  methods), remote_table , resolve_uri , log_table ,
@@ -239,7 +239,7 @@ ui.kpi_row , ui.table_panel ,
 ui.status_panel
 building blocks for custom dashboards
 dhapp and dhfw: Framework Reference
-Page 7 of 14
+Page 7 of 16
 Variable Meaning Laptop (Community) Plant
 (Enterprise
 PQ)
@@ -292,7 +292,7 @@ the controller
 repository
 path not used
 dhapp and dhfw: Framework Reference
-Page 8 of 14
+Page 8 of 16
 Where a {"pq": ...}  table resolves. This is tested: one desk_limits  entry produced
 each of these as the location variables changed.
 Two consequences of deploying into the owner's PQ:
@@ -342,7 +342,7 @@ dhfw  maps the PQ name to a local server or
 stand-ins for the
 real PQs
 dhapp and dhfw: Framework Reference
-Page 9 of 14
+Page 9 of 16
 Running on the plant: the PQ script imports the app module from the controller
 repository through dhfw.meta_import , sets DHFW_PLANT  and DHFW_PQ , and calls
 app.start("live") . Use an Enterprise replay query for history at a simulated speed.
@@ -370,7 +370,7 @@ rates = catalog.resolve("desk_risk", {"filters": ["Desk == `Rates`"],
 Consume a remote server's ticking table from a local app, without dhfw . This is what
 dhfw  does underneath on Community, and it is tested:
 dhapp and dhfw: Framework Reference
-Page 10 of 14
+Page 10 of 16
 from deephaven.barrage import barrage_session
 from pydeephaven import Session
 from pydeephaven.ticket import SharedTicket
@@ -406,7 +406,7 @@ db.historical_table("MarketUs", "QuoteStock").where("Date == `2026-10-20`"))
 app.start("backtest"); print(app.run_history(bucket_ms=1000)); 
 print(app.table("risk"))
 dhapp and dhfw: Framework Reference
-Page 11 of 14
+Page 11 of 16
 Persist results.
 store.snapshot(app.table("risk"), "Risk", "EodRisk")                 # end of 
 day
@@ -438,7 +438,74 @@ def vwap(trades, by="Sym"):
                  .agg_by([agg.sum_(["Notional", "Volume = Qty"])], by=by) \
                  .update("Vwap = Notional / Volume")
 dhapp and dhfw: Framework Reference
-Page 12 of 14
+Page 12 of 16
+Java nodes: one project, Python and Java
+Java and Python combine in either direction, from one Maven-layout project. Keep a
+Python app and move the hot nodes to Java, or build the graph in Java and add Python
+around it. Over three runs, a per-row function was 4.7–6.5x faster in Java and a stateful
+listener 13–20x cheaper, with identical results. The full teaching guide is
+hybrid/GUIDE.md  in the repository; this section is the summary.
+Two architectures:
+A: Python primary, Java subordinate. Python declares the graph, and Java supplies
+the hot nodes:
+row functions called by fully qualified name: update("S =
+com.acme.hybrid.Fast.score(Px, MA50, VWAP)")
+a stateful listener extending InstrumentedTableUpdateListenerAdapter  that
+writes through TablePublisher , attached with
+jpy.get_type(...).attach(t.j_table)
+Java recipes that take tables and return tables
+B: Java primary, Python subordinate. HybridApp.start()  builds the graph in Java. A
+loader publishes it into the scope and adds the Python-shaped parts: actions (alerts,
+order routing), ML, deephaven.ui. On a Groovy-console server the loader can be a
+Groovy one-liner.
+Boundary rules (all tested):
+Use fully qualified names in formulas, because import_static  cannot see added jars.
+A null cell reaches Java as QueryConstants.NULL_DOUBLE , not NaN, so return the
+sentinel.
+Keep references to listeners and publishers.
+Slow node Python Java Tested result
+Per-row function
+(2,000,000 rows)
+UDF: 1.50–
+2.01 s
+static method in the
+formula: 0.31–0.38 s
+identical values; an
+inline formula took
+0.32–0.42 s
+Stateful listener
+(20,000 updates per
+step)
+adds 31–32
+ms per step
+Java listener plus
+TablePublisher : adds 1.6–
+2.4 ms per step
+identical 621,778 flips;
+graph alone 4.8 ms
+per step
+dhapp and dhfw: Framework Reference
+Page 13 of 16
+Attach listeners with do_replay=True  (or read existing rows in Java), because the
+graph ticks while app scripts run.
+Each listener-to-publisher hop adds one cycle.
+Project layout:
+pom.xml  lists the Deephaven dependencies as provided .
+src/main/java  holds the Java, src/main/python  the Python, and
+src/main/resources/app.d/{python,java,groovy-console}  the entry points.
+Tests: src/test/java  (JUnit) and src/test/python  (benchmark and entry checks).
+Build output goes to target/ .
+hybrid/build.py  builds the jar against the server's own jars; hybrid/run.py --entry
+python|java  builds and runs.
+On Enterprise:
+1. Build with mvn package  against the plant's Core+ version.
+2. Put the jar on the workers' classpath: Extra Classpaths, a WorkerKind directory, or
+custom_lib  (docs; untested here).
+3. The PQ script is the entry point.
+Limits:
+The pip server refuses Groovy app scripts.
+It ships no standalone Java launcher.
+The POM and the JUnit run were not executed here, because Maven is not installed.
 Limits, open items and evidence
 Everything below the Enterprise boundary was tested on Community 42.6. Nothing has
 run on a plant yet, so the first task on Enterprise is to run the two test suites there.
@@ -448,6 +515,8 @@ backtest does not replay limit changes or remote updates over time.
 Backtest speed. run_history  pulls history into Python (pandas) to slice it. Fine for a
 day of quotes per symbol set, but for very large histories use an Enterprise replay
 query.
+dhapp and dhfw: Framework Reference
+Page 14 of 16
 Community emulation. On Community, state_table  and intraday_log  live in
 memory and vanish on restart. Remote subscriptions have no reconnect policy, and the
 pydeephaven sessions that shape them stay open until dhfw.remote.close_all(). ACLs
@@ -472,11 +541,6 @@ to the hand-written
 engine
 examples/07_app_framework.py 8 of 8 checks; risk equal
 to rung 6 to the cent
-dhapp and dhfw: Framework Reference
-Page 13 of 14
-Code: dhapp/  and dhfw/  in taymarti/deephaven-framework-study. Background on the
-engine itself: the Programmer's Guide.
-Claim Test Result
 A failing action is
 supervised
 same 1 error in 1 call recorded;
@@ -497,6 +561,11 @@ browser
 a limit edit cleared a
 breach at the next cycle
 dhfw  emulations tests/test_dhfw_community.py 12 of 12
+dhapp and dhfw: Framework Reference
+Page 15 of 16
+Code: dhapp/  and dhfw/  in taymarti/deephaven-framework-study. Background on the
+engine itself: the Programmer's Guide.
+Claim Test Result
 A local app gets ticking
 remote tables, shaped
 on the remote server,
@@ -512,4 +581,4 @@ new one fails; dropping
 the published Table
 breaks the ticket
 dhapp and dhfw: Framework Reference
-Page 14 of 14
+Page 16 of 16

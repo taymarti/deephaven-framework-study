@@ -22,3 +22,6 @@ tests/embedded_thread_result.client
 
 # Editor / tool local settings
 .claude/settings.local.json
+
+# hybrid project build output (Maven's target/, rebuilt by hybrid/build.py or mvn)
+hybrid/target/

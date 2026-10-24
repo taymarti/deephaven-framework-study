@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Maven build for the Java half of the hybrid project (standard layout:
+  src/main/java, src/test/java, target/). `mvn package` produces target/hybrid.jar;
+  `mvn test` runs src/test/java.
+
+  The Deephaven dependencies are "provided": the server (or the Enterprise worker)
+  already has them on its classpath, so the jar carries only our classes. Match
+  deephaven.version to the server's Core version (Core+ workers report theirs).
+
+  Not run on this machine (no Maven installed); hybrid/build.py produces the same
+  jar from the same sources using the pip server's jars.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.acme</groupId>
+  <artifactId>hybrid</artifactId>
+  <version>0.1.0</version>
+  <packaging>jar</packaging>
+
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <deephaven.version>42.6</deephaven.version>
+    <junit.version>5.10.2</junit.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.deephaven</groupId>
+      <artifactId>deephaven-engine-table</artifactId>
+      <version>${deephaven.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.deephaven</groupId>
+      <artifactId>deephaven-engine-api</artifactId>
+      <version>${deephaven.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.deephaven</groupId>
+      <artifactId>deephaven-table-api</artifactId>
+      <version>${deephaven.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.deephaven</groupId>
+      <artifactId>deephaven-engine-query-constants</artifactId>
+      <version>${deephaven.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>hybrid</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>

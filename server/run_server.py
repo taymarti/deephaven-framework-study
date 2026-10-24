@@ -17,6 +17,7 @@ workarounds this script applies automatically (verified on 42.6, Java 17):
   python server/run_server.py --psk 's3cret'       # pre-shared-key auth instead
   python server/run_server.py --no-app             # empty server (console only)
   python -i server/run_server.py                   # same, plus a Python REPL in the server's scope
+  python server/run_server.py --classpath my.jar   # put your own Java on the classpath (see hybrid/)
 """
 from __future__ import annotations
 
@@ -38,6 +39,7 @@ def main() -> None:
     ap.add_argument("--app-dir", default=str(HERE / "app.d"), help="application-mode directory (*.app files)")
     ap.add_argument("--no-app", action="store_true", help="do not run application-mode scripts")
     ap.add_argument("--jvm-arg", action="append", default=[], help="extra JVM argument (repeatable)")
+    ap.add_argument("--classpath", action="append", default=[], help="extra jar or class dir on the JVM classpath (repeatable; globs ok)")
     args = ap.parse_args()
 
     if not os.environ.get("JAVA_HOME"):
@@ -56,7 +58,7 @@ def main() -> None:
     # The Server must be created and started BEFORE anything imports `deephaven`.
     from deephaven_server import Server
 
-    server = Server(port=args.port, jvm_args=jvm_args)
+    server = Server(port=args.port, jvm_args=jvm_args, extra_classpath=[str(pathlib.Path(c).resolve()) for c in args.classpath])
     server.start()
     print(f"\nDeephaven is up:  http://localhost:{args.port}/ide/"
           f"   ({'PSK' if args.psk else 'anonymous'} auth, app.d {'off' if args.no_app else 'on'})", flush=True)
