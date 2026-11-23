@@ -4,8 +4,57 @@
     {
       "name": "react-client",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "react-client", "run", "dev"],
+      "runtimeArgs": [
+        "--prefix",
+        "react-client",
+        "run",
+        "dev"
+      ],
       "port": 4010
+    },
+    {
+      "name": "perf-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "../dh-charts/perf/web",
+        "run",
+        "preview"
+      ],
+      "port": 4040
+    },
+    {
+      "name": "charts-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "../dh-charts/web",
+        "run",
+        "dev"
+      ],
+      "port": 4050
+    },
+    {
+      "name": "charts-web-prod",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "../dh-charts/web",
+        "run",
+        "preview"
+      ],
+      "port": 4050
+    },
+    {
+      "name": "charts-desk",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "../dh-charts/desk",
+        "run",
+        "dev"
+      ],
+      "port": 4060
     }
   ]
 }
