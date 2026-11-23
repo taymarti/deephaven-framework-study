@@ -46,6 +46,17 @@
       "port": 4050
     },
     {
+      "name": "rates-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "../rates-terminal",
+        "run",
+        "dev"
+      ],
+      "port": 4070
+    },
+    {
       "name": "charts-desk",
       "runtimeExecutable": "npm",
       "runtimeArgs": [
